@@ -29,7 +29,7 @@ If using DEMs from OpenTopo, they will likely will be in different projections a
 To determine the projection, we suggest using `gdalinfo`
 
 ```{bash}
-gdalinfo dem.tif
+gdalinfo na_dem_cog.tif
 ```
 
 Warp projection to DAYMET:
@@ -224,7 +224,9 @@ PRISM are avaiable at 800m resolution for a $ fee, or 4KM for free.
 
 ### DAYMET
 
-[DAYMET v4.3](https://daymet.ornl.gov/){target=_blank} are 1KM resolution. These data were recently rereleased as [Cloud Optimized GeoTiff](https://cogeo.org){target=_blank}.
+[:fontawesome-regular-file-pdf: DAYMET Daily Report v4 R1](https://daac.ornl.gov/daacdata/daymet/Daymet_Daily_V4R1/comp/Daymet_Daily_V4R1.pdf)
+
+[DAYMET v4 R1](https://daymet.ornl.gov/){target=_blank} are 1KM resolution. These data were recently rereleased as [Cloud Optimized GeoTiff](https://cogeo.org){target=_blank}.
 
 ??? info "Downloading DAYMET data for local caching"
     I downloaded the latest COG `.tif` DAYMET v4 format using a `wget` script:
@@ -238,12 +240,19 @@ PRISM are avaiable at 800m resolution for a $ fee, or 4KM for free.
 DAYMET layer parameters:
 
 `tmax` = Temperature Maximum
+
 `tmin` = Temperature Minimum
+
 `srad` = Solar Radiation
+
 `vp` = Vapor Pressure
+
 `swe` = Snow Water Equivalent
+
 `prcp` = Precipitation
+
 `dayl` = Day Length
+
 `na_dem` = national digital elevation model (DEM)
 
 # Calculations for EEMT
@@ -352,37 +361,35 @@ $$ PET_{PM} = \frac{\Delta (R_n - G) + \rho_a c_p \frac{VP_d}{r_a}  }{\lambda (\
 
 Where,
 
-$PET_{PM}$ = Evapotranspiration [mm day-1];
+$PET_{PM}$ = Evapotranspiration [$mm day^{-1}$]
 
-$R_n$ = net radiation at the crop surface [MJ m-2 d-1];
+$R_n$ = net radiation at the crop surface [$MJ m^{-2} d^{-1}$]
 
-$G$ = soil heat flux density [MJ m-2 d-1];
+$G$ = soil heat flux density [$MJ m^{-2} d^{-1}$] equal to zero [0]
 
-$T$ = mean daily air temperature at 2 m height [°C];
+$T$ = mean daily air temperature at 2 m height [$^\circC$];
 
-$u^2$ = wind speed at 2 m height [m s-1];
+$u^2$ = wind speed at 2 m height [$m s^{-1}$];
 
-$e_s$ = saturation vapor pressure [kPa];
+$e_s$ = saturation vapor pressure [$kPa$];
 
-$e_a$ = actual vapor pressure [kPa];
+$e_a$ = actual vapor pressure [$kPa$];
 
-$\delta_e$ = $e_s - e_a$ = saturation vapor pressure deficit [kPa];
+$\delta_e$ = $e_s - e_a$ = saturation vapor pressure deficit [$kPa$];
 
-$\Delta$ = slope of the vapor pressure curve, [kPa ºC-1];
+$\Delta$ = slope of the vapor pressure curve, [$kPa ^\circ C^{-1}$];
 
 $\gamma$ = psychrometric constant, [kPa °C-1];
 
-$L$ = latent heat of vaporization, 2.26 [MJ kg−1];
+$L$ = latent heat of vaporization, 2.26 [$MJ kg^{-1} ^\circ C^{-1}$];
 
-$M = molecular weight of water vapor in dry air, 0.622
+$M$ = the molecular weight of water vapor in dry air, 0.622
 
-$P_a$ = air density [kg m-3];
+$P_a$ = air density [$kg m^{-3}$];
 
-$C_p$ = specific heat of moist air [MJ kg-1 *C-1];
+$C_p$ = specific heat of moist air [$MJ kg^{-1} ^\circ C^{-1}$];
 
-$R_a$ = [s m-1]
-
-
+$R_a$ = [$s m^{-1}$]
 
 Potential evapotranspiration was computed using the [Penman-Montieth](http://www.agraria.unirc.it/documentazione/materiale_didattico/1462_2016_412_24509.pdf) equation from [Shuttleworth 1991](https://doi.org/10.1007/978-1-4612-3032-8_5){target=_blank}) and simplified for calculating potential evapotranspiration from a pan surface such that the surface resistance term (rs) in the denominator is assumed equal to zero
 
@@ -404,11 +411,53 @@ where $c_p$ is specific heat of moist air at constant pressure $1.013 10^{-3} MJ
 
 $$ P = 101.3 (\frac{293 - \nu z}{ 293})^5.26 $$
 
-mean air density ρa , and λ the latent heat of evaporation of water.
+mean air density $\nu_a$ , and $\lambda$ the latent heat of evaporation of water.
+
+```
+echo "Calculating the mean air density"
+r.mapcalc "p_a = 101325*exp(-9.80665*0.289644*dem_10m/(8.31447*288.15))/287.35*((tmax_topo+tmin_topo/2)*273.125)"
+```
+
 
 Actual evapotranspiration $AET$ was estimated using a Budyko curve (Budyko, 1974) describing the partitioning of potential and actual evapotranspiration relative to the aridity index (ratio of annual PET to annual rainfall). Potential evapotranspiration $PET_{PM}$ and precipitation $PPT$ were converted to monthly values of $AET$ using a Zhang– Budyko curve as (Zhang et al., 2001)
 
 $$ AET = PPT \begin{cases} 1 + \frac{ PET_{PM} }{ PPT } - [1 + \frac{PET_PM}{PPT}^w ]^{-1/w}\end{cases}$$
+
+
+```{bash}
+r.echo "Calculating the average temperature corrected vapor saturation"
+r.mapcalc "f_tmin_topo = 6.108*exp((17.27*tmin_topo)/(tmin_topo+237.3))"
+r.mapcalc "f_tmax_topo = 6.108*exp((17.27*tmin_topo)/(tmin_topo+237.3))"
+r.mapcalc "vp_s_topo = (f_tmax_topo+f_tmin_topo)/2"
+```
+
+
+All of the code together:
+
+```{bash}
+#Potential Evapotranspiration for EEMT-Topo using Penman-Monteith 
+echo "Calculating PET [mm day^-1] for EEMT-Topo using the Penman-Monteith Equation"
+echo "Calculating atmospheric pressure"
+r.mapcalc "P = 101.3*(293-(0.0065*dem)/293)^5.26"
+echo "Calculating psychromatic constant g_psy [kPa C^-1]"
+r.mapcalc "g_psy = (0.001013*P)/1.5239"
+echo "Calculating slope of the saturated vapor pressure-temperature relationship"
+r.mapcalc "m_vp = 0.04145*exp(0.06088*tmean_topo)"
+echo "Calculating aerodynamic resistance"
+r.mapcalc "ra = (4.72*(log(2/0.00137))*2)/(1+0.536*5)"
+echo "Calculating local vapor pressure [kPA]"
+r.mapcalc "vp_loc = 6.11*(10^(7.5*tmin_topo)/(237.3+tmin_topo))"
+echo "Calculating average temperature corrected vapor saturation"
+r.mapcalc "f_tmin_topo = if(tmin_topo > 0, 6.108*exp((17.27*tmin_topo)/(tmin_topo+237.3)), 0)"
+r.mapcalc "f_tmax_topo = if(tmax_topo > 0, 6.108*exp((17.27*tmin_topo)/(tmin_topo+237.3)), 0)"
+r.mapcalc "vp_s_topo = if(tmean_topo > 0, (f_tmax_topo+f_tmin_topo)/2, 0)"
+echo "Calculating mean air density"
+r.mapcalc "p_a = 101325*exp(-9.80665*0.289644*dem/(8.31447*288.15))/(287.35*tmean_topo*273.125)"
+echo "Calculating solar influenced PET"
+echo "Calculating net radiation in megajoules"
+r.mapcalc "total_sun_mj = total_sun*0.036"
+r.mapcalc "PET_topo = if(tmean_topo > 0, (m_vp*total_sun_mj+p_a*1013*((vp_s_topo-vp_loc)/ra))/(2450000*(m_vp+g_psy)), 0)"
+```
 
 ## :material-water-opacity: Mean saturated vapor pressure
 
