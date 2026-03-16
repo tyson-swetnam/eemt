@@ -12,13 +12,13 @@
         <meta name="author" content="Tyson L. Swetnam">
       
       
-        <link rel="canonical" href="https://tyson-swetnam.github.io/eemt/background/">
+        <link rel="canonical" href="https://tyson-swetnam.github.io/eemt/getting-started/">
       
       
-        <link rel="prev" href="../getting-started/cleanup-scripts/">
+        <link rel="prev" href="../installation/troubleshooting/">
       
       
-        <link rel="next" href="../algorithms/solar-radiation/">
+        <link rel="next" href="./docker-deployment/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Scientific Background - Effective Energy and Mass Transfer (EEMT)</title>
+        <title>Getting Started - Effective Energy and Mass Transfer (EEMT)</title>
       
     
     
@@ -95,7 +95,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#scientific-background" class="md-skip">
+        <a href="#getting-started-with-eemt" class="md-skip">
           Skip to content
         </a>
       
@@ -130,7 +130,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Scientific Background
+              Getting Started
             
           </span>
         </div>
@@ -555,18 +555,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -587,7 +589,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -602,10 +604,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../getting-started/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
         
   
   
@@ -621,6 +650,491 @@
   
 
       </a>
+      
+        
+
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Page contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Page contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="System Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimum-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimum Hardware
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Software Dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Software Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-gis-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core GIS Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required-python-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required Python Packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eemt-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EEMT Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EEMT Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#biological-energy-e_bio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Biological Energy (E_BIO)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#precipitation-energy-e_ppt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Precipitation Energy (E_PPT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculation-approaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calculation Approaches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calculation Approaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-traditional-eemt-eemt_trad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Traditional EEMT (EEMT_TRAD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-topographic-eemt-eemt_topo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Topographic EEMT (EEMT_TOPO)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-vegetation-eemt-eemt_topo-veg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Vegetation EEMT (EEMT_TOPO-VEG)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-prepare-input-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Prepare Input Data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Prepare Input Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#digital-elevation-model-dem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Digital Elevation Model (DEM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#climate-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Climate Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-set-up-grass-gis-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Set Up GRASS GIS Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-run-solar-radiation-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Run Solar Radiation Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-calculate-eemt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Calculate EEMT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Calculate EEMT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-eemt-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simple EEMT Calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-eemt-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the EEMT Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-and-quality-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation and Quality Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation and Quality Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-input-data-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check Input Data Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validate-eemt-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate EEMT Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Issues and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memory-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#projection-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projection Problems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-climate-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missing Climate Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -633,7 +1147,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/docker-deployment/" class="md-nav__link">
+      <a href="./docker-deployment/" class="md-nav__link">
         
   
   
@@ -661,7 +1175,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/cleanup-scripts/" class="md-nav__link">
+      <a href="./cleanup-scripts/" class="md-nav__link">
         
   
   
@@ -693,20 +1207,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -727,7 +1239,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -742,37 +1254,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Scientific Background
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="././" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../background/" class="md-nav__link">
         
   
   
@@ -788,631 +1273,6 @@
   
 
       </a>
-      
-        
-
-
-  
-
-<nav class="md-nav md-nav--secondary" aria-label="Page contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Page contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-the-critical-zone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is the Critical Zone?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#energy-and-mass-transfer-principles" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Energy and Mass Transfer Principles
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Energy and Mass Transfer Principles">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#thermodynamic-foundation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Thermodynamic Foundation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#energy-balance-components" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Energy Balance Components
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#eemt-focus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        EEMT Focus
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#physical-processes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Physical Processes
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Physical Processes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#solar-radiation-and-topography" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Solar Radiation and Topography
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Solar Radiation and Topography">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#slope-and-aspect-effects" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Slope and Aspect Effects
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shading-and-obstruction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Shading and Obstruction
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#water-and-energy-coupling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Water and Energy Coupling
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Water and Energy Coupling">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#precipitation-energy-eppt" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Precipitation Energy (EPPT)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#water-redistribution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Water Redistribution
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#biological-energy-ebio" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Biological Energy (EBIO)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Biological Energy (EBIO)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#photosynthesis-energy-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Photosynthesis Energy Storage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#carbon-energy-coupling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Carbon-Energy Coupling
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#critical-zone-structure-and-function" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Critical Zone Structure and Function
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Critical Zone Structure and Function">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#emergent-organization" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Emergent Organization
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Emergent Organization">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#soil-horizons" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Soil Horizons
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#vegetation-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Vegetation Patterns
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#landscape-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Landscape Features
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#threshold-behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Threshold Behavior
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Threshold Behavior">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#water-vs-energy-limitation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Water vs. Energy Limitation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#system-transitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        System Transitions
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#spatial-and-temporal-scales" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Spatial and Temporal Scales
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Spatial and Temporal Scales">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spatial-scale-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Spatial Scale Integration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Spatial Scale Integration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#local-scale-1-100-m" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local Scale (1-100 m)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#landscape-scale-100-m-10-km" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Landscape Scale (100 m - 10 km)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#regional-scale-10-1000-km" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Regional Scale (10-1000 km)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#temporal-scale-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Temporal Scale Integration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Temporal Scale Integration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#short-term-processes-days-to-years" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Short-term Processes (days to years)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#medium-term-dynamics-years-to-centuries" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Medium-term Dynamics (years to centuries)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#long-term-evolution-centuries-to-millennia" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Long-term Evolution (centuries to millennia)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mathematical-framework" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Mathematical Framework
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Mathematical Framework">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#open-system-thermodynamics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Open System Thermodynamics
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Open System Thermodynamics">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#first-law-energy-conservation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        First Law (Energy Conservation)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#second-law-entropy-increase" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Second Law (Entropy Increase)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exergy-concept" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exergy Concept
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#statistical-relationships" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Statistical Relationships
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Statistical Relationships">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#power-law-scaling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Power Law Scaling
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exponential-relationships" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exponential Relationships
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#threshold-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Threshold Functions
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#model-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Model Validation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Model Validation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#field-validation-studies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Field Validation Studies
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Field Validation Studies">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#soil-properties" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Soil Properties
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#vegetation-properties" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Vegetation Properties
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#geomorphic-properties" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Geomorphic Properties
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2971,10 +2831,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-the-critical-zone" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What is the Critical Zone?
+        Overview
       
     </span>
   </a>
@@ -2982,22 +2842,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#energy-and-mass-transfer-principles" class="md-nav__link">
+  <a href="#system-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Energy and Mass Transfer Principles
+        System Requirements
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Energy and Mass Transfer Principles">
+    <nav class="md-nav" aria-label="System Requirements">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#thermodynamic-foundation" class="md-nav__link">
+  <a href="#minimum-hardware" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Thermodynamic Foundation
+        Minimum Hardware
       
     </span>
   </a>
@@ -3005,61 +2865,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#energy-balance-components" class="md-nav__link">
+  <a href="#software-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Energy Balance Components
+        Software Dependencies
       
     </span>
   </a>
   
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#eemt-focus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        EEMT Focus
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#physical-processes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Physical Processes
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Physical Processes">
+    <nav class="md-nav" aria-label="Software Dependencies">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#solar-radiation-and-topography" class="md-nav__link">
+  <a href="#core-gis-stack" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Solar Radiation and Topography
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Solar Radiation and Topography">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#slope-and-aspect-effects" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Slope and Aspect Effects
+        Core GIS Stack
       
     </span>
   </a>
@@ -3067,38 +2888,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#shading-and-obstruction" class="md-nav__link">
+  <a href="#python-environment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Shading and Obstruction
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#water-and-energy-coupling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Water and Energy Coupling
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Water and Energy Coupling">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#precipitation-energy-eppt" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Precipitation Energy (EPPT)
+        Python Environment
       
     </span>
   </a>
@@ -3106,49 +2899,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#water-redistribution" class="md-nav__link">
+  <a href="#required-python-packages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Water Redistribution
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#biological-energy-ebio" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Biological Energy (EBIO)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Biological Energy (EBIO)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#photosynthesis-energy-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Photosynthesis Energy Storage
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#carbon-energy-coupling" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Carbon-Energy Coupling
+        Required Python Packages
       
     </span>
   </a>
@@ -3166,34 +2920,34 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#critical-zone-structure-and-function" class="md-nav__link">
+  <a href="#core-concepts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Critical Zone Structure and Function
+        Core Concepts
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Critical Zone Structure and Function">
+    <nav class="md-nav" aria-label="Core Concepts">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#emergent-organization" class="md-nav__link">
+  <a href="#eemt-components" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Emergent Organization
+        EEMT Components
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Emergent Organization">
+    <nav class="md-nav" aria-label="EEMT Components">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#soil-horizons" class="md-nav__link">
+  <a href="#biological-energy-e_bio" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Soil Horizons
+        Biological Energy (E_BIO)
       
     </span>
   </a>
@@ -3201,21 +2955,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#vegetation-patterns" class="md-nav__link">
+  <a href="#precipitation-energy-e_ppt" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Vegetation Patterns
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#landscape-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Landscape Features
+        Precipitation Energy (E_PPT)
       
     </span>
   </a>
@@ -3228,22 +2971,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#threshold-behavior" class="md-nav__link">
+  <a href="#calculation-approaches" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Threshold Behavior
+        Calculation Approaches
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Threshold Behavior">
+    <nav class="md-nav" aria-label="Calculation Approaches">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#water-vs-energy-limitation" class="md-nav__link">
+  <a href="#1-traditional-eemt-eemt_trad" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Water vs. Energy Limitation
+        1. Traditional EEMT (EEMT_TRAD)
       
     </span>
   </a>
@@ -3251,55 +2994,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#system-transitions" class="md-nav__link">
+  <a href="#2-topographic-eemt-eemt_topo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        System Transitions
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#spatial-and-temporal-scales" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Spatial and Temporal Scales
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Spatial and Temporal Scales">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spatial-scale-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Spatial Scale Integration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Spatial Scale Integration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#local-scale-1-100-m" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local Scale (1-100 m)
+        2. Topographic EEMT (EEMT_TOPO)
       
     </span>
   </a>
@@ -3307,71 +3005,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#landscape-scale-100-m-10-km" class="md-nav__link">
+  <a href="#3-vegetation-eemt-eemt_topo-veg" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Landscape Scale (100 m - 10 km)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#regional-scale-10-1000-km" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Regional Scale (10-1000 km)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#temporal-scale-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Temporal Scale Integration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Temporal Scale Integration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#short-term-processes-days-to-years" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Short-term Processes (days to years)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#medium-term-dynamics-years-to-centuries" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Medium-term Dynamics (years to centuries)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#long-term-evolution-centuries-to-millennia" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Long-term Evolution (centuries to millennia)
+        3. Vegetation EEMT (EEMT_TOPO-VEG)
       
     </span>
   </a>
@@ -3389,34 +3026,34 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#mathematical-framework" class="md-nav__link">
+  <a href="#basic-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Mathematical Framework
+        Basic Workflow
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Mathematical Framework">
+    <nav class="md-nav" aria-label="Basic Workflow">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#open-system-thermodynamics" class="md-nav__link">
+  <a href="#step-1-prepare-input-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Open System Thermodynamics
+        Step 1: Prepare Input Data
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Open System Thermodynamics">
+    <nav class="md-nav" aria-label="Step 1: Prepare Input Data">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#first-law-energy-conservation" class="md-nav__link">
+  <a href="#digital-elevation-model-dem" class="md-nav__link">
     <span class="md-ellipsis">
       
-        First Law (Energy Conservation)
+        Digital Elevation Model (DEM)
       
     </span>
   </a>
@@ -3424,21 +3061,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#second-law-entropy-increase" class="md-nav__link">
+  <a href="#climate-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Second Law (Entropy Increase)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exergy-concept" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exergy Concept
+        Climate Data
       
     </span>
   </a>
@@ -3451,22 +3077,44 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#statistical-relationships" class="md-nav__link">
+  <a href="#step-2-set-up-grass-gis-environment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Statistical Relationships
+        Step 2: Set Up GRASS GIS Environment
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Statistical Relationships">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-run-solar-radiation-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Run Solar Radiation Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-calculate-eemt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Calculate EEMT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Calculate EEMT">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#power-law-scaling" class="md-nav__link">
+  <a href="#simple-eemt-calculation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Power Law Scaling
+        Simple EEMT Calculation
       
     </span>
   </a>
@@ -3474,21 +3122,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#exponential-relationships" class="md-nav__link">
+  <a href="#using-the-eemt-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exponential Relationships
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#threshold-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Threshold Functions
+        Using the EEMT Workflow
       
     </span>
   </a>
@@ -3506,34 +3143,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#model-validation" class="md-nav__link">
+  <a href="#validation-and-quality-control" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Model Validation
+        Validation and Quality Control
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Model Validation">
+    <nav class="md-nav" aria-label="Validation and Quality Control">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#field-validation-studies" class="md-nav__link">
+  <a href="#check-input-data-quality" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Field Validation Studies
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Field Validation Studies">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#soil-properties" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Soil Properties
+        Check Input Data Quality
       
     </span>
   </a>
@@ -3541,21 +3166,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#vegetation-properties" class="md-nav__link">
+  <a href="#validate-eemt-results" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Vegetation Properties
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#geomorphic-properties" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Geomorphic Properties
+        Validate EEMT Results
       
     </span>
   </a>
@@ -3564,6 +3178,112 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Issues and Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues and Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memory-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#projection-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projection Problems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missing-climate-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missing Climate Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parallel-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Optimization
+      
+    </span>
+  </a>
   
 </li>
         
@@ -3587,275 +3307,234 @@
                 
                   
 
-<h1 id="scientific-background">Scientific Background<a class="headerlink" href="#scientific-background" title="Permanent link">&para;</a></h1>
-<h2 id="what-is-the-critical-zone">What is the Critical Zone?<a class="headerlink" href="#what-is-the-critical-zone" title="Permanent link">&para;</a></h2>
-<p>The <strong>Critical Zone</strong> is Earth's near-surface environment extending from the top of the vegetation canopy down to the groundwater. This zone supports all terrestrial life and controls:</p>
+<h1 id="getting-started-with-eemt">Getting Started with EEMT<a class="headerlink" href="#getting-started-with-eemt" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This guide will help you set up the EEMT calculation environment and run your first analysis. EEMT calculations require topographic data, climate data, and specialized GIS software.</p>
+<h2 id="system-requirements">System Requirements<a class="headerlink" href="#system-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="minimum-hardware">Minimum Hardware<a class="headerlink" href="#minimum-hardware" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Fresh water availability and quality</li>
-<li>Soil formation and agricultural productivity  </li>
-<li>Carbon storage and climate regulation</li>
-<li>Biodiversity and ecosystem services</li>
-<li>Natural hazard mitigation</li>
+<li><strong>CPU</strong>: 4 cores (8+ recommended for parallel processing)</li>
+<li><strong>RAM</strong>: 8 GB (16+ GB recommended for large datasets)</li>
+<li><strong>Storage</strong>: 50 GB free space (more for large study areas)</li>
+<li><strong>GPU</strong>: Optional but recommended for r.sun calculations</li>
 </ul>
-<figure>
-<p><img alt="Critical Zone Diagram" src="../assets/images/critical-zone-diagram.svg" />
-  </p>
-<figcaption>The Critical Zone extends from the vegetation canopy to groundwater, encompassing the zone where rock, soil, water, air, and living organisms interact.</figcaption>
-</figure>
-<h2 id="energy-and-mass-transfer-principles">Energy and Mass Transfer Principles<a class="headerlink" href="#energy-and-mass-transfer-principles" title="Permanent link">&para;</a></h2>
-<h3 id="thermodynamic-foundation">Thermodynamic Foundation<a class="headerlink" href="#thermodynamic-foundation" title="Permanent link">&para;</a></h3>
-<p>The Critical Zone operates as an <strong>open thermodynamic system</strong> where:</p>
+<h3 id="software-dependencies">Software Dependencies<a class="headerlink" href="#software-dependencies" title="Permanent link">&para;</a></h3>
+<h4 id="core-gis-stack">Core GIS Stack<a class="headerlink" href="#core-gis-stack" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Ubuntu/Debian installation</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>grass<span class="w"> </span>grass-dev<span class="w"> </span>gdal-bin<span class="w"> </span>python3-gdal<span class="w"> </span>python3-rasterio
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># macOS (via Homebrew)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>brew<span class="w"> </span>install<span class="w"> </span>grass<span class="w"> </span>gdal<span class="w"> </span>python
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Windows: Use OSGeo4W installer or Conda</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>grass<span class="w"> </span>gdal<span class="w"> </span>rasterio
+</span></code></pre></div>
+<h4 id="python-environment">Python Environment<a class="headerlink" href="#python-environment" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Create virtual environment</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>eemt-env
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">source</span><span class="w"> </span>eemt-env/bin/activate<span class="w">  </span><span class="c1"># Linux/macOS</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># eemt-env\Scripts\activate   # Windows</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Install required packages</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span></code></pre></div>
+<h4 id="required-python-packages">Required Python Packages<a class="headerlink" href="#required-python-packages" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>numpy&gt;=1.24
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>pandas&gt;=2.0
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>xarray&gt;=2024.1
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>rasterio&gt;=1.3
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>geopandas&gt;=0.14
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>matplotlib&gt;=3.7
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>scipy&gt;=1.11
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>requests&gt;=2.28
+</span></code></pre></div>
+<h2 id="core-concepts">Core Concepts<a class="headerlink" href="#core-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="eemt-components">EEMT Components<a class="headerlink" href="#eemt-components" title="Permanent link">&para;</a></h3>
+<p><strong>Effective Energy and Mass Transfer</strong> quantifies energy flux to the Critical Zone:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>EEMT = E_BIO + E_PPT [MJ m⁻² yr⁻¹]
+</span></code></pre></div>
+<h4 id="biological-energy-e_bio">Biological Energy (E_BIO)<a class="headerlink" href="#biological-energy-e_bio" title="Permanent link">&para;</a></h4>
 <ul>
-<li>Energy and mass flow down gradients (solar, chemical, gravitational)</li>
-<li>Internal structures develop to optimize energy dissipation</li>
-<li>System organization emerges from energy flux patterns</li>
-<li>Steady-state conditions balance inputs and outputs</li>
+<li>Energy from photosynthesis and primary production</li>
+<li>Calculated from Net Primary Production (NPP)</li>
+<li><strong>Formula</strong>: <code>E_BIO = NPP × 22 MJ/kg</code></li>
 </ul>
-<div class="arithmatex">\[\frac{d\mathcal{U}_{CZ}}{dt} = \mathcal{K} - T\sigma\]</div>
-<p>Where:</p>
+<h4 id="precipitation-energy-e_ppt">Precipitation Energy (E_PPT)<a class="headerlink" href="#precipitation-energy-e_ppt" title="Permanent link">&para;</a></h4>
 <ul>
-<li>
-<p><strong>𝒰<sub>CZ</sub></strong> = Critical Zone energy storage [J m⁻²]</p>
-</li>
-<li>
-<p><strong>𝒦</strong> = Energy flux through the system [W m⁻²]  </p>
-</li>
-<li>
-<p><strong>T</strong> = System temperature [K]</p>
-</li>
-<li>
-<p><strong>σ</strong> = Entropy production rate [W m⁻² K⁻¹]</p>
-</li>
+<li>Thermal energy from effective precipitation</li>
+<li>Water available for subsurface processes</li>
+<li><strong>Formula</strong>: <code>E_PPT = F × c_w × ΔT</code></li>
+<li>F = effective precipitation flux [kg m⁻² s⁻¹]</li>
+<li>c_w = specific heat of water [4.18 × 10³ J kg⁻¹ K⁻¹]</li>
+<li>ΔT = temperature difference from 273.15K</li>
 </ul>
-<h3 id="energy-balance-components">Energy Balance Components<a class="headerlink" href="#energy-balance-components" title="Permanent link">&para;</a></h3>
-<p>The total energy flux includes multiple components:</p>
-<div class="arithmatex">\[E_{Total} = E_{ET} + E_{PPT} + E_{BIO} + E_{ELEV} + E_{GEO} + \sum E_i\]</div>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Description</th>
-<th>Magnitude</th>
-<th>Role</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>E<sub>ET</sub></strong></td>
-<td>Evapotranspiration</td>
-<td>~10⁵ MJ m⁻² yr⁻¹</td>
-<td>Returns to atmosphere</td>
-</tr>
-<tr>
-<td><strong>E<sub>PPT</sub></strong></td>
-<td>Precipitation energy</td>
-<td>~10² MJ m⁻² yr⁻¹</td>
-<td>Subsurface heat transfer</td>
-</tr>
-<tr>
-<td><strong>E<sub>BIO</sub></strong></td>
-<td>Primary production</td>
-<td>~10¹ MJ m⁻² yr⁻¹</td>
-<td>Biological energy storage</td>
-</tr>
-<tr>
-<td><strong>E<sub>ELEV</sub></strong></td>
-<td>Gravitational potential</td>
-<td>~10⁰ MJ m⁻² yr⁻¹</td>
-<td>Physical denudation</td>
-</tr>
-<tr>
-<td><strong>E<sub>GEO</sub></strong></td>
-<td>Chemical potential</td>
-<td>~10⁻¹ MJ m⁻² yr⁻¹</td>
-<td>Chemical weathering</td>
-</tr>
-</tbody>
-</table>
-<h3 id="eemt-focus">EEMT Focus<a class="headerlink" href="#eemt-focus" title="Permanent link">&para;</a></h3>
-<p><strong>Effective Energy and Mass Transfer</strong> focuses on subsurface energy flux:</p>
-<div class="arithmatex">\[\text{EEMT} = E_{BIO} + E_{PPT}\]</div>
-<p>This represents the energy <strong>effectively transferred</strong> to drive:</p>
+<h3 id="calculation-approaches">Calculation Approaches<a class="headerlink" href="#calculation-approaches" title="Permanent link">&para;</a></h3>
+<h4 id="1-traditional-eemt-eemt_trad">1. Traditional EEMT (EEMT_TRAD)<a class="headerlink" href="#1-traditional-eemt-eemt_trad" title="Permanent link">&para;</a></h4>
 <ul>
-<li>Soil formation processes</li>
-<li>Chemical weathering reactions  </li>
-<li>Biological productivity</li>
-<li>Carbon sequestration</li>
-<li>Nutrient cycling</li>
+<li>Uses simple climate averages</li>
+<li>No topographic or vegetation effects</li>
+<li>Good for regional comparisons</li>
 </ul>
-<h2 id="physical-processes">Physical Processes<a class="headerlink" href="#physical-processes" title="Permanent link">&para;</a></h2>
-<h3 id="solar-radiation-and-topography">Solar Radiation and Topography<a class="headerlink" href="#solar-radiation-and-topography" title="Permanent link">&para;</a></h3>
-<p>Solar radiation provides the primary energy input to the Critical Zone. Topographic effects modify radiation through:</p>
-<h4 id="slope-and-aspect-effects">Slope and Aspect Effects<a class="headerlink" href="#slope-and-aspect-effects" title="Permanent link">&para;</a></h4>
+<h4 id="2-topographic-eemt-eemt_topo">2. Topographic EEMT (EEMT_TOPO)<a class="headerlink" href="#2-topographic-eemt-eemt_topo" title="Permanent link">&para;</a></h4>
 <ul>
-<li><strong>Pole-facing (N,S) slopes</strong>: Reduced direct radiation, higher soil moisture</li>
-<li><strong>Equator-facing slopes</strong>: Maximum radiation, increased evapotranspiration  </li>
-<li><strong>Slope angle</strong>: Controls radiation intensity and duration</li>
+<li>Incorporates slope, aspect, and solar radiation</li>
+<li>Mass-conservative water redistribution</li>
+<li>Accounts for local microclimates</li>
 </ul>
-<h4 id="shading-and-obstruction">Shading and Obstruction<a class="headerlink" href="#shading-and-obstruction" title="Permanent link">&para;</a></h4>
+<h4 id="3-vegetation-eemt-eemt_topo-veg">3. Vegetation EEMT (EEMT_TOPO-VEG)<a class="headerlink" href="#3-vegetation-eemt-eemt_topo-veg" title="Permanent link">&para;</a></h4>
 <ul>
-<li><strong>Horizon effects</strong>: Adjacent terrain blocks incoming radiation</li>
-<li><strong>Vegetation shading</strong>: Canopy intercepts and redistributes energy</li>
-<li><strong>Seasonal variation</strong>: Sun angle changes modify topographic effects</li>
+<li>Adds vegetation structure effects</li>
+<li>Uses Leaf Area Index (LAI) and canopy height</li>
+<li>Most accurate for site-specific analyses</li>
 </ul>
-<h3 id="water-and-energy-coupling">Water and Energy Coupling<a class="headerlink" href="#water-and-energy-coupling" title="Permanent link">&para;</a></h3>
-<p>Water acts as both a mass flux and energy carrier:</p>
-<h4 id="precipitation-energy-eppt">Precipitation Energy (E<sub>PPT</sub>)<a class="headerlink" href="#precipitation-energy-eppt" title="Permanent link">&para;</a></h4>
-<div class="arithmatex">\[E_{PPT} = F \times c_w \times \Delta T \quad \text{[W m}^{-2}\text{]}\]</div>
-<p>Where:</p>
+<h2 id="basic-workflow">Basic Workflow<a class="headerlink" href="#basic-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="step-1-prepare-input-data">Step 1: Prepare Input Data<a class="headerlink" href="#step-1-prepare-input-data" title="Permanent link">&para;</a></h3>
+<h4 id="digital-elevation-model-dem">Digital Elevation Model (DEM)<a class="headerlink" href="#digital-elevation-model-dem" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Download USGS 3DEP data (example for Arizona)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>wget<span class="w"> </span><span class="s2">&quot;https://cloud.sdsc.edu/v1/AUTH_opentopography/Raster/SRTMGL1/SRTMGL1_srtm.zip&quot;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Or use OpenTopography API</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;https://portal.opentopography.org/API/globaldem&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span>-G<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;demtype=SRTMGL1&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;south=32.0&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;north=32.5&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;west=-111.0&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;east=-110.5&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;outputFormat=GTiff&quot;</span>
+</span></code></pre></div>
+<h4 id="climate-data">Climate Data<a class="headerlink" href="#climate-data" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># DAYMET data (automated download in workflow)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Or manual download from ORNL DAAC</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># https://daymet.ornl.gov/</span>
+</span></code></pre></div>
+<h3 id="step-2-set-up-grass-gis-environment">Step 2: Set Up GRASS GIS Environment<a class="headerlink" href="#step-2-set-up-grass-gis-environment" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Create new GRASS location from DEM</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>grass<span class="w"> </span>-c<span class="w"> </span>your_dem.tif<span class="w"> </span>~/grassdata/eemt_project/PERMANENT
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Verify projection</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>g.proj<span class="w"> </span>-p
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Set computational region  </span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>g.region<span class="w"> </span><span class="nv">raster</span><span class="o">=</span>your_dem<span class="w"> </span>-p
+</span></code></pre></div>
+<h3 id="step-3-run-solar-radiation-analysis">Step 3: Run Solar Radiation Analysis<a class="headerlink" href="#step-3-run-solar-radiation-analysis" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Basic solar radiation for single day</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>r.sun<span class="w"> </span><span class="nv">elevation</span><span class="o">=</span>dem<span class="w"> </span><span class="nv">day</span><span class="o">=</span><span class="m">180</span><span class="w"> </span><span class="nv">glob_rad</span><span class="o">=</span>solar_jun29
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Multi-day parallel processing</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>python<span class="w"> </span>sol/run-workflow<span class="w"> </span>--step<span class="w"> </span><span class="m">15</span><span class="w"> </span>--num_threads<span class="w"> </span><span class="m">4</span><span class="w"> </span>your_dem.tif
+</span></code></pre></div>
+<h3 id="step-4-calculate-eemt">Step 4: Calculate EEMT<a class="headerlink" href="#step-4-calculate-eemt" title="Permanent link">&para;</a></h3>
+<h4 id="simple-eemt-calculation">Simple EEMT Calculation<a class="headerlink" href="#simple-eemt-calculation" title="Permanent link">&para;</a></h4>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">rasterio</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Load required data</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;solar_annual.tif&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">solar_radiation</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;precipitation.tif&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="n">precipitation</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;temperature.tif&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="n">temperature</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="c1"># Calculate NPP (simplified)</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="n">npp</span> <span class="o">=</span> <span class="mi">3000</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.315</span> <span class="o">-</span> <span class="mf">0.119</span> <span class="o">*</span> <span class="n">temperature</span><span class="p">))</span>  <span class="c1"># kg/m²/yr</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="n">npp</span><span class="p">[</span><span class="n">precipitation</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># No production without water</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="c1"># Calculate energy components</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="n">e_bio</span> <span class="o">=</span> <span class="n">npp</span> <span class="o">*</span> <span class="mf">22e6</span> <span class="o">/</span> <span class="p">(</span><span class="mi">365</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span>  <span class="c1"># Convert to W/m²</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="n">e_ppt</span> <span class="o">=</span> <span class="n">precipitation</span> <span class="o">*</span> <span class="mi">4180</span> <span class="o">*</span> <span class="p">(</span><span class="n">temperature</span> <span class="o">-</span> <span class="mf">273.15</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">365</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="n">e_ppt</span><span class="p">[</span><span class="n">e_ppt</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># No energy below freezing</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="c1"># Calculate EEMT</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="n">eemt</span> <span class="o">=</span> <span class="n">e_bio</span> <span class="o">+</span> <span class="n">e_ppt</span>  <span class="c1"># W/m²</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="n">eemt_annual</span> <span class="o">=</span> <span class="n">eemt</span> <span class="o">*</span> <span class="mi">365</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">/</span> <span class="mf">1e6</span>  <span class="c1"># MJ/m²/yr</span>
+</span></code></pre></div>
+<h4 id="using-the-eemt-workflow">Using the EEMT Workflow<a class="headerlink" href="#using-the-eemt-workflow" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Full EEMT calculation with topography</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">cd</span><span class="w"> </span>eemt/
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>python<span class="w"> </span>run-workflow<span class="w"> </span>--start-year<span class="w"> </span><span class="m">2015</span><span class="w"> </span>--end-year<span class="w"> </span><span class="m">2020</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>--step<span class="w"> </span><span class="m">15</span><span class="w"> </span>--num_threads<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span>--output<span class="w"> </span>eemt_results/<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span>your_dem.tif
+</span></code></pre></div>
+<h2 id="validation-and-quality-control">Validation and Quality Control<a class="headerlink" href="#validation-and-quality-control" title="Permanent link">&para;</a></h2>
+<h3 id="check-input-data-quality">Check Input Data Quality<a class="headerlink" href="#check-input-data-quality" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Verify DEM characteristics</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">rasterio</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;dem.tif&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Projection: </span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">crs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resolution: </span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">res</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bounds: </span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">bounds</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data type: </span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">dtypes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="validate-eemt-results">Validate EEMT Results<a class="headerlink" href="#validate-eemt-results" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Check EEMT value ranges</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">eemt_stats</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">eemt_annual</span><span class="p">),</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">eemt_annual</span><span class="p">),</span> 
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">eemt_annual</span><span class="p">),</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">eemt_annual</span><span class="p">)</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">}</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EEMT range: </span><span class="si">{</span><span class="n">eemt_stats</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">eemt_stats</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MJ/m²/yr&quot;</span><span class="p">)</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="c1"># Expected ranges by climate zone:</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="c1"># Arid: 5-15 MJ/m²/yr</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="c1"># Semiarid: 15-25 MJ/m²/yr  </span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="c1"># Humid: 25-50 MJ/m²/yr</span>
+</span></code></pre></div>
+<h2 id="common-issues-and-solutions">Common Issues and Solutions<a class="headerlink" href="#common-issues-and-solutions" title="Permanent link">&para;</a></h2>
+<h3 id="memory-issues">Memory Issues<a class="headerlink" href="#memory-issues" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Process large DEMs in tiles</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>gdal_retile.py<span class="w"> </span>-ps<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="m">1000</span><span class="w"> </span>-targetDir<span class="w"> </span>tiles/<span class="w"> </span>large_dem.tif
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Or use chunked processing with Dask</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>import<span class="w"> </span>dask.array<span class="w"> </span>as<span class="w"> </span>da
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nv">dem_chunked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>da.from_array<span class="o">(</span>dem,<span class="w"> </span><span class="nv">chunks</span><span class="o">=(</span><span class="m">1000</span>,<span class="w"> </span><span class="m">1000</span><span class="o">))</span>
+</span></code></pre></div>
+<h3 id="projection-problems">Projection Problems<a class="headerlink" href="#projection-problems" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Reproject DEM to match climate data</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>gdalwarp<span class="w"> </span>-t_srs<span class="w"> </span>EPSG:4326<span class="w"> </span>input_dem.tif<span class="w"> </span>output_dem.tif
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Check coordinate reference systems</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>gdalinfo<span class="w"> </span>dem.tif<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;coordinate system&quot;</span>
+</span></code></pre></div>
+<h3 id="missing-climate-data">Missing Climate Data<a class="headerlink" href="#missing-climate-data" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Download DAYMET data programmatically</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>python<span class="w"> </span>scripts/download_daymet.py<span class="w"> </span>--bbox<span class="w"> </span>-111.0,32.0,-110.5,32.5<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>--years<span class="w"> </span><span class="m">2015</span>-2020<span class="w"> </span>--variables<span class="w"> </span>tmin,tmax,prcp
+</span></code></pre></div>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p>Once you have basic EEMT calculations working:</p>
+<ol>
+<li><strong><a href="../data-sources/">Data Sources Guide</a></strong> - Access higher resolution data</li>
+<li><strong><a href="../grass-gis/">GRASS GIS Tutorials</a></strong> - Advanced terrain analysis</li>
+<li><strong><a href="../examples/">Workflow Examples</a></strong> - Real-world case studies</li>
+<li><strong><a href="../api-reference/">API Reference</a></strong> - Function documentation</li>
+</ol>
+<h2 id="performance-optimization">Performance Optimization<a class="headerlink" href="#performance-optimization" title="Permanent link">&para;</a></h2>
+<h3 id="parallel-processing">Parallel Processing<a class="headerlink" href="#parallel-processing" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>F</strong> = Effective precipitation flux [kg m⁻² s⁻¹]</li>
-<li><strong>c<sub>w</sub></strong> = Specific heat of water (4,180 J kg⁻¹ K⁻¹)</li>
-<li><strong>ΔT</strong> = Temperature above freezing [K]</li>
+<li>Use <code>--num_threads</code> parameter for CPU cores</li>
+<li>Enable GPU acceleration for r.sun when available  </li>
+<li>Process multiple years simultaneously</li>
 </ul>
-<h4 id="water-redistribution">Water Redistribution<a class="headerlink" href="#water-redistribution" title="Permanent link">&para;</a></h4>
+<h3 id="memory-management">Memory Management<a class="headerlink" href="#memory-management" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Infiltration vs. runoff</strong>: Controls subsurface energy delivery</li>
-<li><strong>Topographic convergence</strong>: Concentrates water and energy flux</li>
-<li><strong>Evapotranspiration</strong>: Returns energy to atmosphere</li>
+<li>Tile large datasets with <code>gdal_retile.py</code></li>
+<li>Use compressed GeoTIFF outputs (<code>-co COMPRESS=LZW</code>)</li>
+<li>Monitor memory usage with <code>htop</code> or Task Manager</li>
 </ul>
-<h3 id="biological-energy-ebio">Biological Energy (E<sub>BIO</sub>)<a class="headerlink" href="#biological-energy-ebio" title="Permanent link">&para;</a></h3>
-<p>Primary production stores solar energy in chemical bonds:</p>
-<h4 id="photosynthesis-energy-storage">Photosynthesis Energy Storage<a class="headerlink" href="#photosynthesis-energy-storage" title="Permanent link">&para;</a></h4>
-<div class="arithmatex">\[E_{BIO} = NPP \times h_{BIO} \quad \text{[W m}^{-2}\text{]}\]</div>
-<p>Where:</p>
+<h3 id="storage-optimization">Storage Optimization<a class="headerlink" href="#storage-optimization" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>NPP</strong> = Net Primary Production [kg m⁻² s⁻¹]</li>
-<li><strong>h<sub>BIO</sub></strong> = Specific biomass enthalpy (22 × 10⁶ J kg⁻¹)</li>
-</ul>
-<h4 id="carbon-energy-coupling">Carbon-Energy Coupling<a class="headerlink" href="#carbon-energy-coupling" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>CO₂ fixation</strong>: Solar energy → chemical energy</li>
-<li><strong>Decomposition</strong>: Chemical energy → heat + nutrients</li>
-<li><strong>Root activity</strong>: Drives chemical weathering reactions</li>
-</ul>
-<h2 id="critical-zone-structure-and-function">Critical Zone Structure and Function<a class="headerlink" href="#critical-zone-structure-and-function" title="Permanent link">&para;</a></h2>
-<h3 id="emergent-organization">Emergent Organization<a class="headerlink" href="#emergent-organization" title="Permanent link">&para;</a></h3>
-<p>EEMT drives the formation of organized Critical Zone structures:</p>
-<h4 id="soil-horizons">Soil Horizons<a class="headerlink" href="#soil-horizons" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>O horizon</strong>: Organic matter accumulation</li>
-<li><strong>A horizon</strong>: Mineral-organic mixing</li>
-<li><strong>B horizon</strong>: Clay and nutrient accumulation</li>
-<li><strong>C horizon</strong>: Weathered parent material</li>
-</ul>
-<h4 id="vegetation-patterns">Vegetation Patterns<a class="headerlink" href="#vegetation-patterns" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Productivity gradients</strong>: Follow EEMT patterns</li>
-<li><strong>Species composition</strong>: Adapted to local energy/water balance</li>
-<li><strong>Biomass allocation</strong>: Optimizes energy capture and water access</li>
-</ul>
-<h4 id="landscape-features">Landscape Features<a class="headerlink" href="#landscape-features" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Channel networks</strong>: Organize water and sediment transport</li>
-<li><strong>Slope profiles</strong>: Balance weathering and erosion rates</li>
-<li><strong>Aspect patterns</strong>: Reflect energy-controlled processes</li>
-</ul>
-<h3 id="threshold-behavior">Threshold Behavior<a class="headerlink" href="#threshold-behavior" title="Permanent link">&para;</a></h3>
-<p>EEMT exhibits critical thresholds that control system behavior:</p>
-<h4 id="water-vs-energy-limitation">Water vs. Energy Limitation<a class="headerlink" href="#water-vs-energy-limitation" title="Permanent link">&para;</a></h4>
-<p><strong>Threshold</strong>: ~70 MJ m⁻² yr⁻¹</p>
-<ul>
-<li><strong>Below threshold</strong>: Water-limited, E<sub>BIO</sub> dominates</li>
-<li><strong>Above threshold</strong>: Energy-limited, E<sub>PPT</sub> dominates</li>
-</ul>
-<h4 id="system-transitions">System Transitions<a class="headerlink" href="#system-transitions" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Vegetation shifts</strong>: Grassland ↔ forest transitions</li>
-<li><strong>Soil development</strong>: Entisol ↔ Mollisol ↔ Alfisol progression</li>
-<li><strong>Geomorphic regime</strong>: Weathering-limited ↔ transport-limited</li>
-</ul>
-<h2 id="spatial-and-temporal-scales">Spatial and Temporal Scales<a class="headerlink" href="#spatial-and-temporal-scales" title="Permanent link">&para;</a></h2>
-<h3 id="spatial-scale-integration">Spatial Scale Integration<a class="headerlink" href="#spatial-scale-integration" title="Permanent link">&para;</a></h3>
-<p>EEMT operates across multiple spatial scales:</p>
-<h4 id="local-scale-1-100-m">Local Scale (1-100 m)<a class="headerlink" href="#local-scale-1-100-m" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Process-level understanding</strong>: Individual tree, soil pedon</li>
-<li><strong>High-resolution data</strong>: LiDAR, field measurements</li>
-<li><strong>Detailed process modeling</strong>: Hourly energy/water balance</li>
-</ul>
-<h4 id="landscape-scale-100-m-10-km">Landscape Scale (100 m - 10 km)<a class="headerlink" href="#landscape-scale-100-m-10-km" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Pattern-process relationships</strong>: Topographic controls</li>
-<li><strong>Moderate-resolution data</strong>: Landsat, weather stations</li>
-<li><strong>Statistical modeling</strong>: Spatial correlation analysis</li>
-</ul>
-<h4 id="regional-scale-10-1000-km">Regional Scale (10-1000 km)<a class="headerlink" href="#regional-scale-10-1000-km" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Climate gradient analysis</strong>: Elevation, latitude effects</li>
-<li><strong>Coarse-resolution data</strong>: MODIS, climate models</li>
-<li><strong>Empirical relationships</strong>: Broad pattern identification</li>
-</ul>
-<h3 id="temporal-scale-integration">Temporal Scale Integration<a class="headerlink" href="#temporal-scale-integration" title="Permanent link">&para;</a></h3>
-<h4 id="short-term-processes-days-to-years">Short-term Processes (days to years)<a class="headerlink" href="#short-term-processes-days-to-years" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Weather variability</strong>: Daily climate fluctuations</li>
-<li><strong>Seasonal cycles</strong>: Vegetation phenology, soil temperature</li>
-<li><strong>Extreme events</strong>: Drought, fire, flooding impacts</li>
-</ul>
-<h4 id="medium-term-dynamics-years-to-centuries">Medium-term Dynamics (years to centuries)<a class="headerlink" href="#medium-term-dynamics-years-to-centuries" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Climate oscillations</strong>: El Niño, Pacific Decadal Oscillation</li>
-<li><strong>Vegetation succession</strong>: Post-disturbance recovery</li>
-<li><strong>Soil profile development</strong>: Horizon differentiation</li>
-</ul>
-<h4 id="long-term-evolution-centuries-to-millennia">Long-term Evolution (centuries to millennia)<a class="headerlink" href="#long-term-evolution-centuries-to-millennia" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Climate change</strong>: Holocene environmental shifts</li>
-<li><strong>Landscape evolution</strong>: Erosion, weathering, soil formation</li>
-<li><strong>Ecosystem migration</strong>: Species range shifts</li>
-</ul>
-<h2 id="mathematical-framework">Mathematical Framework<a class="headerlink" href="#mathematical-framework" title="Permanent link">&para;</a></h2>
-<h3 id="open-system-thermodynamics">Open System Thermodynamics<a class="headerlink" href="#open-system-thermodynamics" title="Permanent link">&para;</a></h3>
-<p>The Critical Zone energy balance follows fundamental thermodynamic principles:</p>
-<h4 id="first-law-energy-conservation">First Law (Energy Conservation)<a class="headerlink" href="#first-law-energy-conservation" title="Permanent link">&para;</a></h4>
-<div class="arithmatex">\[\frac{dU}{dt} = Q - W\]</div>
-<p>Where <strong>U</strong> = internal energy, <strong>Q</strong> = heat input, <strong>W</strong> = work done by system</p>
-<h4 id="second-law-entropy-increase">Second Law (Entropy Increase)<a class="headerlink" href="#second-law-entropy-increase" title="Permanent link">&para;</a></h4>
-<div class="arithmatex">\[\frac{dS}{dt} = \frac{Q}{T} + \sigma\]</div>
-<p>Where <strong>S</strong> = entropy, <strong>σ</strong> = irreversible entropy production</p>
-<h4 id="exergy-concept">Exergy Concept<a class="headerlink" href="#exergy-concept" title="Permanent link">&para;</a></h4>
-<div class="arithmatex">\[\text{Exergy} = \text{Energy} - T_0 \times \text{Entropy}\]</div>
-<p>Exergy represents the maximum useful work extractable from the system.</p>
-<h3 id="statistical-relationships">Statistical Relationships<a class="headerlink" href="#statistical-relationships" title="Permanent link">&para;</a></h3>
-<p>EEMT exhibits predictable relationships with Critical Zone properties:</p>
-<h4 id="power-law-scaling">Power Law Scaling<a class="headerlink" href="#power-law-scaling" title="Permanent link">&para;</a></h4>
-<div class="arithmatex">\[\text{Biomass} = \alpha \times \text{EEMT}^{\beta}\]</div>
-<p>Where α = 0.032 kg m² yr ha⁻¹ MJ⁻¹, β = 3.22</p>
-<h4 id="exponential-relationships">Exponential Relationships<a class="headerlink" href="#exponential-relationships" title="Permanent link">&para;</a></h4>
-<div class="arithmatex">\[\text{Soil\_Depth} = \gamma \times \exp(\delta \times \text{EEMT})\]</div>
-<p>For specific lithologies and climate conditions</p>
-<h4 id="threshold-functions">Threshold Functions<a class="headerlink" href="#threshold-functions" title="Permanent link">&para;</a></h4>
-<div class="arithmatex">\[f(\text{EEMT}) = \begin{cases}
-f_1(\text{EEMT}) &amp; \text{if EEMT} &lt; 70 \text{ MJ/m}^2\text{/yr} \\
-f_2(\text{EEMT}) &amp; \text{if EEMT} \geq 70 \text{ MJ/m}^2\text{/yr}
-\end{cases}\]</div>
-<h2 id="model-validation">Model Validation<a class="headerlink" href="#model-validation" title="Permanent link">&para;</a></h2>
-<h3 id="field-validation-studies">Field Validation Studies<a class="headerlink" href="#field-validation-studies" title="Permanent link">&para;</a></h3>
-<p>EEMT has been validated against multiple field datasets:</p>
-<h4 id="soil-properties">Soil Properties<a class="headerlink" href="#soil-properties" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Soil depth</strong>: r² = 0.77 for topographic EEMT</li>
-<li><strong>Clay content</strong>: Significant correlation across climate gradients</li>
-<li><strong>Organic matter</strong>: Strong relationship in temperate systems</li>
-<li><strong>Chemical weathering</strong>: Linear correlation in humid environments</li>
-</ul>
-<h4 id="vegetation-properties">Vegetation Properties<a class="headerlink" href="#vegetation-properties" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Aboveground biomass</strong>: Power law relationship (r² = 0.98)</li>
-<li><strong>Leaf area index</strong>: Moderate correlation in forest systems</li>
-<li><strong>Net primary production</strong>: Good agreement with flux tower data</li>
-<li><strong>Species composition</strong>: Predictive of functional groups</li>
-</ul>
-<h4 id="geomorphic-properties">Geomorphic Properties<a class="headerlink" href="#geomorphic-properties" title="Permanent link">&para;</a></h4>
-<ul>
-<li><strong>Erosion rates</strong>: Inverse relationship in high-EEMT systems</li>
-<li><strong>Chemical denudation</strong>: Linear increase with EEMT</li>
-<li><strong>Regolith thickness</strong>: Exponential relationship</li>
-<li><strong>Landscape relief</strong>: Controls on maximum EEMT values</li>
+<li>Use Cloud-Optimized GeoTIFF (COG) format</li>
+<li>Compress intermediate files</li>
+<li>Clean up temporary GRASS locations</li>
 </ul>
 <hr />
-<p><em>This framework provides the scientific foundation for understanding how energy drives Critical Zone processes and enables quantitative prediction of landscape evolution and ecosystem function.</em></p>
+<p><em>For detailed technical information, see the <a href="../background/">scientific background</a> and <a href="../api-reference/">API documentation</a>.</em></p>
 
 
 
@@ -3864,6 +3543,9 @@ f_2(\text{EEMT}) &amp; \text{if EEMT} \geq 70 \text{ MJ/m}^2\text{/yr}
 
 
 
+
+  
+  
 
 
 
