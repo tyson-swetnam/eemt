@@ -6,13 +6,14 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="EEMT: An open source framework for quantifying energy and mass flux in Earth's Critical Zone">
+        <meta name="description" content="EEMT: An open source framework for quantifying energy and mass flux in Earth&#x27;s Critical Zone">
       
       
         <meta name="author" content="Tyson L. Swetnam">
       
       
-        <link rel="canonical" href="https://tyson-swetnam.github.io/eemt/infrastructure/job-cleanup/">
+        <link rel="canonical" href="https://cyverse-gis.github.io/eemt/infrastructure/job-cleanup/">
+      
       
       
         <link rel="prev" href="../container-architecture/">
@@ -24,24 +25,24 @@
         
       
       
-      <link rel="icon" href="../../assets/favicon.ico">
-      <meta name="generator" content="zensical-0.0.27">
+      <link rel="icon" href="../../assets/favicon.svg">
+      <meta name="generator" content="zensical-0.1.1">
     
     
       
-        <title>Job Data Cleanup System - Effective Energy and Mass Transfer (EEMT)</title>
+        <title>Job Cleanup - Effective Energy and Mass Transfer (EEMT)</title>
       
     
     
       
         
       
-      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.50057488.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.ebb7f775.min.css">
       
         
           
         
-        <link rel="stylesheet" href="../../assets/stylesheets/modern/palette.dfe2e883.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/modern/palette.b60ce83d.min.css">
       
       
 
@@ -55,12 +56,14 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,500i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Open Sans";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
     
       
   
@@ -86,19 +89,16 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="light-green">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <label class="md-overlay" for="__drawer" aria-hidden="true"></label>
     <div data-md-component="skip">
-      
-        
-        <a href="#job-data-cleanup-system" class="md-skip">
-          Skip to content
-        </a>
-      
+      <a href="#__skip" class="md-skip">
+        Skip to content
+      </a>
     </div>
     <div data-md-component="announce">
       
@@ -116,9 +116,10 @@
   <img src="../../assets/eemt-logo.svg" alt="Effective Energy and Mass Transfer (EEMT)">
 
     </a>
-    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+    <label class="md-header__button md-icon" for="__drawer">
       
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+      <span class="md-visually-hidden">Navigation</span>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -130,7 +131,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Job Data Cleanup System
+              Job Cleanup
             
           </span>
         </div>
@@ -143,7 +144,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="light-green"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
@@ -153,7 +154,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="none" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="light-green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
@@ -170,9 +171,10 @@
     
       
       
-        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+        <label class="md-header__button md-icon" for="__search">
           
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+          <span class="md-visually-hidden">Search</span>
         </label>
         <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
   <button type="button" class="md-search__button">
@@ -244,8 +246,7 @@
   <span class="md-ellipsis">
     
   
-    Home
-  
+  Home
 
     
   </span>
@@ -255,19 +256,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_1">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Home
-  
+  Home
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -280,8 +281,7 @@
   <span class="md-ellipsis">
     
   
-    Effective Energy and Mass Transfer (EEMT)
-  
+  Effective Energy and Mass Transfer (EEMT)
 
     
   </span>
@@ -292,10 +292,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -308,8 +308,7 @@
   <span class="md-ellipsis">
     
   
-    License
-  
+  License
 
     
   </span>
@@ -320,10 +319,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -336,8 +335,7 @@
   <span class="md-ellipsis">
     
   
-    Code of Conduct
-  
+  Code of Conduct
 
     
   </span>
@@ -348,10 +346,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -382,8 +381,7 @@
   <span class="md-ellipsis">
     
   
-    Installation
-  
+  Installation
 
     
   </span>
@@ -393,19 +391,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Installation
-  
+  Installation
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -418,8 +416,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
-  
+  Overview
 
     
   </span>
@@ -430,10 +427,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -446,8 +443,7 @@
   <span class="md-ellipsis">
     
   
-    Docker
-  
+  Docker
 
     
   </span>
@@ -458,10 +454,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -474,8 +470,7 @@
   <span class="md-ellipsis">
     
   
-    Manual
-  
+  Manual
 
     
   </span>
@@ -486,10 +481,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -502,8 +497,7 @@
   <span class="md-ellipsis">
     
   
-    Requirements
-  
+  Requirements
 
     
   </span>
@@ -514,10 +508,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -530,8 +524,7 @@
   <span class="md-ellipsis">
     
   
-    Troubleshooting
-  
+  Troubleshooting
 
     
   </span>
@@ -542,10 +535,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -576,8 +570,7 @@
   <span class="md-ellipsis">
     
   
-    Getting Started
-  
+  Getting Started
 
     
   </span>
@@ -587,19 +580,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Getting Started
-  
+  Getting Started
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -612,8 +605,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
-  
+  Overview
 
     
   </span>
@@ -624,10 +616,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -640,8 +632,7 @@
   <span class="md-ellipsis">
     
   
-    Docker Deployment
-  
+  Docker Deployment
 
     
   </span>
@@ -652,10 +643,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -668,8 +659,7 @@
   <span class="md-ellipsis">
     
   
-    Cleanup Scripts
-  
+  Cleanup Scripts
 
     
   </span>
@@ -680,10 +670,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -714,8 +705,7 @@
   <span class="md-ellipsis">
     
   
-    Scientific Background
-  
+  Scientific Background
 
     
   </span>
@@ -725,19 +715,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Scientific Background
-  
+  Scientific Background
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -750,8 +740,7 @@
   <span class="md-ellipsis">
     
   
-    Scientific Background
-  
+  Scientific Background
 
     
   </span>
@@ -762,10 +751,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -796,8 +786,7 @@
   <span class="md-ellipsis">
     
   
-    Algorithms
-  
+  Algorithms
 
     
   </span>
@@ -807,19 +796,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Algorithms
-  
+  Algorithms
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -832,8 +821,7 @@
   <span class="md-ellipsis">
     
   
-    Solar Radiation
-  
+  Solar Radiation
 
     
   </span>
@@ -844,10 +832,37 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../algorithms/rsun-rust-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Rust Solar Toolkit (rsun)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
   
   
   
@@ -860,8 +875,7 @@
   <span class="md-ellipsis">
     
   
-    Climate Integration
-  
+  Climate Integration
 
     
   </span>
@@ -872,10 +886,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -888,8 +902,7 @@
   <span class="md-ellipsis">
     
   
-    Topographic Analysis
-  
+  Topographic Analysis
 
     
   </span>
@@ -900,10 +913,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -916,8 +929,7 @@
   <span class="md-ellipsis">
     
   
-    EEMT Calculations
-  
+  EEMT Calculations
 
     
   </span>
@@ -928,10 +940,92 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../energetics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Landscape Energetics
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../energetics-figures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Energetics Figures
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../energetics-interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Interactive Map
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -962,8 +1056,7 @@
   <span class="md-ellipsis">
     
   
-    Data Sources
-  
+  Data Sources
 
     
   </span>
@@ -973,19 +1066,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_6">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Data Sources
-  
+  Data Sources
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -998,8 +1091,7 @@
   <span class="md-ellipsis">
     
   
-    Data Sources
-  
+  Data Sources
 
     
   </span>
@@ -1010,10 +1102,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -1044,8 +1137,7 @@
   <span class="md-ellipsis">
     
   
-    Workflows
-  
+  Workflows
 
     
   </span>
@@ -1055,19 +1147,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_7">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Workflows
-  
+  Workflows
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -1080,8 +1172,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
-  
+  Overview
 
     
   </span>
@@ -1092,10 +1183,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1108,8 +1199,7 @@
   <span class="md-ellipsis">
     
   
-    Quick Start
-  
+  Quick Start
 
     
   </span>
@@ -1120,10 +1210,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1136,8 +1226,7 @@
   <span class="md-ellipsis">
     
   
-    Data Preparation
-  
+  Data Preparation
 
     
   </span>
@@ -1148,10 +1237,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -1182,8 +1272,7 @@
   <span class="md-ellipsis">
     
   
-    GRASS GIS
-  
+  GRASS GIS
 
     
   </span>
@@ -1193,19 +1282,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_8">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    GRASS GIS
-  
+  GRASS GIS
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -1218,8 +1307,7 @@
   <span class="md-ellipsis">
     
   
-    GRASS GIS
-  
+  GRASS GIS
 
     
   </span>
@@ -1230,10 +1318,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -1264,8 +1353,7 @@
   <span class="md-ellipsis">
     
   
-    API Documentation
-  
+  API Documentation
 
     
   </span>
@@ -1275,19 +1363,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_9">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    API Documentation
-  
+  API Documentation
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -1300,8 +1388,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
-  
+  Overview
 
     
   </span>
@@ -1312,10 +1399,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1328,8 +1415,7 @@
   <span class="md-ellipsis">
     
   
-    REST Endpoints
-  
+  REST Endpoints
 
     
   </span>
@@ -1340,10 +1426,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1356,8 +1442,7 @@
   <span class="md-ellipsis">
     
   
-    CLI Reference
-  
+  CLI Reference
 
     
   </span>
@@ -1368,10 +1453,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1384,8 +1469,7 @@
   <span class="md-ellipsis">
     
   
-    Parameters
-  
+  Parameters
 
     
   </span>
@@ -1396,10 +1480,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1412,8 +1496,7 @@
   <span class="md-ellipsis">
     
   
-    Workflow Parameters
-  
+  Workflow Parameters
 
     
   </span>
@@ -1424,10 +1507,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1440,8 +1523,7 @@
   <span class="md-ellipsis">
     
   
-    Python Modules
-  
+  Python Modules
 
     
   </span>
@@ -1452,10 +1534,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1468,8 +1550,7 @@
   <span class="md-ellipsis">
     
   
-    Web API
-  
+  Web API
 
     
   </span>
@@ -1480,10 +1561,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1496,8 +1577,7 @@
   <span class="md-ellipsis">
     
   
-    Legacy Functions
-  
+  Legacy Functions
 
     
   </span>
@@ -1508,10 +1588,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -1542,8 +1623,7 @@
   <span class="md-ellipsis">
     
   
-    Web Interface
-  
+  Web Interface
 
     
   </span>
@@ -1553,19 +1633,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_10">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_10">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Web Interface
-  
+  Web Interface
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -1578,8 +1658,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
-  
+  Overview
 
     
   </span>
@@ -1590,10 +1669,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1606,8 +1685,7 @@
   <span class="md-ellipsis">
     
   
-    Architecture
-  
+  Architecture
 
     
   </span>
@@ -1618,10 +1696,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1634,8 +1712,7 @@
   <span class="md-ellipsis">
     
   
-    API Reference
-  
+  API Reference
 
     
   </span>
@@ -1646,10 +1723,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1662,8 +1739,7 @@
   <span class="md-ellipsis">
     
   
-    Job Cleanup
-  
+  Job Cleanup
 
     
   </span>
@@ -1674,10 +1750,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -1710,8 +1787,7 @@
   <span class="md-ellipsis">
     
   
-    Infrastructure
-  
+  Infrastructure
 
     
   </span>
@@ -1721,19 +1797,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_11">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_11">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Infrastructure
-  
+  Infrastructure
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -1746,8 +1822,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
-  
+  Overview
 
     
   </span>
@@ -1758,10 +1833,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -1774,8 +1849,7 @@
   <span class="md-ellipsis">
     
   
-    Container Architecture
-  
+  Container Architecture
 
     
   </span>
@@ -1786,10 +1860,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
     
@@ -1798,7 +1872,7 @@
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
       
       
         
@@ -1811,8 +1885,7 @@
   <span class="md-ellipsis">
     
   
-    Job Cleanup
-  
+  Job Cleanup
 
     
   </span>
@@ -1829,8 +1902,7 @@
   <span class="md-ellipsis">
     
   
-    Job Cleanup
-  
+  Job Cleanup
 
     
   </span>
@@ -1860,9 +1932,9 @@
         <li class="md-nav__item">
   <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Overview
-      
+      </span>
     </span>
   </a>
   
@@ -1871,9 +1943,9 @@
         <li class="md-nav__item">
   <a href="#system-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         System Architecture
-      
+      </span>
     </span>
   </a>
   
@@ -1882,9 +1954,9 @@
         <li class="md-nav__item">
   <a href="#retention-policies" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Retention Policies
-      
+      </span>
     </span>
   </a>
   
@@ -1894,9 +1966,9 @@
           <li class="md-nav__item">
   <a href="#default-retention-rules" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Default Retention Rules
-      
+      </span>
     </span>
   </a>
   
@@ -1905,9 +1977,9 @@
           <li class="md-nav__item">
   <a href="#rationale" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Rationale
-      
+      </span>
     </span>
   </a>
   
@@ -1921,9 +1993,9 @@
         <li class="md-nav__item">
   <a href="#implementation-details" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Implementation Details
-      
+      </span>
     </span>
   </a>
   
@@ -1933,9 +2005,9 @@
           <li class="md-nav__item">
   <a href="#core-components" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Core Components
-      
+      </span>
     </span>
   </a>
   
@@ -1945,9 +2017,9 @@
           <li class="md-nav__item">
   <a href="#jobcleanupmanager-class" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         JobCleanupManager Class
-      
+      </span>
     </span>
   </a>
   
@@ -1956,9 +2028,9 @@
           <li class="md-nav__item">
   <a href="#database-schema" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Database Schema
-      
+      </span>
     </span>
   </a>
   
@@ -1967,9 +2039,9 @@
           <li class="md-nav__item">
   <a href="#file-system-operations" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         File System Operations
-      
+      </span>
     </span>
   </a>
   
@@ -1983,9 +2055,9 @@
           <li class="md-nav__item">
   <a href="#sql-queries" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         SQL Queries
-      
+      </span>
     </span>
   </a>
   
@@ -1999,9 +2071,9 @@
         <li class="md-nav__item">
   <a href="#configuration-options" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Configuration Options
-      
+      </span>
     </span>
   </a>
   
@@ -2011,9 +2083,9 @@
           <li class="md-nav__item">
   <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Environment Variables
-      
+      </span>
     </span>
   </a>
   
@@ -2022,9 +2094,9 @@
           <li class="md-nav__item">
   <a href="#command-line-arguments" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Command-Line Arguments
-      
+      </span>
     </span>
   </a>
   
@@ -2033,9 +2105,9 @@
           <li class="md-nav__item">
   <a href="#configuration-file-advanced" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Configuration File (Advanced)
-      
+      </span>
     </span>
   </a>
   
@@ -2049,9 +2121,9 @@
         <li class="md-nav__item">
   <a href="#scheduling-options" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Scheduling Options
-      
+      </span>
     </span>
   </a>
   
@@ -2061,9 +2133,9 @@
           <li class="md-nav__item">
   <a href="#cron-integration" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Cron Integration
-      
+      </span>
     </span>
   </a>
   
@@ -2072,9 +2144,9 @@
           <li class="md-nav__item">
   <a href="#systemd-timer" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Systemd Timer
-      
+      </span>
     </span>
   </a>
   
@@ -2083,9 +2155,9 @@
           <li class="md-nav__item">
   <a href="#manual-execution" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Manual Execution
-      
+      </span>
     </span>
   </a>
   
@@ -2099,9 +2171,9 @@
         <li class="md-nav__item">
   <a href="#api-integration" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         API Integration
-      
+      </span>
     </span>
   </a>
   
@@ -2111,9 +2183,9 @@
           <li class="md-nav__item">
   <a href="#restful-endpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         RESTful Endpoint
-      
+      </span>
     </span>
   </a>
   
@@ -2122,9 +2194,9 @@
           <li class="md-nav__item">
   <a href="#api-usage-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         API Usage Examples
-      
+      </span>
     </span>
   </a>
   
@@ -2138,9 +2210,9 @@
         <li class="md-nav__item">
   <a href="#logging-and-monitoring" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Logging and Monitoring
-      
+      </span>
     </span>
   </a>
   
@@ -2150,9 +2222,9 @@
           <li class="md-nav__item">
   <a href="#log-output" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Log Output
-      
+      </span>
     </span>
   </a>
   
@@ -2161,9 +2233,9 @@
           <li class="md-nav__item">
   <a href="#summary-reports" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Summary Reports
-      
+      </span>
     </span>
   </a>
   
@@ -2172,9 +2244,9 @@
           <li class="md-nav__item">
   <a href="#monitoring-metrics" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Monitoring Metrics
-      
+      </span>
     </span>
   </a>
   
@@ -2188,9 +2260,9 @@
         <li class="md-nav__item">
   <a href="#docker-integration" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Docker Integration
-      
+      </span>
     </span>
   </a>
   
@@ -2200,9 +2272,9 @@
           <li class="md-nav__item">
   <a href="#container-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Container Configuration
-      
+      </span>
     </span>
   </a>
   
@@ -2211,9 +2283,9 @@
           <li class="md-nav__item">
   <a href="#container-execution" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Container Execution
-      
+      </span>
     </span>
   </a>
   
@@ -2227,9 +2299,9 @@
         <li class="md-nav__item">
   <a href="#security-considerations" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Security Considerations
-      
+      </span>
     </span>
   </a>
   
@@ -2239,9 +2311,9 @@
           <li class="md-nav__item">
   <a href="#access-control" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Access Control
-      
+      </span>
     </span>
   </a>
   
@@ -2250,9 +2322,9 @@
           <li class="md-nav__item">
   <a href="#safe-deletion" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Safe Deletion
-      
+      </span>
     </span>
   </a>
   
@@ -2266,9 +2338,9 @@
         <li class="md-nav__item">
   <a href="#troubleshooting" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Troubleshooting
-      
+      </span>
     </span>
   </a>
   
@@ -2278,9 +2350,9 @@
           <li class="md-nav__item">
   <a href="#common-issues" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Common Issues
-      
+      </span>
     </span>
   </a>
   
@@ -2289,9 +2361,9 @@
           <li class="md-nav__item">
   <a href="#debug-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Debug Mode
-      
+      </span>
     </span>
   </a>
   
@@ -2305,9 +2377,9 @@
         <li class="md-nav__item">
   <a href="#best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Best Practices
-      
+      </span>
     </span>
   </a>
   
@@ -2316,9 +2388,9 @@
         <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Summary
-      
+      </span>
     </span>
   </a>
   
@@ -2331,10 +2403,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -2365,8 +2438,7 @@
   <span class="md-ellipsis">
     
   
-    Distributed Deployment
-  
+  Distributed Deployment
 
     
   </span>
@@ -2376,19 +2448,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_12">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_12">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Distributed Deployment
-  
+  Distributed Deployment
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -2401,8 +2473,7 @@
   <span class="md-ellipsis">
     
   
-    Distributed Deployment
-  
+  Distributed Deployment
 
     
   </span>
@@ -2413,10 +2484,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -2447,8 +2519,7 @@
   <span class="md-ellipsis">
     
   
-    Docker
-  
+  Docker
 
     
   </span>
@@ -2458,19 +2529,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_13">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_13">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Docker
-  
+  Docker
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -2483,8 +2554,7 @@
   <span class="md-ellipsis">
     
   
-    Cleanup Integration
-  
+  Cleanup Integration
 
     
   </span>
@@ -2495,10 +2565,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -2529,8 +2600,7 @@
   <span class="md-ellipsis">
     
   
-    Examples
-  
+  Examples
 
     
   </span>
@@ -2540,19 +2610,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_14">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Examples
-  
+  Examples
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -2565,8 +2635,7 @@
   <span class="md-ellipsis">
     
   
-    Examples
-  
+  Examples
 
     
   </span>
@@ -2577,10 +2646,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -2611,8 +2681,7 @@
   <span class="md-ellipsis">
     
   
-    Development
-  
+  Development
 
     
   </span>
@@ -2622,19 +2691,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_15">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_15">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    Development
-  
+  Development
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -2647,8 +2716,7 @@
   <span class="md-ellipsis">
     
   
-    Overview
-  
+  Overview
 
     
   </span>
@@ -2659,10 +2727,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -2675,8 +2743,7 @@
   <span class="md-ellipsis">
     
   
-    Setup
-  
+  Setup
 
     
   </span>
@@ -2687,10 +2754,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -2721,8 +2789,7 @@
   <span class="md-ellipsis">
     
   
-    About
-  
+  About
 
     
   </span>
@@ -2732,19 +2799,19 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_16">
-            <span class="md-nav__icon md-icon"></span>
-            
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_16">
+              <span class="md-nav__icon md-icon"></span>
+              
   
-    About
-  
+  About
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
               
                 
+                  
   
   
   
@@ -2757,8 +2824,7 @@
   <span class="md-ellipsis">
     
   
-    About EEMT
-  
+  About EEMT
 
     
   </span>
@@ -2769,10 +2835,10 @@
     </li>
   
 
-              
-            
+                
               
                 
+                  
   
   
   
@@ -2785,8 +2851,7 @@
   <span class="md-ellipsis">
     
   
-    Publications
-  
+  Publications
 
     
   </span>
@@ -2797,10 +2862,11 @@
     </li>
   
 
+                
               
-            
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        
       
     </li>
   
@@ -2816,6 +2882,19 @@
               
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
                   <div class="md-sidebar__inner">
                     
 
@@ -2838,9 +2917,9 @@
         <li class="md-nav__item">
   <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Overview
-      
+      </span>
     </span>
   </a>
   
@@ -2849,9 +2928,9 @@
         <li class="md-nav__item">
   <a href="#system-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         System Architecture
-      
+      </span>
     </span>
   </a>
   
@@ -2860,9 +2939,9 @@
         <li class="md-nav__item">
   <a href="#retention-policies" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Retention Policies
-      
+      </span>
     </span>
   </a>
   
@@ -2872,9 +2951,9 @@
           <li class="md-nav__item">
   <a href="#default-retention-rules" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Default Retention Rules
-      
+      </span>
     </span>
   </a>
   
@@ -2883,9 +2962,9 @@
           <li class="md-nav__item">
   <a href="#rationale" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Rationale
-      
+      </span>
     </span>
   </a>
   
@@ -2899,9 +2978,9 @@
         <li class="md-nav__item">
   <a href="#implementation-details" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Implementation Details
-      
+      </span>
     </span>
   </a>
   
@@ -2911,9 +2990,9 @@
           <li class="md-nav__item">
   <a href="#core-components" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Core Components
-      
+      </span>
     </span>
   </a>
   
@@ -2923,9 +3002,9 @@
           <li class="md-nav__item">
   <a href="#jobcleanupmanager-class" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         JobCleanupManager Class
-      
+      </span>
     </span>
   </a>
   
@@ -2934,9 +3013,9 @@
           <li class="md-nav__item">
   <a href="#database-schema" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Database Schema
-      
+      </span>
     </span>
   </a>
   
@@ -2945,9 +3024,9 @@
           <li class="md-nav__item">
   <a href="#file-system-operations" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         File System Operations
-      
+      </span>
     </span>
   </a>
   
@@ -2961,9 +3040,9 @@
           <li class="md-nav__item">
   <a href="#sql-queries" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         SQL Queries
-      
+      </span>
     </span>
   </a>
   
@@ -2977,9 +3056,9 @@
         <li class="md-nav__item">
   <a href="#configuration-options" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Configuration Options
-      
+      </span>
     </span>
   </a>
   
@@ -2989,9 +3068,9 @@
           <li class="md-nav__item">
   <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Environment Variables
-      
+      </span>
     </span>
   </a>
   
@@ -3000,9 +3079,9 @@
           <li class="md-nav__item">
   <a href="#command-line-arguments" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Command-Line Arguments
-      
+      </span>
     </span>
   </a>
   
@@ -3011,9 +3090,9 @@
           <li class="md-nav__item">
   <a href="#configuration-file-advanced" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Configuration File (Advanced)
-      
+      </span>
     </span>
   </a>
   
@@ -3027,9 +3106,9 @@
         <li class="md-nav__item">
   <a href="#scheduling-options" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Scheduling Options
-      
+      </span>
     </span>
   </a>
   
@@ -3039,9 +3118,9 @@
           <li class="md-nav__item">
   <a href="#cron-integration" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Cron Integration
-      
+      </span>
     </span>
   </a>
   
@@ -3050,9 +3129,9 @@
           <li class="md-nav__item">
   <a href="#systemd-timer" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Systemd Timer
-      
+      </span>
     </span>
   </a>
   
@@ -3061,9 +3140,9 @@
           <li class="md-nav__item">
   <a href="#manual-execution" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Manual Execution
-      
+      </span>
     </span>
   </a>
   
@@ -3077,9 +3156,9 @@
         <li class="md-nav__item">
   <a href="#api-integration" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         API Integration
-      
+      </span>
     </span>
   </a>
   
@@ -3089,9 +3168,9 @@
           <li class="md-nav__item">
   <a href="#restful-endpoint" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         RESTful Endpoint
-      
+      </span>
     </span>
   </a>
   
@@ -3100,9 +3179,9 @@
           <li class="md-nav__item">
   <a href="#api-usage-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         API Usage Examples
-      
+      </span>
     </span>
   </a>
   
@@ -3116,9 +3195,9 @@
         <li class="md-nav__item">
   <a href="#logging-and-monitoring" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Logging and Monitoring
-      
+      </span>
     </span>
   </a>
   
@@ -3128,9 +3207,9 @@
           <li class="md-nav__item">
   <a href="#log-output" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Log Output
-      
+      </span>
     </span>
   </a>
   
@@ -3139,9 +3218,9 @@
           <li class="md-nav__item">
   <a href="#summary-reports" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Summary Reports
-      
+      </span>
     </span>
   </a>
   
@@ -3150,9 +3229,9 @@
           <li class="md-nav__item">
   <a href="#monitoring-metrics" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Monitoring Metrics
-      
+      </span>
     </span>
   </a>
   
@@ -3166,9 +3245,9 @@
         <li class="md-nav__item">
   <a href="#docker-integration" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Docker Integration
-      
+      </span>
     </span>
   </a>
   
@@ -3178,9 +3257,9 @@
           <li class="md-nav__item">
   <a href="#container-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Container Configuration
-      
+      </span>
     </span>
   </a>
   
@@ -3189,9 +3268,9 @@
           <li class="md-nav__item">
   <a href="#container-execution" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Container Execution
-      
+      </span>
     </span>
   </a>
   
@@ -3205,9 +3284,9 @@
         <li class="md-nav__item">
   <a href="#security-considerations" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Security Considerations
-      
+      </span>
     </span>
   </a>
   
@@ -3217,9 +3296,9 @@
           <li class="md-nav__item">
   <a href="#access-control" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Access Control
-      
+      </span>
     </span>
   </a>
   
@@ -3228,9 +3307,9 @@
           <li class="md-nav__item">
   <a href="#safe-deletion" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Safe Deletion
-      
+      </span>
     </span>
   </a>
   
@@ -3244,9 +3323,9 @@
         <li class="md-nav__item">
   <a href="#troubleshooting" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Troubleshooting
-      
+      </span>
     </span>
   </a>
   
@@ -3256,9 +3335,9 @@
           <li class="md-nav__item">
   <a href="#common-issues" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Common Issues
-      
+      </span>
     </span>
   </a>
   
@@ -3267,9 +3346,9 @@
           <li class="md-nav__item">
   <a href="#debug-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Debug Mode
-      
+      </span>
     </span>
   </a>
   
@@ -3283,9 +3362,9 @@
         <li class="md-nav__item">
   <a href="#best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Best Practices
-      
+      </span>
     </span>
   </a>
   
@@ -3294,9 +3373,9 @@
         <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
-      
+      <span class="md-typeset">
         Summary
-      
+      </span>
     </span>
   </a>
   
@@ -3314,8 +3393,10 @@
             <div class="md-content" data-md-component="content">
               
               <article class="md-content__inner md-typeset">
+                <a id="__skip" tabindex="-1"></a>
                 
                   
+
 
 <h1 id="job-data-cleanup-system">Job Data Cleanup System<a class="headerlink" href="#job-data-cleanup-system" title="Permanent link">&para;</a></h1>
 <p>The EEMT infrastructure includes an automated job data cleanup system designed to manage disk space efficiently while preserving important job metadata for auditing and analysis.</p>
@@ -3443,21 +3524,21 @@
 <h4 id="jobcleanupmanager-class">JobCleanupManager Class<a class="headerlink" href="#jobcleanupmanager-class" title="Permanent link">&para;</a></h4>
 <p>The <code>JobCleanupManager</code> class in <code>cleanup_jobs.py</code> provides the core cleanup functionality:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">JobCleanupManager</span><span class="p">:</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Manages automated cleanup of EEMT job data&quot;&quot;&quot;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">"""Manages automated cleanup of EEMT job data"""</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">dry_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">base_dir</span>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">dry_run</span> <span class="o">=</span> <span class="n">dry_run</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">db_path</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="s2">&quot;jobs.db&quot;</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">results_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="s2">&quot;results&quot;</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uploads_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="s2">&quot;uploads&quot;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">db_path</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="s2">"jobs.db"</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">results_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="s2">"results"</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uploads_dir</span> <span class="o">=</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="s2">"uploads"</span>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="c1"># Configurable retention periods</span>
 </span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">success_retention_days</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>            <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;EEMT_SUCCESS_RETENTION_DAYS&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">)</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>            <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">'EEMT_SUCCESS_RETENTION_DAYS'</span><span class="p">,</span> <span class="s1">'7'</span><span class="p">)</span>
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        <span class="p">)</span>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">failed_retention_hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>            <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;EEMT_FAILED_RETENTION_HOURS&#39;</span><span class="p">,</span> <span class="s1">&#39;12&#39;</span><span class="p">)</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>            <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">'EEMT_FAILED_RETENTION_HOURS'</span><span class="p">,</span> <span class="s1">'12'</span><span class="p">)</span>
 </span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        <span class="p">)</span>
 </span></code></pre></div>
 <p>Key methods:</p>
@@ -3503,17 +3584,17 @@
 <div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">-- Find successful jobs older than retention period</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">workflow_type</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">completed_at</span><span class="p">,</span><span class="w"> </span><span class="n">dem_filename</span><span class="p">,</span><span class="w"> </span><span class="k">parameters</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">FROM</span><span class="w"> </span><span class="n">jobs</span><span class="w"> </span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;completed&#39;</span><span class="w"> </span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'completed'</span><span class="w"> </span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">completed_at</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">datetime</span><span class="p">(</span><span class="n">completed_at</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">datetime</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-7 days&#39;</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">datetime</span><span class="p">(</span><span class="n">completed_at</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">datetime</span><span class="p">(</span><span class="s1">'now'</span><span class="p">,</span><span class="w"> </span><span class="s1">'-7 days'</span><span class="p">)</span>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">completed_at</span><span class="w"> </span><span class="k">ASC</span><span class="p">;</span>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1">-- Find failed jobs older than retention period</span>
 </span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">workflow_type</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">completed_at</span><span class="p">,</span><span class="w"> </span><span class="n">dem_filename</span><span class="p">,</span><span class="w"> </span><span class="k">parameters</span>
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="k">FROM</span><span class="w"> </span><span class="n">jobs</span><span class="w"> </span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;failed&#39;</span><span class="w"> </span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'failed'</span><span class="w"> </span>
 </span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">completed_at</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">datetime</span><span class="p">(</span><span class="n">completed_at</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">datetime</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-12 hours&#39;</span><span class="p">)</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">datetime</span><span class="p">(</span><span class="n">completed_at</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">datetime</span><span class="p">(</span><span class="s1">'now'</span><span class="p">,</span><span class="w"> </span><span class="s1">'-12 hours'</span><span class="p">)</span>
 </span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">completed_at</span><span class="w"> </span><span class="k">ASC</span><span class="p">;</span>
 </span></code></pre></div>
 <h2 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">&para;</a></h2>
@@ -3602,16 +3683,16 @@
 <h2 id="api-integration">API Integration<a class="headerlink" href="#api-integration" title="Permanent link">&para;</a></h2>
 <h3 id="restful-endpoint">RESTful Endpoint<a class="headerlink" href="#restful-endpoint" title="Permanent link">&para;</a></h3>
 <p>The FastAPI application exposes a cleanup endpoint:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/api/cleanup&quot;</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/api/cleanup"</span><span class="p">)</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">trigger_cleanup</span><span class="p">(</span>
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">dry_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">success_retention_days</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">failed_retention_hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span>
 </span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">):</span>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Trigger job data cleanup via API&quot;&quot;&quot;</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="sd">"""Trigger job data cleanup via API"""</span>
 </span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
 </span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">cleanup_manager</span> <span class="o">=</span> <span class="n">JobCleanupManager</span><span class="p">(</span>
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>        <span class="n">base_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./&quot;</span><span class="p">),</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>        <span class="n">base_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">"./"</span><span class="p">),</span>
 </span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>        <span class="n">dry_run</span><span class="o">=</span><span class="n">dry_run</span>
 </span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="p">)</span>
 </span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
@@ -3625,9 +3706,9 @@
 </span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>    <span class="n">summary</span> <span class="o">=</span> <span class="n">cleanup_manager</span><span class="o">.</span><span class="n">run_cleanup</span><span class="p">()</span>
 </span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>
 </span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>    <span class="k">return</span> <span class="p">{</span>
-</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>        <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>        <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="n">summary</span><span class="p">,</span>
-</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>        <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>        <span class="s2">"success"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>        <span class="s2">"summary"</span><span class="p">:</span> <span class="n">summary</span><span class="p">,</span>
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>        <span class="s2">"timestamp"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
 </span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>    <span class="p">}</span>
 </span></code></pre></div>
 <h3 id="api-usage-examples">API Usage Examples<a class="headerlink" href="#api-usage-examples" title="Permanent link">&para;</a></h3>
@@ -3639,11 +3720,11 @@
 </span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
 </span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Custom retention periods</span>
 </span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:5000/api/cleanup<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
-</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="s1">    &quot;success_retention_days&quot;: 3,</span>
-</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="s1">    &quot;failed_retention_hours&quot;: 6</span>
-</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="s1">  }&#39;</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="s1">    "success_retention_days": 3,</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="s1">    "failed_retention_hours": 6</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="s1">  }'</span>
 </span></code></pre></div>
 <h2 id="logging-and-monitoring">Logging and Monitoring<a class="headerlink" href="#logging-and-monitoring" title="Permanent link">&para;</a></h2>
 <h3 id="log-output">Log Output<a class="headerlink" href="#log-output" title="Permanent link">&para;</a></h3>
@@ -3669,25 +3750,25 @@
 <h3 id="summary-reports">Summary Reports<a class="headerlink" href="#summary-reports" title="Permanent link">&para;</a></h3>
 <p>Each cleanup run generates a JSON summary:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">{</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">&quot;start_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-20T02:00:01.123456&quot;</span><span class="p">,</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">&quot;end_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-20T02:00:05.789012&quot;</span><span class="p">,</span>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">&quot;dry_run&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="nt">&quot;successful_jobs_processed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="nt">&quot;failed_jobs_processed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="nt">&quot;total_size_freed_mb&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">45678.9</span><span class="p">,</span>
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">  </span><span class="nt">&quot;configs_preserved&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
-</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">  </span><span class="nt">&quot;configs_deleted&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">  </span><span class="nt">&quot;errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
-</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">  </span><span class="nt">&quot;job_details&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-20T02:00:01.123456"</span><span class="p">,</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">"end_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-20T02:00:05.789012"</span><span class="p">,</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">"dry_run"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="nt">"successful_jobs_processed"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="nt">"failed_jobs_processed"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="nt">"total_size_freed_mb"</span><span class="p">:</span><span class="w"> </span><span class="mf">45678.9</span><span class="p">,</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">  </span><span class="nt">"configs_preserved"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">  </span><span class="nt">"configs_deleted"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">  </span><span class="nt">"job_details"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 </span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">      </span><span class="nt">&quot;job_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;job-20240113-123456&quot;</span><span class="p">,</span>
-</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;completed&quot;</span><span class="p">,</span>
-</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">      </span><span class="nt">&quot;completed_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-13T14:23:45&quot;</span><span class="p">,</span>
-</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">      </span><span class="nt">&quot;data_deleted&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">      </span><span class="nt">&quot;config_preserved&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">      </span><span class="nt">&quot;size_freed_mb&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15484.8</span><span class="p">,</span>
-</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="w">      </span><span class="nt">&quot;files_deleted&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;uploads/job-20240113-123456_dem.tif&quot;</span><span class="p">],</span>
-</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="w">      </span><span class="nt">&quot;directories_deleted&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;results/job-20240113-123456&quot;</span><span class="p">]</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">      </span><span class="nt">"job_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"job-20240113-123456"</span><span class="p">,</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">      </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">      </span><span class="nt">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2024-01-13T14:23:45"</span><span class="p">,</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="w">      </span><span class="nt">"data_deleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="w">      </span><span class="nt">"config_preserved"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="w">      </span><span class="nt">"size_freed_mb"</span><span class="p">:</span><span class="w"> </span><span class="mf">15484.8</span><span class="p">,</span>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="w">      </span><span class="nt">"files_deleted"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"uploads/job-20240113-123456_dem.tif"</span><span class="p">],</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="w">      </span><span class="nt">"directories_deleted"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"results/job-20240113-123456"</span><span class="p">]</span>
 </span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="w">  </span><span class="p">]</span>
 </span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="p">}</span>
@@ -3701,7 +3782,7 @@
 </span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="n">COUNT</span><span class="p">(</span><span class="n">CASE</span> <span class="n">WHEN</span> <span class="n">data_cleaned_at</span> <span class="n">IS</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">THEN</span> <span class="mi">1</span> <span class="n">END</span><span class="p">)</span> <span class="k">as</span> <span class="n">jobs_cleaned</span><span class="p">,</span>
 </span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="n">SUM</span><span class="p">(</span><span class="n">CASE</span> <span class="n">WHEN</span> <span class="n">data_cleaned_at</span> <span class="n">IS</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">THEN</span> <span class="mi">1</span> <span class="n">ELSE</span> <span class="mi">0</span> <span class="n">END</span><span class="p">)</span> <span class="o">*</span> <span class="mf">100.0</span> <span class="o">/</span> <span class="n">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">as</span> <span class="n">cleanup_rate</span>
 </span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="n">FROM</span> <span class="n">jobs</span>
-</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="n">WHERE</span> <span class="n">completed_at</span> <span class="o">&gt;=</span> <span class="n">date</span><span class="p">(</span><span class="s1">&#39;now&#39;</span><span class="p">,</span> <span class="s1">&#39;-30 days&#39;</span><span class="p">)</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="n">WHERE</span> <span class="n">completed_at</span> <span class="o">&gt;=</span> <span class="n">date</span><span class="p">(</span><span class="s1">'now'</span><span class="p">,</span> <span class="s1">'-30 days'</span><span class="p">)</span>
 </span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="n">GROUP</span> <span class="n">BY</span> <span class="n">DATE</span><span class="p">(</span><span class="n">completed_at</span><span class="p">)</span>
 </span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="n">ORDER</span> <span class="n">BY</span> <span class="n">date</span> <span class="n">DESC</span><span class="p">;</span>
 </span></code></pre></div>
@@ -3721,13 +3802,13 @@
 </span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./results:/app/results</span>
 </span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./jobs.db:/app/jobs.db</span>
 </span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
-</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">      </span><span class="no">sh -c &quot;</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">      </span><span class="no">sh -c "</span>
 </span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">      </span><span class="no">python app.py &amp;</span>
 </span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">      </span><span class="no">while true; do</span>
 </span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">        </span><span class="no">sleep 86400</span>
 </span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">        </span><span class="no">python cleanup_jobs.py</span>
 </span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="w">      </span><span class="no">done</span>
-</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="w">      </span><span class="no">&quot;</span>
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="w">      </span><span class="no">"</span>
 </span></code></pre></div>
 <h3 id="container-execution">Container Execution<a class="headerlink" href="#container-execution" title="Permanent link">&para;</a></h3>
 <p>Run cleanup within containers:</p>
@@ -3753,23 +3834,23 @@
 <h3 id="safe-deletion">Safe Deletion<a class="headerlink" href="#safe-deletion" title="Permanent link">&para;</a></h3>
 <p>The cleanup process includes safeguards:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">cleanup_job_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">keep_job_config</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Clean up job data with safety checks&quot;&quot;&quot;</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="sd">"""Clean up job data with safety checks"""</span>
 </span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
 </span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    <span class="c1"># Validate job ID format</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^job-\d</span><span class="si">{8}</span><span class="s1">-\d</span><span class="si">{6}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]):</span>
-</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid job ID format: </span><span class="si">{</span><span class="n">job</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">'^job-\d</span><span class="si">{8}</span><span class="s1">-\d</span><span class="si">{6}</span><span class="s1">$'</span><span class="p">,</span> <span class="n">job</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]):</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid job ID format: </span><span class="si">{</span><span class="n">job</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>
 </span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    <span class="c1"># Verify paths are within allowed directories</span>
-</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>    <span class="n">results_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results_dir</span> <span class="o">/</span> <span class="n">job</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>    <span class="n">results_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results_dir</span> <span class="o">/</span> <span class="n">job</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span>
 </span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">results_path</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_dir</span><span class="p">)):</span>
-</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Results path outside allowed directory&quot;</span><span class="p">)</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Results path outside allowed directory"</span><span class="p">)</span>
 </span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
 </span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>    <span class="c1"># Perform deletion with error handling</span>
 </span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>    <span class="k">try</span><span class="p">:</span>
 </span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>        <span class="k">if</span> <span class="n">results_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
 </span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">results_path</span><span class="p">)</span>
 </span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to delete </span><span class="si">{</span><span class="n">results_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to delete </span><span class="si">{</span><span class="n">results_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>        <span class="k">raise</span>
 </span></code></pre></div>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
@@ -3876,7 +3957,7 @@
     
     
     <a href="https://github.com/tyson-swetnam" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
     </a>
   
     
@@ -3884,7 +3965,7 @@
     
     
     <a href="https://hub.docker.com/u/tswetnam/" target="_blank" rel="noopener" title="Docker Hub" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
     </a>
   
     
@@ -3892,7 +3973,7 @@
     
     
     <a href="https://twitter.com/tswetnam" target="_blank" rel="noopener" title="Twitter" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
     </a>
   
     
@@ -3900,7 +3981,7 @@
     
     
     <a href="https://tysonswetnam.com/" target="_blank" rel="noopener" title="Website" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M351.9 280H161c2.9 64.5 17.2 123.9 37.5 167.4 11.4 24.5 23.7 41.8 35.1 52.4 11.2 10.5 18.9 12.2 22.9 12.2s11.7-1.7 22.9-12.2c11.4-10.6 23.7-28 35.1-52.4 20.3-43.5 34.6-102.9 37.5-167.4zm-191-48h190.9c-2.8-64.5-17.1-123.9-37.4-167.4-11.4-24.4-23.7-41.8-35.1-52.4C268.1 1.7 260.4 0 256.4 0s-11.7 1.7-22.9 12.2c-11.4 10.6-23.7 28-35.1 52.4-20.3 43.5-34.6 102.9-37.5 167.4m-48 0c3.5-85.6 25.6-165.1 57.9-217.3C78.7 47.3 10.9 131.2 1.5 232zM1.5 280c9.4 100.8 77.2 184.7 169.3 217.3-32.3-52.2-54.4-131.7-57.9-217.3zm398.4 0c-3.5 85.6-25.6 165.1-57.9 217.3 92.1-32.7 159.9-116.5 169.3-217.3zm111.4-48C501.9 131.2 434.1 47.3 342 14.7c32.3 52.2 54.4 131.7 57.9 217.3z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M351.9 280H161c2.9 64.5 17.2 123.9 37.5 167.4 11.4 24.5 23.7 41.8 35.1 52.4 11.2 10.5 18.9 12.2 22.9 12.2s11.7-1.7 22.9-12.2c11.4-10.6 23.7-28 35.1-52.4 20.3-43.5 34.6-102.9 37.5-167.4zm-191-48h190.9c-2.8-64.5-17.1-123.9-37.4-167.4-11.4-24.4-23.7-41.8-35.1-52.4C268.1 1.7 260.4 0 256.4 0s-11.7 1.7-22.9 12.2c-11.4 10.6-23.7 28-35.1 52.4-20.3 43.5-34.6 102.9-37.5 167.4m-48 0c3.5-85.6 25.6-165.1 57.9-217.3C78.7 47.3 10.9 131.2 1.5 232zM1.5 280c9.4 100.8 77.2 184.7 169.3 217.3-32.3-52.2-54.4-131.7-57.9-217.3zm398.4 0c-3.5 85.6-25.6 165.1-57.9 217.3 92.1-32.7 159.9-116.5 169.3-217.3zm111.4-48C501.9 131.2 434.1 47.3 342 14.7c32.3 52.2 54.4 131.7 57.9 217.3z"/></svg>
     </a>
   
 </div>
@@ -3910,7 +3991,7 @@
 </footer>
       
     </div>
-    <div class="md-dialog" data-md-component="dialog">
+    <div class="md-dialog" data-md-component="dialog" role="status" aria-atomic="true">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
@@ -3919,10 +4000,17 @@
       
       
       
-      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["navigation_instant","navigation_tabs","navigation_tabs_sticky","navigation_sections","navigation_expand","navigation_indexes","navigation_top","navigation_footer","search_suggest","search_highlight","content_code_copy","content_code_annotate","content_tabs_link"],"search":"../../assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["navigation_instant","navigation_tabs","navigation_tabs_sticky","navigation_sections","navigation_expand","navigation_indexes","navigation_top","navigation_footer","search_suggest","search_highlight","content_code_copy","content_code_annotate","content_tabs_link"],"redirect":null,"search":"../../assets/javascripts/workers/search.719e0d91.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5fd3284f.min.js"></script>
+      <script src="../../assets/javascripts/bundle.3cb411a8.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>
