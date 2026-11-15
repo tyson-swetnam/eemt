@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 #
 # Conda environment of the workflow image (eemt:<docker/VERSION>).
-# Edit this file, then re-solve the lock (docker/workflow/README.md, "Updating the lock"):
-#   conda-lock lock --micromamba -f environment.yml -p linux-64 --lockfile conda-lock.yml
+# Edit this file, then re-solve the lock with `scripts/locks/refresh.sh conda`
+# (docker/workflow/README.md, "Updating the lock").
 # The image installs ONLY from conda-lock.yml (sha256 per package), never from this file.
 #
 # Every entry is here because code that runs inside the image uses it:

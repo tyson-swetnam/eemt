@@ -21,9 +21,63 @@ a hashed lock file; `scripts/locks/check.sh` enforces the digests.
 | `build.sh` | Builds one image (`workflow`, `web` or `docs`) |
 | `kubernetes/` | Helm chart and manifests (no image definitions) |
 
-Python lock files are regenerated with `scripts/locks/refresh.sh pip` (uv in a container):
-`web-interface/requirements.in` -> `web-interface/requirements.txt`, `requirements-docs.in` ->
-`requirements-docs.txt`, `requirements-dev.in` -> `requirements-dev.txt`.
+## Lock files
+
+Every dependency set is resolved once into a lock file with a hash per package, and images
+and CI install only from the locks:
+
+| Input (edit this) | Lock (generated) | Resolver |
+|---|---|---|
+| `docker/workflow/environment.yml` | `docker/workflow/conda-lock.yml` | conda-lock 4.1.0, micromamba solver, linux-64 |
+| `notebooks/environment.yml` | `notebooks/conda-lock.yml` | same |
+| `notebooks/environment-minimal.yml` | `notebooks/minimal-conda-lock.yml` | same |
+| `web-interface/requirements.in` | `web-interface/requirements.txt` | uv 0.13.8 `pip compile --generate-hashes`, CPython 3.14 manylinux |
+| `requirements-docs.in` | `requirements-docs.txt` | same |
+| `requirements-dev.in` | `requirements-dev.txt` | same (constrained by the web lock) |
+| `uses:` tags in `.github/workflows/` | the commit SHA in the same line (`@<sha> # <tag>`) | `git ls-remote` |
+| image tags in Dockerfiles and `scripts/locks/` | the digest in the same reference (`name:tag@sha256:...`) | `crane digest` |
+| `rsun/Cargo.toml` files, `rsun/rust-toolchain.toml` | `rsun/Cargo.lock` | cargo (Area C's workspace; build with `--locked`) |
+
+conda-lock runs from its own hash-locked environment (`scripts/locks/tools/locktool.yml` ->
+`locktool-lock.yml`). Every resolver runs in a container pulled by digest
+(`scripts/locks/lib.sh`); nothing is installed on the host. Lock file names end in
+`-lock.yml`, because micromamba reads any other name as a plain environment file.
+
+Refresh after editing an input (network access needed; set `EEMT_LOCK_CACHE=<dir>` to keep
+the tool environment and download caches between runs):
+
+```
+scripts/locks/refresh.sh              # all: images, actions, conda, pip
+scripts/locks/refresh.sh conda        # or pip, actions, images
+scripts/locks/refresh.sh --upgrade    # conda: re-solve everything; pip: newest allowed releases
+scripts/locks/check.sh                # offline gate: pins, digests, hashes, inputs refreshed
+```
+
+Without `--upgrade` a refresh changes only what its input requires: a conda lock whose
+recorded input hash still matches is left alone, and uv keeps existing pins. Running it twice
+with no upstream change leaves `git status` clean. Actions and images always follow the tag
+written next to the pin; to move to a new version, edit that tag and refresh.
+
+Rules:
+
+- Never edit a lock by hand. Commit the input, its lock and `scripts/locks/inputs.sha256`
+  (the input hashes `check.sh locks` compares) together.
+- A change to any lock also means rebuilding the affected images and regenerating the
+  committed SBOMs (`sbom/`) in the same branch, so that the SBOMs never describe an older
+  lock. For that reason the repository has no Dependabot configuration: an automated bump
+  would change a lock without its SBOM. Run `scripts/locks/refresh.sh --upgrade` on a
+  schedule instead and review the diff.
+- Security floors (Dependabot alerts) are written as lower bounds in the `.in` files, so a
+  refresh can never go below them.
+- Installing a notebook environment: `micromamba create -n eemt-gis -f
+  notebooks/conda-lock.yml`. micromamba writes a temporary pip requirements file next to the
+  lock, so the lock must be in a writable directory.
+- Image builds call `scripts/locks/assert-conda-env.sh <lock> <prefix>` after installing a
+  conda lock; it fails unless exactly the locked packages are installed.
+
+Not covered yet: `lean4-verification/lake-manifest.json` is not committed
+(`validation/findings.toml` F-A-031), and the build requirements in
+`rsun/rsun-py/pyproject.toml` are unpinned ranges (F-A-032).
 
 `docker-compose.yml` runs the web container as `${EEMT_UID:-1000}:${EEMT_GID:-1000}`, adds
 the group of the Docker socket (`group_add: ${EEMT_DOCKER_GID}`) and passes the workflow image

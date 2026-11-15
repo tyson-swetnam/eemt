@@ -29,8 +29,9 @@ docker/build.sh --no-cache --pull   # clean rebuild
 `docker/build.sh` only builds this image and only applies the `eemt:<version>` tag (set
 `EEMT_IMAGE_NAME` to change the repository part). The build fails if:
 
-- the number of installed packages differs from the number in `conda-lock.yml`, or a package
-  hash does not match (micromamba checks every sha256);
+- the installed packages are not exactly the `name-version-build` set of `conda-lock.yml`
+  (`scripts/locks/assert-conda-env.sh`, run after the install and again in the runtime
+  stage), or a package hash does not match (micromamba checks every sha256);
 - the static `ENV` in the Dockerfile disagrees with `grass --config path`,
   `grass --config python_path` or the conda activation scripts (`GDAL_DATA`,
   `GDAL_DRIVER_PATH`, `PROJ_DATA`);
@@ -94,20 +95,21 @@ Queue, generate one per run (`--password FILE` on both `makeflow` and `work_queu
 
 ## Updating the lock
 
-Edit `environment.yml`, then re-solve in the digest-pinned micromamba image (conda-lock
-4.1.0, linux-64) and rebuild:
+Edit `environment.yml`, then re-solve and rebuild:
 
 ```bash
-docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp/h -v "$PWD/docker/workflow:/w" -w /w \
-  --entrypoint /bin/bash \
-  mambaorg/micromamba@sha256:c3897a06f87c1c13f038188b3665a8c4162da62eac5109ae6a939d1e290dcefa -c \
-  'export MAMBA_ROOT_PREFIX=/tmp/m; micromamba create -y -q -n lock -c conda-forge conda-lock=4.1.0 python=3.13 &&
-   micromamba run -n lock conda-lock lock --micromamba -f environment.yml -p linux-64 --lockfile conda-lock.yml'
+scripts/locks/refresh.sh conda      # conda-lock 4.1.0 in the digest-pinned micromamba image
+scripts/locks/check.sh locks
 docker/build.sh
 ```
 
+A lock whose input is unchanged is left as it is; `scripts/locks/refresh.sh --upgrade conda`
+re-solves every conda environment against today's conda-forge. See `docker/README.md`
+("Lock files") for the other locks and the SBOM rule.
+
 The lock file name must end in `-lock.yml`: micromamba treats any other name as a plain
-environment file and creates an empty environment.
+environment file and creates an empty environment without failing (the build's
+`assert-conda-env.sh` step catches that).
 
 ## Makeflow notes (CCTools 7.17.6)
 
