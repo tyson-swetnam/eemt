@@ -44,7 +44,6 @@ SPDX-License-Identifier = "BSD-3-Clause"
 path = [
     ".gitignore",
     "**/.gitignore",
-    "requirements.txt",
     "web-interface/requirements.txt",
     "requirements-docs.txt",
     "requirements-dev.txt",

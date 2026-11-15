@@ -7,3 +7,8 @@
 docker/ubuntu/24.04	docker/workflow/ (build with docker/build.sh)
 eemt:ubuntu24.04	eemt:<docker/VERSION>, e.g. eemt:3.0.0 (EEMT_WORKFLOW_IMAGE)
 /usr/lib/grass84	/opt/eemt/env/lib/grass85 (GISBASE in the workflow image)
+pip install -r requirements.txt	docs: pip install --require-hashes -r requirements-docs.txt; tests/lint: also -r requirements-dev.txt; web app: pip install --require-hashes -r web-interface/requirements.txt (the root requirements.txt is gone)
+zensical>=1.0.0	zensical==0.1.1 via requirements-docs.txt
+mkdocs serve	zensical serve (docker-compose --profile docs up eemt-docs, image eemt-docs:<docker/VERSION>)
+eemt-web:latest	eemt-web:<docker/VERSION>, e.g. eemt-web:3.0.0 (docker/build.sh web)
+eemt-web:2.0	eemt-web:<docker/VERSION>, e.g. eemt-web:3.0.0 (docker/build.sh web)

@@ -234,18 +234,20 @@ services:
       start_period: 30s
     restart: unless-stopped
 
-  # Documentation Server
+  # Documentation Server (Zensical; serves the mounted zensical.toml and docs/)
   eemt-docs:
+    image: eemt-docs:${EEMT_VERSION:-3.0.0}
     build:
       context: .
       dockerfile: docker/docs/Dockerfile
+      args:
+        EEMT_VERSION: ${EEMT_VERSION:-3.0.0}
     container_name: eemt-docs
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     volumes:
-      - ./docs:/docs
-      - ./mkdocs.yml:/mkdocs.yml
-    command: mkdocs serve --dev-addr 0.0.0.0:8000
+      - ./zensical.toml:/site-src/zensical.toml:ro
+      - ./docs:/site-src/docs:ro
     networks:
       - eemt-network
     profiles:
