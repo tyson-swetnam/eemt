@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # GRASS GIS Installation Script for EEMT - Minimal Container Version
 # Optimized for headless container deployment without GUI dependencies
 

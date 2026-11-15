@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 //! GPU buffer management for raster grids.
 //!
 //! Handles upload of rsun-core Grid data to GPU storage buffers

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: 2017 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 #Read options
 ARGS=`getopt -o D: --long directory: -n 'rsum.sh' -- "$@"`
 

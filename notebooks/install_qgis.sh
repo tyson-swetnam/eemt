@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # QGIS Installation Script for EEMT
 # Installing QGIS LTR 3.34+ from official repositories
 

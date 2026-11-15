@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 FROM ubuntu:20.04
 
 LABEL authors="Tyson L Swetnam"

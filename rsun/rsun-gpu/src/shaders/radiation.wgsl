@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 // Solar radiation compute shader — GPU implementation of r.sun algorithm.
 //
 // Computes full-day global radiation and insolation time for each pixel.

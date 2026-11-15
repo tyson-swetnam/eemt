@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 """
 Download DAYMET v4 R1 daily data for SE Arizona study area.
 

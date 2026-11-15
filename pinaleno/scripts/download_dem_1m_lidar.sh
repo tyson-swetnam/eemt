@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # STAGED — DO NOT RUN UNTIL DISK SPACE IS AVAILABLE
 #
 # Download USGS 3DEP 1m lidar DEM tiles for Pinaleño + Santa Teresa Mountains.

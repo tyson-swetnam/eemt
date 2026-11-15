@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 //! Gordon Gulch DEM integration tests — CPU reference path.
 //!
 //! Tests rsun-core on the real Gordon Gulch 10m DEM (434×296, UTM Zone 13N).

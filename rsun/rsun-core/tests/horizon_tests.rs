@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 use rsun_core::horizon::compute_horizons;
 use rsun_core::types::Grid;
 

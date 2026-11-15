@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 FROM ubuntu:24.04
 
 LABEL authors="Tyson L Swetnam"

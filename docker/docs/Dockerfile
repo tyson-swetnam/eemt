@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 FROM python:3.12-slim
 
 LABEL description="EEMT Documentation Server with MkDocs Material"

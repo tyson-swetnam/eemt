@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Run EEMT for Pinaleño 1980-2024 with bounded parallelism.
 # Caches stay on disk (BAND-interleave caches are tiny ~2 GB/year, /opt has 14 TB free).
 #

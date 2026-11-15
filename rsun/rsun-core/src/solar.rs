@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 //! Solar position calculations.
 //! Ported from GRASS GIS r.sun rsunlib.c (Hofierka & Suri 2002).
 //! All angles in radians unless noted otherwise.

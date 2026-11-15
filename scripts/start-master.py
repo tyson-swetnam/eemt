@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 """
 EEMT Master Node Startup Script
 Starts a master/foreman node for distributed EEMT workflow execution

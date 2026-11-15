@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Run full EEMT analysis on the 16km Gordon Gulch expanded DEM
 # Uses eemt_smoke_test.py with paths overridden for the 16km dataset
 

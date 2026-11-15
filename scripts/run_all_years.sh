@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Run EEMT daily analysis for all DAYMET years (1980-2024)
 # First computes shared inputs (slope, TWI, dem_1km), then runs years in parallel.
 

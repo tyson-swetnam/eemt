@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: 2018 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 set -e
 set -v
 

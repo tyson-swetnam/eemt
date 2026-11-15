@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 // CUDA kernel for horizon angle computation via ray-marching.
 //
 // Each thread processes one pixel for one azimuth direction.

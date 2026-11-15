@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2019 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 FROM ubuntu:18.04
 
 LABEL authors="Tyson L Swetnam, Mats Rynge"

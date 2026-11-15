@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Streaming EEMT for Pinaleño 1980-2024 — one day at a time, ~5-10 GB RAM/process.
 # Uses /home/tswetnam/github/eemt/scripts/seaz_eemt_streaming.py with paths overridden.
 

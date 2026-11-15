@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Load-aware EEMT year dispatcher for Pinaleño.
 #
 # Polls system load every TICK seconds; launches one EEMT year if there

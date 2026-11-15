@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 // Horizon angle pre-computation compute shader.
 //
 // For each pixel, march along N azimuthal directions across the DEM

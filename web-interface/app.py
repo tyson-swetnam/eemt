@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 """
 EEMT Web Interface - Local Mode
 FastAPI-based web service for local EEMT and solar radiation workflow execution

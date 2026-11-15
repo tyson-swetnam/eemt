@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 //! GPU device and queue management via wgpu.
 //!
 //! Handles adapter discovery, device creation, and provides
