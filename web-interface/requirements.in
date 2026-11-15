@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Direct dependencies of the web interface (web-interface/**, scripts/start-master.py,
+# scripts/start-worker.py). Edit this file, then regenerate the hashed lock
+# web-interface/requirements.txt with scripts/locks/pip-compile.sh.
+# Lower bounds that are security floors (Dependabot alerts) must never be lowered.
+
+fastapi>=0.163.1             # app.py; brings starlette (request-first TemplateResponse)
+uvicorn[standard]>=0.54.0    # app.py, scripts/start-master.py
+jinja2>=3.1.6                # fastapi.templating.Jinja2Templates; floor: Dependabot alerts 4,6,8,9,10
+python-multipart>=0.0.31     # UploadFile/Form in app.py; floor: Dependabot alerts 5,7,12-18
+docker>=7.2.0,<8             # containers/workflow_manager.py (docker-py 7.x works with urllib3 2)
+urllib3>=2.5.0               # transitive (docker, requests); floor: Dependabot alert 11
+psutil>=7.2.2                # containers/workflow_manager.py (system resource detection)
+requests>=2.34.2             # containers/workflow_manager.py

@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Test and lint tools. Constrained by the web lock so that both hashed files can be
+# installed together:
+#   pip install --require-hashes -r web-interface/requirements.txt -r requirements-dev.txt
+# Regenerate requirements-dev.txt with scripts/locks/pip-compile.sh.
+
+-c web-interface/requirements.txt
+
+pytest>=9.2.0
+hypothesis>=6.170.15
+httpx>=0.28.1                # required by starlette.testclient.TestClient
+ruff>=0.17.5
