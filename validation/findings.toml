@@ -283,3 +283,24 @@ changes_scientific_output = false
 sdr = ""
 fix_commit = ""
 reason = ""
+
+[[finding]]
+id = "F-A-012"
+title = "Image builds had no context filter, so the existing local images contain the Work Queue password file, the job database, uploaded DEMs and logs"
+location = ["docker/ubuntu/24.04/Dockerfile:138", "docker/web-interface/Dockerfile:25", "docker/minimal/Dockerfile:23"]
+severity = "medium"
+status = "confirmed"
+evidence = """There was no .dockerignore, and `COPY sol/` and `COPY web-interface/` copy whole directories. \
+File names listed inside the images that exist on the build host (names only, contents not read): \
+`find /opt/eemt` in eemt:legacy-e7637f45c202 -> /opt/eemt/sol/.eemt-makeflow-password, \
+/opt/eemt/sol/examples/mcn_10m.tif, two __pycache__ directories; `find /app` in eemt-web:legacy-9aa38795e41c -> \
+/app/jobs.db, three /app/uploads/*.tif, eight cleanup_summary_*.json, app.log, cleanup_jobs.log, two __pycache__ \
+directories. Commit 24a5d5d adds a root .dockerignore that excludes all of these; a context probe showed that none \
+of them reaches the build context any more (commit message of 24a5d5d). Status stays "confirmed", not "fixed", \
+because no regression test in the repository guards the build context yet. Owner: any copy of those two images \
+that was pushed or shared carries the password file and the uploaded DEMs (see F-A-010)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
