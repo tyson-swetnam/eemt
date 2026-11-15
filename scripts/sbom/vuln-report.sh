@@ -52,7 +52,7 @@ for name in image-eemt image-eemt-web; do
 done
 
 # Counts per severity (python from the pinned image; the report is plain JSON).
-docker run --rm --name "eemt-grype-$$-sum" --label eemt-work=1 --network none \
+docker run -i --rm --name "eemt-grype-$$-sum" --label eemt-work=1 --network none \
     --user "$(id -u):$(id -g)" -v "$OUT:/out:ro" "$PYTHON_IMAGE" python - <<'EOF'
 import collections, json, pathlib
 for f in sorted(pathlib.Path("/out").glob("*.grype.json")):
