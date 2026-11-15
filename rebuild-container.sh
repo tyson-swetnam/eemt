@@ -5,6 +5,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 # Script to rebuild EEMT Docker container with latest code changes
+#
+# The workflow image is tagged eemt:<docker/VERSION> by docker/build.sh.
 
 echo "====================================="
 echo "EEMT Container Rebuild Script"
@@ -29,24 +31,25 @@ if ! docker info &> /dev/null; then
     exit 1
 fi
 
+cd "$(dirname "${BASH_SOURCE[0]}")"   # repository root
+WORKFLOW_IMAGE="eemt:$(tr -d '[:space:]' < docker/VERSION)"
+
 echo -e "${YELLOW}Step 1: Stopping any running EEMT containers...${NC}"
-docker ps -q --filter "ancestor=eemt:ubuntu24.04" | xargs -r docker stop
+docker ps -q --filter "ancestor=${WORKFLOW_IMAGE}" | xargs -r docker stop
 docker ps -q --filter "ancestor=eemt-web" | xargs -r docker stop
 
 echo -e "${YELLOW}Step 2: Removing old containers...${NC}"
-docker ps -aq --filter "ancestor=eemt:ubuntu24.04" | xargs -r docker rm
+docker ps -aq --filter "ancestor=${WORKFLOW_IMAGE}" | xargs -r docker rm
 docker ps -aq --filter "ancestor=eemt-web" | xargs -r docker rm
 
-echo -e "${YELLOW}Step 3: Building base EEMT container...${NC}"
-cd docker/ubuntu/24.04/
-./build.sh
+echo -e "${YELLOW}Step 3: Building workflow container ${WORKFLOW_IMAGE}...${NC}"
+docker/build.sh
 if [ $? -ne 0 ]; then
     echo -e "${RED}Error: Failed to build base container${NC}"
     exit 1
 fi
 
 echo -e "${YELLOW}Step 4: Building web interface container...${NC}"
-cd ../../../
 docker build -t eemt-web -f docker/web-interface/Dockerfile .
 if [ $? -ne 0 ]; then
     echo -e "${RED}Error: Failed to build web interface container${NC}"
@@ -54,7 +57,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo -e "${YELLOW}Step 5: Verifying container builds...${NC}"
-if docker images | grep -q "eemt.*ubuntu24.04"; then
+if docker image inspect "${WORKFLOW_IMAGE}" > /dev/null 2>&1; then
     echo -e "${GREEN}✓ Base container built successfully${NC}"
 else
     echo -e "${RED}✗ Base container not found${NC}"
@@ -69,24 +72,16 @@ else
 fi
 
 echo -e "${YELLOW}Step 6: Testing container functionality...${NC}"
-# Test base container
-docker run --rm eemt:ubuntu24.04 python --version
+# Test the workflow container (versions, GRASS, GDAL, CCTools, one r.sun day, a local Makeflow)
+docker run --rm --network none --user "$(id -u):$(id -g)" "${WORKFLOW_IMAGE}" eemt-selftest
 if [ $? -eq 0 ]; then
-    echo -e "${GREEN}✓ Python is working in base container${NC}"
+    echo -e "${GREEN}✓ eemt-selftest passed in the workflow container${NC}"
 else
-    echo -e "${RED}✗ Python test failed${NC}"
-fi
-
-# Test GRASS GIS
-docker run --rm eemt:ubuntu24.04 grass --version
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}✓ GRASS GIS is working in base container${NC}"
-else
-    echo -e "${RED}✗ GRASS GIS test failed${NC}"
+    echo -e "${RED}✗ eemt-selftest failed${NC}"
 fi
 
 # Test workflow script
-docker run --rm eemt:ubuntu24.04 python /opt/eemt/bin/run-solar-workflow.py --help
+docker run --rm "${WORKFLOW_IMAGE}" python /opt/eemt/bin/run-solar-workflow.py --help
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓ Solar workflow script is accessible${NC}"
 else

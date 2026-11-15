@@ -4,3 +4,6 @@
 # Terms the docs must stop using once the described thing has changed.
 # One per line: <literal term><TAB><what replaced it>. Lines starting with # are ignored.
 # Areas A-C append here instead of editing docs/; the docs lint reads this file.
+docker/ubuntu/24.04	docker/workflow/ (build with docker/build.sh)
+eemt:ubuntu24.04	eemt:<docker/VERSION>, e.g. eemt:3.0.0 (EEMT_WORKFLOW_IMAGE)
+/usr/lib/grass84	/opt/eemt/env/lib/grass85 (GISBASE in the workflow image)
