@@ -14,7 +14,7 @@ The system has two independent workflow pipelines and a web frontend that orches
 
 ```
 Web Interface (FastAPI :5000)
-    └── Docker Container (eemt:ubuntu24.04)
+    └── Docker Container (eemt:<docker/VERSION>, e.g. eemt:3.0.0)
             ├── Solar Workflow (sol/sol/) → Makeflow local batch
             └── EEMT Workflow (eemt/eemt/) → Makeflow + Work Queue
 ```
@@ -31,9 +31,10 @@ Both `run-workflow` scripts are Python-based Makeflow generators (not direct exe
 - Two-stage file upload: file uploaded first (UUID-named), then job submitted referencing stored file
 
 ### Container Architecture
-- Base image: Ubuntu 24.04 + Miniforge Python 3.11 + GRASS GIS 8.4 (from source) + CCTools 7.15.14
-- Container entry points: `docker/ubuntu/24.04/container-scripts/run-solar-workflow.py` and `run-eemt-workflow.py`
-- Web interface container extends base with FastAPI/uvicorn
+- Workflow image `eemt:<docker/VERSION>` (`docker/workflow/Dockerfile`): a hash-locked conda-forge environment (`docker/workflow/conda-lock.yml`: Python 3.14, GRASS GIS 8.5.0, GDAL 3.12, CCTools/ndcctools 7.17.6) copied into a digest-pinned Ubuntu 26.04 runtime. Runs as any `--user UID:GID`. `eemt-selftest` checks it.
+- Container entry points: `docker/workflow/container-scripts/run-solar-workflow.py` and `run-eemt-workflow.py` (installed in `/opt/eemt/bin`)
+- Web image `eemt-web:<docker/VERSION>` (`docker/web-interface/Dockerfile`): pinned `python:3.14.10-slim-trixie` with the hashed `web-interface/requirements.txt` and the Docker CLI binary; it does not extend the workflow image. The web app starts workflow containers from `EEMT_WORKFLOW_IMAGE`.
+- Every base image is pinned as `name:tag@sha256`, every package comes from a hashed lock, and `sbom/` holds the generated SBOMs. Details: `docker/README.md`.
 
 ### GRASS GIS Integration
 Each workflow task creates a temporary GRASS location, runs r.sun or r.series, exports results as GeoTIFF, then cleans up. Shell scripts (`rsun.sh`, `rsum.sh`, `reemt.sh`, `metget.sh`, `twi.sh`) are copied to the output directory for task isolation - this is a Makeflow requirement.
@@ -44,8 +45,10 @@ Each workflow task creates a temporary GRASS location, runs r.sun or r.series, e
 # Docker Compose (recommended) - starts web interface on :5000
 docker-compose up
 
-# Build base container manually
-cd docker/ubuntu/24.04/ && ./build.sh
+# Build the images (tags <name>:<docker/VERSION> only)
+docker/build.sh            # workflow image eemt:3.0.0
+docker/build.sh web        # web image eemt-web:3.0.0
+docker run --rm eemt:3.0.0 eemt-selftest
 
 # Run web interface without Docker Compose
 cd web-interface/ && pip install -r requirements.txt && python app.py
@@ -57,7 +60,7 @@ pip install zensical pymdown-extensions && zensical build
 docker run --rm \
   -v $(pwd)/sol/examples:/data/input:ro \
   -v $(pwd)/test-output:/data/output:rw \
-  eemt:ubuntu24.04 \
+  eemt:3.0.0 \
   python /opt/eemt/bin/run-solar-workflow.py \
   --dem /data/input/mcn_10m.tif \
   --output /data/output \
@@ -74,21 +77,32 @@ cd sol/sol/ && python run-workflow --step 15 --num_threads 2 ../examples/mcn_10m
 python scripts/start-master.py   # Start master node
 python scripts/start-worker.py   # Start worker node (connects to master)
 
-# Linting and testing (dev dependencies in root requirements.txt)
+# Linting and testing (dev dependencies: pip install --require-hashes -r requirements-dev.txt)
 black --check .
 flake8 .
 mypy .
 pytest
 ```
 
-## Requirements Files
+## Requirements Files and Locks
 
-- `requirements.txt` (root) — Zensical docs build + scientific computing libraries + dev tools (pytest, black, flake8, mypy)
-- `web-interface/requirements.txt` — FastAPI, uvicorn, docker SDK, psutil for the web app
+Edit the input, never the lock; regenerate with `scripts/locks/refresh.sh` (all tools run in digest-pinned containers) and check with `scripts/locks/check.sh` (offline):
+
+- `web-interface/requirements.in` → `web-interface/requirements.txt` (hashed): FastAPI, uvicorn, docker SDK, psutil for the web app
+- `requirements-docs.in` → `requirements-docs.txt` (hashed): Zensical docs toolchain
+- `requirements-dev.in` → `requirements-dev.txt` (hashed): tests, lint and SBOM tools
+- `docker/workflow/environment.yml` → `docker/workflow/conda-lock.yml`; `notebooks/environment*.yml` → `notebooks/*conda-lock.yml`
+- `rsun/Cargo.lock` (cargo), GitHub Actions pinned by commit SHA, images by digest
+- There is no root `requirements.txt` any more.
+
+A lock change also means regenerating the SBOMs in the same branch:
+`docker/build.sh && docker/build.sh web && scripts/sbom/generate.sh all --no-build && scripts/sbom/validate.sh`, then commit `sbom/` (see `docker/README.md`).
 
 ## CI/CD
 
-Only GitHub Pages deployment exists (`.github/workflows/ghpages.yml`). No automated Docker image builds - containers are built locally. Docs deploy on push to `master` or `2026_update` using `zensical build`.
+- `.github/workflows/containers.yml` (pull requests, pushes to `master`): `scripts/locks/check.sh all`; builds the workflow and web images (no registry push), runs `eemt-selftest` and `pytest -m grass` in the workflow image, regenerates and validates the SBOMs and fails if the committed `sbom/` is out of date. The grype report and an SPDX 3.0 SBOM are attached as artifacts.
+- `.github/workflows/reuse.yml`: `reuse lint` (every file needs an SPDX header, a `.license` sidecar or a `REUSE.toml` entry).
+- `.github/workflows/ghpages.yml`: docs deploy on push to `master` or `2026_update` using `zensical build`.
 
 ## Key Parameters
 
@@ -115,8 +129,8 @@ Only GitHub Pages deployment exists (`.github/workflows/ghpages.yml`). No automa
 
 - **Password file**: EEMT workflow requires `~/.eemt-makeflow-password` for Work Queue mode
 - **Solar vs EEMT batch modes**: Solar uses `--batch-type=local`, EEMT uses `--batch-type=wq` - they are not interchangeable
-- **Python 3.11 not 3.12**: CCTools requires 3.11; the Dockerfile uses Miniforge to pin this
-- **GRASS from source**: The container builds GRASS 8.4 from source (`install_grass.sh`), not from packages
+- **Image environment comes from the lock**: GRASS, GDAL, CCTools and Python are conda-forge packages from `docker/workflow/conda-lock.yml`; change `environment.yml`, run `scripts/locks/refresh.sh conda`, rebuild, regenerate `sbom/`
+- **Image tags**: only `<name>:<docker/VERSION>`; the old `eemt:ubuntu24.04` tag is gone
 - **Duplicate Tiff.py/parser.py**: `sol/sol/` and `eemt/eemt/` each have their own copies - changes must be synchronized
 - **Docker socket required**: Web interface needs `/var/run/docker.sock` mounted to manage workflow containers
 - **No GPU acceleration**: Referenced in some docs but not implemented
@@ -125,8 +139,8 @@ Only GitHub Pages deployment exists (`.github/workflows/ghpages.yml`). No automa
 
 - Default: `eemt-web` only (local execution)
 - `distributed`: Adds `eemt-master` + `eemt-worker` services (Work Queue on port 9123)
-- `docs`: Adds Zensical/MkDocs doc server on port 8000
-- `cleanup`: Adds cron-based job cleanup service (daily at 2 AM)
+- `docs`: Adds the Zensical doc server (`eemt-docs` image) on 127.0.0.1:8000
+- `cleanup`: Adds the job cleanup service (a loop every `EEMT_CLEANUP_INTERVAL_SECONDS`; no cron in the image)
 
 ## Code Style
 

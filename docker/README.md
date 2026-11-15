@@ -79,6 +79,45 @@ Not covered yet: `lean4-verification/lake-manifest.json` is not committed
 (`validation/findings.toml` F-A-031), and the build requirements in
 `rsun/rsun-py/pyproject.toml` are unpinned ranges (F-A-032).
 
+## SBOMs
+
+The committed SBOMs in `sbom/` (CycloneDX 1.7 and SPDX 2.3 JSON, one pair per image, lock
+file and the rsun workspace, plus an aggregate) are generated from the images and locks
+above; [`sbom/README.md`](../sbom/README.md) describes every file. After any change to a
+lock, an image input or `scripts/sbom/{normalize,lock2cdx,cdx2spdx}.py`:
+
+```
+docker/build.sh && docker/build.sh web     # eemt:<VERSION>, eemt-web:<VERSION>
+scripts/sbom/generate.sh all --no-build    # rescan the images, regenerate sbom/
+scripts/sbom/validate.sh                   # schema, SPDX, NTIA, cross-checks, secret scan
+git status -- sbom/                        # commit what changed, in the same branch
+scripts/sbom/vuln-report.sh                # grype report in build/sbom-vuln/ (not a gate)
+```
+
+`EEMT_SBOM_IMAGE_PREFIX=eemt-work/` makes the SBOM scripts use `eemt-work/eemt:<VERSION>`
+instead; the documents do not depend on the prefix. `generate.sh` without `--no-build` runs
+the two builds itself.
+
+## Continuous integration
+
+Nothing is pushed to a registry. Both workflows run on every pull request, on pushes to
+`master` and by hand, with read-only repository permissions:
+
+| Workflow | Job | What it does |
+|---|---|---|
+| `.github/workflows/containers.yml` | `locks` | `scripts/locks/check.sh all`: actions pinned by commit SHA, images by `name:tag@sha256`, downloads verified, lock files current and hashed |
+| | `images-sbom` | Builds the workflow and web images (BuildKit, GitHub Actions cache written only from `master`, no attestations), runs `eemt-selftest` as the image user and as UID 12345, runs `pytest -m grass` inside the workflow image, then `generate.sh all --no-build`, `validate.sh` and the drift gate: the job fails if `sbom/` differs from what the scripts produce, prints the changed files and the commands above, and attaches the regenerated tree. The grype report and syft's SPDX 3.0 JSON are attached as artifacts (not gates, not committed). |
+| `.github/workflows/reuse.yml` | `reuse` | `reuse lint` (fsfe/reuse 6.3.0 by digest); the `reuse spdx` report is attached as an artifact, never committed |
+
+On a pull request that changes only paths that cannot reach an image (documentation, Lean,
+equations, PDFs, notebooks, rsun, validation, top-level Markdown and a few configuration
+files; the list is in the workflow), `images-sbom` skips the image build and still
+regenerates, validates and drift-checks every SBOM made from a lock file. Pushes to `master`
+always build. To run the same steps locally, use the commands in the comment at the top of
+`containers.yml`.
+
+## Compose
+
 `docker-compose.yml` runs the web container as `${EEMT_UID:-1000}:${EEMT_GID:-1000}`, adds
 the group of the Docker socket (`group_add: ${EEMT_DOCKER_GID}`) and passes the workflow image
 to it as `EEMT_WORKFLOW_IMAGE=eemt:${EEMT_VERSION:-3.0.0}`:
