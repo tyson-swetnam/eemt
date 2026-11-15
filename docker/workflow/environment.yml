@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Conda environment of the workflow image (eemt:<docker/VERSION>).
+# Edit this file, then re-solve the lock (docker/workflow/README.md, "Updating the lock"):
+#   conda-lock lock --micromamba -f environment.yml -p linux-64 --lockfile conda-lock.yml
+# The image installs ONLY from conda-lock.yml (sha256 per package), never from this file.
+#
+# Every entry is here because code that runs inside the image uses it:
+#   grass       r.sun, r.slope.aspect, r.series, r.mapcalc, r.in.gdal, r.out.gdal, g.proj
+#               (sol/sol/*.sh, eemt/eemt/*.sh); grass.script for Python callers
+#   gdal        gdalinfo, gdal_translate, gdalwarp, gdalsrsinfo, gdaldem, gdalbuildvrt
+#               (*/Tiff.py, */parser.py, scripts/*.py, pinaleno/scripts/*); osgeo.gdal
+#   libgdal-netcdf, libgdal-hdf5   GDAL drivers for Daymet netCDF-4/HDF5 files
+#   ndcctools   makeflow, work_queue_worker (*/run-workflow, scripts/start-worker.py)
+#   numpy, netcdf4                 scripts/*.py today; the shared core and Daymet reader
+#   requests    scripts/test_daymet_access.py
+#   curl, wget  eemt/eemt/metget.sh (wget), download scripts (curl); not in the base image
+#   pytest, hypothesis             in-image tests (pytest -m grass)
+#   pip         installing the repository's own package into the image, no network
+# Deliberately absent: SAGA GIS (not on conda-forge; eemt/eemt/twi.sh needs saga_cmd),
+# QGIS, PDAL, r.sun.mp and other add-ons, and the report-only extras of
+# scripts/eemt_zscore_animation.py (opencv, ffmpeg, matplotlib): see the README.
+name: eemt
+channels:
+  - conda-forge
+platforms:
+  - linux-64
+dependencies:
+  - python=3.14
+  - grass=8.5.0
+  - gdal
+  - proj
+  - libgdal-netcdf
+  - libgdal-hdf5
+  - ndcctools=7.17.6
+  - numpy
+  - netcdf4
+  - requests
+  - curl
+  - wget
+  - pytest
+  - hypothesis
+  - pip
