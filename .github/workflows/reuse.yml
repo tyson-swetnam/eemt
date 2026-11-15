@@ -1,0 +1,71 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
+# REUSE compliance: every tracked file has a copyright and licence notice (in the
+# file, in a .license sidecar or in REUSE.toml) and every licence it names is in
+# LICENSES/. The file-level SPDX report from `reuse spdx` is attached to the run as
+# an artifact; it is not committed (it carries a random namespace, the current time
+# and a checksum of every file, so it changes with every commit).
+#
+# Locally: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/repo:ro" -w /repo \
+#            fsfe/reuse:<tag>@sha256:<digest below> lint
+
+name: REUSE
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reuse-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  # `scripts/locks/refresh.sh images` re-resolves this tag to its digest.
+  REUSE_IMAGE: fsfe/reuse:6.3.0@sha256:2748d04c2adeb747c9a44831bc99a9cbfd7bf7ff6fc371a4b63204944e3e47b6
+
+jobs:
+  reuse:
+    name: reuse lint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # The checkout (with its .git, which reuse uses to skip ignored files) is
+      # mounted read-only; the container runs as the runner user, without network.
+      - name: reuse lint
+        run: |
+          docker run --rm --network none --user "$(id -u):$(id -g)" -e HOME=/tmp \
+            -v "$PWD:/repo:ro" -w /repo "$REUSE_IMAGE" lint
+
+      - name: reuse spdx (artifact only)
+        if: success() || failure()
+        run: |
+          mkdir -p "$RUNNER_TEMP/reuse"
+          docker run --rm --network none --user "$(id -u):$(id -g)" -e HOME=/tmp \
+            -v "$PWD:/repo:ro" -v "$RUNNER_TEMP/reuse:/out" -w /repo "$REUSE_IMAGE" \
+            spdx --output /out/reuse.spdx
+          ls -l "$RUNNER_TEMP/reuse"
+
+      - name: Upload the REUSE SPDX report
+        if: success() || failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: reuse-spdx
+          path: ${{ runner.temp }}/reuse/reuse.spdx
+          if-no-files-found: warn
+          retention-days: 30
