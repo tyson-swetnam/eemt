@@ -45,13 +45,12 @@ echo "✅ Sample DEM found: $SAMPLE_DEM ($(du -h $SAMPLE_DEM | cut -f1))"
 # Step 3: Check if container image exists
 echo "📋 Step 3: Checking container images..."
 
-if ! docker images | grep -q "eemt.*ubuntu24.04"; then
-    echo "⚠️  EEMT container not found. Building now..."
-    echo "This may take 10-30 minutes depending on your system..."
+WORKFLOW_IMAGE="eemt:$(tr -d '[:space:]' < docker/VERSION)"
+if ! docker image inspect "$WORKFLOW_IMAGE" > /dev/null 2>&1; then
+    echo "⚠️  EEMT container $WORKFLOW_IMAGE not found. Building now..."
+    echo "This may take a few minutes depending on your system..."
     
-    cd docker/ubuntu/24.04/
-    ./build.sh
-    cd ../../..
+    docker/build.sh
     
     echo "✅ Container built successfully"
 else
