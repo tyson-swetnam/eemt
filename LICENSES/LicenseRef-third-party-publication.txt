@@ -1,0 +1,21 @@
+LicenseRef-third-party-publication
+
+Third-party publication. Not covered by the licence of this repository.
+
+Files carrying this identifier are copies of journal articles and conference
+papers written and published by third parties. They are kept in the repository
+as scientific references for the EEMT method. The copyright holder of each file
+is the publisher or society named in its own copyright notice, as recorded for
+that file in REUSE.toml.
+
+These files are NOT licensed under the BSD-3-Clause licence of this repository
+and the repository grants no rights in them.
+
+No licence permitting redistribution was found in the files themselves, and
+whether these copies may be redistributed here has NOT been confirmed with the
+rights holders. Until that is settled, treat them as "all rights reserved": do
+not copy, modify or redistribute them except as the publisher's own terms or
+applicable law allow. Obtain the articles from the publisher through the DOI
+recorded for each file in REUSE.toml.
+
+Open question for the repository owner: validation/findings.toml, F-A-002.

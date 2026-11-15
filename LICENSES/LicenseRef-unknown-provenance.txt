@@ -1,0 +1,19 @@
+LicenseRef-unknown-provenance
+
+Data of unrecorded origin. Not covered by the licence of this repository.
+
+Files carrying this identifier are sample data whose source, author and terms
+of use are not recorded anywhere in the repository or in the files themselves.
+Because the origin is unknown, no licence can be stated for them: they are NOT
+asserted to be under the BSD-3-Clause licence of this repository, and they are
+not asserted to be in the public domain.
+
+They are kept because the example commands and the tests use them. Do not
+redistribute them outside this repository on the assumption that they are
+freely licensed.
+
+When the repository owner states the source of a file, its entry in REUSE.toml
+is replaced by the real copyright holder and licence, and this identifier is
+dropped for that file.
+
+Open question for the repository owner: validation/findings.toml, F-A-003.
