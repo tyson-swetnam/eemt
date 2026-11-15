@@ -5,7 +5,7 @@
 # Fail when a build input is not pinned to an immutable reference.
 #
 #   scripts/locks/check.sh actions     GitHub Actions `uses:` pinned to a 40-hex commit SHA
-#   scripts/locks/check.sh images      Dockerfile `FROM` lines pinned by @sha256 digest
+#   scripts/locks/check.sh images      Dockerfile `FROM` and `COPY --from=<image>` pinned by @sha256 digest
 #   scripts/locks/check.sh downloads   curl/wget/git-clone in Dockerfiles verified by checksum
 #   scripts/locks/check.sh all         every check above
 #
@@ -55,6 +55,14 @@ check_images() {
                 [[ "$image" == scratch || -n "${stages[$image]:-}" ]] && continue
                 if [[ ! "$image" =~ @sha256:[0-9a-f]{64}$ ]]; then
                     report "$file" "$line_no" "base image not pinned by digest: $image"
+                fi
+            # `COPY --from=<image>` pulls an image too, unless it names an earlier stage
+            # (or a stage index).
+            elif [[ "$line" =~ ^[[:space:]]*(COPY|ADD)[[:space:]].*--from=([^[:space:]]+) ]]; then
+                image="${BASH_REMATCH[2]}"
+                [[ "$image" =~ ^[0-9]+$ || -n "${stages[$image]:-}" ]] && continue
+                if [[ ! "$image" =~ @sha256:[0-9a-f]{64}$ ]]; then
+                    report "$file" "$line_no" "COPY --from image not pinned by digest: $image"
                 fi
             fi
         done <"$file"

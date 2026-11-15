@@ -12,3 +12,4 @@ zensical>=1.0.0	zensical==0.1.1 via requirements-docs.txt
 mkdocs serve	zensical serve (docker-compose --profile docs up eemt-docs, image eemt-docs:<docker/VERSION>)
 eemt-web:latest	eemt-web:<docker/VERSION>, e.g. eemt-web:3.0.0 (docker/build.sh web)
 eemt-web:2.0	eemt-web:<docker/VERSION>, e.g. eemt-web:3.0.0 (docker/build.sh web)
+eemt-test:minimal	removed (docker/minimal/ deleted); the web image builds FROM a digest-pinned python:3.14 slim image

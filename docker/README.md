@@ -1,32 +1,48 @@
 # Container definitions
 
-Every image is built with the repository root as the build context, for example:
+Every image is built with the repository root as the build context by `build.sh`, which
+tags `<name>:<docker/VERSION>` and nothing else:
 
 ```
-docker/build.sh                                            # workflow image eemt:<docker/VERSION>
-docker build -t eemt-web -f docker/web-interface/Dockerfile .
+docker/build.sh            # workflow image   eemt:<VERSION>       (docker/workflow/Dockerfile)
+docker/build.sh web        # web interface    eemt-web:<VERSION>   (docker/web-interface/Dockerfile)
+docker/build.sh docs       # docs server      eemt-docs:<VERSION>  (docker/docs/Dockerfile)
 ```
+
+Every `FROM` and `COPY --from` image is pinned by digest and every Python package comes from
+a hashed lock file; `scripts/locks/check.sh` enforces the digests.
 
 | Path | Contents |
 |---|---|
 | `workflow/` | Workflow image `eemt:<version>`: GRASS GIS 8.5, GDAL 3.12, CCTools 7.17, Python 3.14 (all from a hash-locked conda-forge environment) and the `sol/` and `eemt/` pipelines. See [`workflow/README.md`](workflow/README.md). |
-| `VERSION` | The workflow image version; `build.sh` tags `eemt:<VERSION>` and nothing else |
-| `build.sh` | Builds the workflow image |
-| `web-interface/` | Web interface image `eemt-web` |
-| `minimal/` | Python-only image; `web-interface/Dockerfile` uses it as its base under the tag `eemt-test:minimal` |
-| `docs/` | Documentation server image |
+| `web-interface/` | Web interface image `eemt-web:<version>`: Python 3.14 slim, the FastAPI app from `web-interface/` (packages from the hashed `web-interface/requirements.txt`), the Docker CLI binary from `docker:29.9.3-cli`, non-root user `eemt`. No cron: scheduled cleanup runs outside the container (compose `eemt-cleanup`, a Kubernetes CronJob or the host). |
+| `docs/` | Documentation server image `eemt-docs:<version>`: Zensical from the hashed `requirements-docs.txt`; `zensical.toml` and `docs/` are mounted read-only at `/site-src`. |
+| `VERSION` | The version of all three images |
+| `build.sh` | Builds one image (`workflow`, `web` or `docs`) |
 | `kubernetes/` | Helm chart and manifests (no image definitions) |
 
-`docker-compose.yml` runs the web container as `${EEMT_UID:-1000}:${EEMT_GID:-1000}` and
-passes the workflow image to it as `EEMT_WORKFLOW_IMAGE=eemt:${EEMT_VERSION:-3.0.0}`. To launch
-workflow containers the web container needs the group that owns the Docker socket:
+Python lock files are regenerated with `scripts/locks/pip-compile.sh` (uv in a container):
+`web-interface/requirements.in` -> `web-interface/requirements.txt`, `requirements-docs.in` ->
+`requirements-docs.txt`, `requirements-dev.in` -> `requirements-dev.txt`.
+
+`docker-compose.yml` runs the web container as `${EEMT_UID:-1000}:${EEMT_GID:-1000}`, adds
+the group of the Docker socket (`group_add: ${EEMT_DOCKER_GID}`) and passes the workflow image
+to it as `EEMT_WORKFLOW_IMAGE=eemt:${EEMT_VERSION:-3.0.0}`:
 
 ```
-EEMT_UID=$(id -u) EEMT_GID=$(stat -c %g /var/run/docker.sock) docker-compose up
+EEMT_UID=$(id -u) EEMT_GID=$(id -g) EEMT_DOCKER_GID=$(stat -c %g /var/run/docker.sock) docker-compose up
 ```
+
+`EEMT_DOCKER_GID` is also a build argument: the image's own user `eemt` is put in a `docker`
+group with that GID, so `docker run` without `--user` reaches the socket too. The image's
+`USER` is the numeric UID only; `UID:GID` would drop the supplementary group.
 
 ## Removed definitions
 
+- `minimal/` (image `eemt-test:minimal`) was removed. It was an unpinned Python 3.12 image
+  with the web app and a generated mock `run-solar-workflow.py`, and it was the base of the
+  old web image. Nothing builds on it any more; a fake workflow image for web tests belongs
+  to the test suite. The last commit that contains it is `a0a09d2`.
 - `ubuntu/24.04/` (image `eemt:ubuntu24.04`) was replaced by `workflow/`. It installed
   Miniforge from a moving `releases/latest` URL and built CCTools from an unverified tarball,
   mixed apt GRASS 8.3.2 and GDAL 3.8 with a conda GDAL 3.11 and Python 3.11, set `GISBASE` to
