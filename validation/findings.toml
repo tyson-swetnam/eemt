@@ -692,3 +692,59 @@ changes_scientific_output = false
 sdr = ""
 fix_commit = ""
 reason = ""
+
+[[finding]]
+id = "F-A-033"
+title = "syft attaches a Python requirement to one of several same-named dists at random, so two scans of one image gave different dependency edges"
+location = ["scripts/sbom/normalize.py:331", "scripts/sbom/normalize.py:350"]
+severity = "medium"
+status = "fixed"
+evidence = """Two runs of `scripts/sbom/generate.sh all --no-build` on the unchanged image eemt-work/eemt:3.0.0 \
+(0dad6e1a46c3) differed only in sbom/image-eemt.{cdx,spdx}.json (and the aggregate/manifest hashes): run 2 had \
+tomli 2.5.0 as a dependency of setuptools, pytest and sip, run 1 did not. The image has two python dists named \
+tomli (site-packages/tomli-2.5.0 from the conda package tomli, and setuptools/_vendor/tomli-2.4.0); syft resolves \
+the requirement "tomli" to either. The normaliser merged both into their conda packages and carried the edge \
+along, so the committed SBOM would have drifted between runs. Fix: edges of merged duplicates are dropped and \
+conda packages take their edges from their own conda-meta "depends". After the fix three consecutive runs gave \
+identical trees (`diff -r` empty)."""
+test = "tests/sbom/test_normalize.py::test_dependencies_of_merged_component_are_dropped; tests/sbom/test_normalize.py::test_conda_meta_depends_become_edges"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "ca8a653"
+reason = ""
+
+[[finding]]
+id = "F-A-034"
+title = "The eemt-web image ships the Docker CLI binary (Apache-2.0) without its licence text, and its SBOM entry has version UNKNOWN and no licence"
+location = ["docker/web-interface/Dockerfile:16", "docker/web-interface/Dockerfile:33", "sbom/image-eemt-web.cdx.json"]
+severity = "low"
+status = "confirmed"
+evidence = """`COPY --from=docker-cli /usr/local/bin/docker /usr/local/bin/docker` copies only the binary. syft 1.57.1 \
+reads its Go build info as main module github.com/docker/cli/cmd/docker version "UNKNOWN" with no licence \
+(sbom/image-eemt-web.cdx.json; the Go stdlib go1.26.10 is BSD-3-Clause). The image carries no LICENSE/NOTICE for \
+the Docker CLI. Fix (Area A, web Dockerfile): copy the CLI's licence text from the docker:29.9.3-cli image or the \
+docker/cli source tag into /usr/share/doc/docker-cli/, and record the CLI version (29.9.3) as an OCI label or in a \
+declared component."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-035"
+title = "Lock-derived SBOMs have licences only where a package record carries them: none for the pip locks, partial for the notebook conda locks"
+location = ["sbom/env-pip-web.cdx.json", "sbom/env-pip-docs.cdx.json", "sbom/env-pip-dev.cdx.json", "sbom/env-conda-notebooks.cdx.json", "sbom/env-conda-notebooks-minimal.cdx.json"]
+severity = "low"
+status = "deferred"
+evidence = """Components with a licence (counted from the documents committed in 7f0c998): \
+env-pip-web 0/29, env-pip-docs 0/11, env-pip-dev 0/55, env-conda-notebooks 209/567, env-conda-notebooks-minimal \
+197/429; env-conda-workflow 225/225, image-eemt-web 117/127, cargo-rsun 195/196 (rsun-cli, F-A-001). conda-lock \
+files and hashed requirements files carry no licence field; `cyclonedx-py requirements` does not resolve one; \
+notebook conda packages get a licence only when the workflow image has the identical build (conda-meta). The \
+web image SBOM has the licences of the same pip packages, read from their installed metadata."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = "Filling them needs every package file (or the conda-forge repodata and PyPI JSON) at generation time, i.e. multi-GB downloads in every CI run; NTIA minimum elements do not require licences. Revisit if licence compliance reporting for the notebooks or the docs toolchain is needed."
