@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Repository-wide tool configuration. The installable package metadata
+# ([project], [build-system]) is added with the shared EEMT core package.
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = ["--strict-markers", "--strict-config", "-ra"]
+markers = [
+    "property: property-based tests (hypothesis)",
+    "workflow: Makeflow generation and DAG tests that need no GRASS",
+    "web: FastAPI tests that use a fake execution backend",
+    "grass: must run inside the workflow image (GRASS GIS and CCTools present)",
+    "docker: needs a docker CLI and daemon on the host",
+    "kubernetes: needs a kind cluster",
+    "network: contacts an external service",
+    "gpu: needs a GPU",
+    "slow: takes more than a minute",
+]
+
+[tool.ruff]
+target-version = "py312"
+extend-exclude = ["site", "rsun/target", "lean4-verification/.lake"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]

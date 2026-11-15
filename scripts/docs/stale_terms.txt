@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Terms the docs must stop using once the described thing has changed.
+# One per line: <literal term><TAB><what replaced it>. Lines starting with # are ignored.
+# Areas A-C append here instead of editing docs/; the docs lint reads this file.

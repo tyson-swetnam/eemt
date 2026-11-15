@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Findings ledger for the EEMT validation effort.
+#
+# One [[finding]] table per confirmed or suspected defect. The rendered report
+# is generated from this file together with equations/decisions.toml; do not
+# edit the rendered report by hand.
+#
+# Fields
+#   id        "F-<area>-<nnn>", area is A (containers, locks, SBOM),
+#             B (equations and Lean), C (code and workflow managers), D (docs).
+#             Ids are never reused.
+#   title     One sentence stating the defect.
+#   location  List of "path:line" strings, relative to the repository root.
+#   severity  "high" | "medium" | "low"
+#   status    "suspected"  reported by a reader, not yet reproduced
+#             "confirmed"  reproduced by a failing test or a recorded run
+#             "refuted"    checked and found not to be a defect (keep the entry)
+#             "fixed"      fix merged on the area branch; fix_commit is set
+#             "deferred"   confirmed, deliberately not fixed; reason is set
+#   evidence  How it was established: the command and decisive output, or a
+#             path to a recorded run.
+#   test      Path (and test id) of the regression test that fails before the
+#             fix and passes after it. Required once status is "fixed".
+#   changes_scientific_output
+#             true when the fix changes any number a pipeline writes.
+#   sdr       "SDR-<nnn>" in equations/decisions.toml. Required when
+#             changes_scientific_output is true; such a fix is not merged
+#             until that decision is approved by the repository owner.
+#   fix_commit  Abbreviated commit hash of the fix. Empty until fixed.
+#   reason    Why a finding is "refuted" or "deferred". Empty otherwise.
+#
+# Example (commented out so the ledger starts empty):
+#
+# [[finding]]
+# id = "F-C-001"
+# title = "Monthly day table omits day 151, so 31 May is never summed"
+# location = ["sol/sol/run-workflow:32", "eemt/eemt/run-workflow:25"]
+# severity = "high"
+# status = "confirmed"
+# evidence = "tests/workflow/test_calendar.py::test_month_table_partitions_year fails on master"
+# test = "tests/workflow/test_calendar.py::test_month_table_partitions_year"
+# changes_scientific_output = true
+# sdr = "SDR-018"
+# fix_commit = ""
+# reason = ""
+
+schema = 1
