@@ -31,6 +31,11 @@
 #   fix_commit  Abbreviated commit hash of the fix. Empty until fixed.
 #   reason    Why a finding is "refuted" or "deferred". Empty otherwise.
 #
+# Entries may quote copyright and licence notices found in other files. The
+# marker on the next line stops `reuse lint` from reading those quotations as
+# licensing statements about this file; keep it above the first entry.
+# REUSE-IgnoreStart
+#
 # Example (commented out so the ledger starts empty):
 #
 # [[finding]]
@@ -47,3 +52,233 @@
 # reason = ""
 
 schema = 1
+
+# --- Area A: containers, locks, SBOM, licensing ------------------------------
+
+[[finding]]
+id = "F-A-001"
+title = "rsun-cli declares no licence in its Cargo.toml, unlike the other five rsun crates"
+location = ["rsun/rsun-cli/Cargo.toml:5"]
+severity = "low"
+status = "confirmed"
+evidence = """`cargo metadata --format-version 1 --locked` in rsun/ (rust 1.100.0 image pulled by digest): \
+rsun-cli license = null; rsun-core, rsun-cuda, rsun-gpu, rsun-py and rsun-wasm license = "GPL-2.0-or-later". \
+rsun/README.md ("License") states GPL-2.0-or-later for the whole tree, and rsun-cli links rsun-core, so the \
+file headers under rsun/rsun-cli say GPL-2.0-or-later. The Cargo.toml `license` field was left alone: \
+the owner adds it (one line)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-002"
+title = "Five journal and conference PDFs under pdfs/ are publisher copyright with no licence to redistribute"
+location = [
+    "pdfs/pelletier_etal_2017.pdf",
+    "pdfs/rasmussen_etal_2005.pdf",
+    "pdfs/rasmussen_etal_2014.pdf",
+    "pdfs/rasmussen_etal_2015.pdf",
+    "pdfs/swetnam_etal_2016.pdf",
+]
+severity = "high"
+status = "confirmed"
+evidence = """`pdftotext -l 3 <file> -` rights notices: pelletier_etal_2017 "Copyright (c) 2017 John Wiley & Sons, Ltd." \
+(doi:10.1002/esp.4306, page footer "Downloaded from https://onlinelibrary.wiley.com ... by University Of Arizona \
+Library"); rasmussen_etal_2005 "(c) Soil Science Society of America ... All copyrights reserved" \
+(doi:10.2136/sssaj2003.0283); rasmussen_etal_2014 "(c) Soil Science Society of America ... All rights reserved" \
+(doi:10.2136/vzj2014.07.0102); rasmussen_etal_2015 "(c) Springer Science+Business Media B.V. 2010" \
+(doi:10.1007/s10533-010-9476-8); swetnam_etal_2016 "(c) 2016 ACM ... to post on servers or to redistribute to \
+lists, requires prior specific permission" (doi:10.1145/2949550.2949573). No licence text permitting \
+redistribution is in any of the five. They are annotated LicenseRef-third-party-publication in REUSE.toml, not \
+the repository licence. The other three PDFs (rasmussen_2010, rasmussen_gallo_2013, zapata-rios_etal_2016) print \
+"(c) Author(s) <year>. CC Attribution 3.0 License." on page 1 and are annotated CC-BY-3.0. File names do not \
+match the articles: rasmussen_2010.pdf is HESS 16 (2012), rasmussen_etal_2014.pdf is Vadose Zone J. \
+vzj2014.07.0102, rasmussen_etal_2015.pdf is Biogeochemistry 102 (2011), pelletier_etal_2017.pdf is ESPL 43 (2018). \
+Owner decision: confirm the right to redistribute each of the five, or replace them with DOI links (removing \
+them from the tree does not remove them from history)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-003"
+title = "The sample DEM sol/examples/mcn_10m.tif has no recorded source, author or terms of use"
+location = ["sol/examples/mcn_10m.tif"]
+severity = "medium"
+status = "confirmed"
+evidence = """`tiffinfo sol/examples/mcn_10m.tif`: 228 x 211 cells, 64-bit float, 10 m pixels, tie point \
+352120 E / 3964370 N, "NAD83 / UTM zone 13N"; no Software, Artist, Copyright or ImageDescription tag. \
+First commit 8c23929 (2017-09-12, "attempting fix for solar") gives no source. `git grep -i mcn_10m -- '*.md'` \
+finds usage examples only, no provenance statement. Annotated LicenseRef-unknown-provenance in REUSE.toml \
+until the owner states where it came from (a USGS 3DEP product would be public domain)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-004"
+title = "rsun is a port of GRASS GIS r.sun but carries none of the upstream copyright notices"
+location = [
+    "rsun/rsun-core/src/lib.rs:23",
+    "rsun/rsun-core/src/radiation.rs:7",
+    "rsun/rsun-core/src/solar.rs:6",
+    "rsun/rsun-gpu/src/shaders/radiation.wgsl:8",
+    "rsun/rsun-cli/src/main.rs:12",
+]
+severity = "medium"
+status = "confirmed"
+evidence = """The sources say so themselves: "Ported from GRASS GIS r.sun rsunlib.c brad() and drad() functions" \
+(radiation.rs:7), "Ported from GRASS GIS r.sun rsunlib.c (Hofierka & Suri 2002)" (solar.rs:6, radiation.wgsl:8), \
+"Ported from GRASS GIS r.sun joules2() + calculate()" (lib.rs:23). GRASS 8.5.0 raster/r.sun/rsunlib.c opens with \
+"(C) 2002 Copyright Jaro Hofierka, Gresaka 22, 085 01 Bardejov, Slovakia, and GeoModel, s.r.o., Bratislava, \
+Slovakia" and "(C) 2011 by Hamish Bowman, and the GRASS Development Team", under GPL version 2 or later. \
+`git grep -n -i -E 'hofierka|GRASS Development Team' -- rsun` finds only the two "Hofierka & Suri 2002" citations \
+and the README reference list; no upstream copyright line. The licence chosen for rsun (GPL-2.0-or-later) matches \
+upstream; what is missing is the retained notice. The header sweep added only the repository owner's line. \
+Owner decision: add the upstream copyright lines to the ported files (and say which files are ports)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-005"
+title = "Browser assets are loaded from public CDNs without integrity hashes, one at a floating version, and appear in no dependency inventory"
+location = [
+    "web-interface/templates/index.html:13",
+    "web-interface/templates/index.html:14",
+    "web-interface/templates/index.html:299",
+    "web-interface/templates/monitor.html:13",
+    "web-interface/templates/monitor.html:14",
+    "web-interface/templates/monitor.html:166",
+    "docs/energetics-map.html:9",
+    "docs/energetics-map.html:10",
+    "zensical.toml:18",
+]
+severity = "medium"
+status = "confirmed"
+evidence = """`git grep -n -E 'cdn\\.jsdelivr|unpkg\\.com'`: bootstrap@5.1.3 (CSS and JS bundle) and \
+bootstrap-icons@1.7.2 from cdn.jsdelivr.net in both web templates; maplibre-gl@4.1.2 (JS and CSS) from unpkg.com \
+in docs/energetics-map.html; "mathjax@3" (major version only, so the file served can change) in zensical.toml. \
+`git grep -c 'integrity=' -- web-interface/templates docs/energetics-map.html docs/overrides` returns nothing: \
+no subresource-integrity attribute anywhere. These third-party packages (their licences were not checked here) are neither vendored with their licence \
+texts nor listed in a lock file, so no SBOM built from the lock files will contain them."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-006"
+title = "The Helm chart advertises the MIT licence; the repository is BSD-3-Clause"
+location = ["docker/kubernetes/helm/eemt/Chart.yaml:41"]
+severity = "low"
+status = "confirmed"
+evidence = """Chart.yaml:41 `artifacthub.io/license: MIT`; LICENSE is the BSD 3-Clause text \
+("Copyright (c) 2019, Tyson Lee Swetnam") and README.md says BSD 3-Clause. `git grep -n -w MIT` finds no other \
+MIT claim for project code. Not changed in the header sweep (the file belongs to the workflow-manager area)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-007"
+title = "File headers name one copyright holder, but two workflow scripts were also written by another contributor and pre-2017 authorship is not in the history"
+location = ["sol/sol/rsun.sh:3", "sol/sol/run-workflow:3"]
+severity = "low"
+status = "confirmed"
+evidence = """Headers were written as "Tyson Lee Swetnam" (the holder named in LICENSE) with the year of each \
+file's first commit. `git log --diff-filter=A --follow` shows every tracked file was first committed by the owner's \
+accounts, but `git log --author='Mats Rynge'` lists 15 commits (2017-09-18 to 2017-12-20) that modify \
+sol/sol/rsun.sh and sol/sol/run-workflow, and docker/grass72/Dockerfile carries LABEL authors="Tyson L Swetnam, \
+Mats Rynge". The sol/ and eemt/ workflow code entered this repository in bulk in September 2017, so earlier \
+authors, if any, cannot be read from git. Owner decision: keep the single holder (for example if contributions \
+were made under an assignment or as work for hire), or add the other holders or an "EEMT contributors" line."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-008"
+title = "Three environment files install daymetpy (AGPL-3), which no code imports; one of them demands a version that does not exist"
+location = [
+    "docker/ubuntu/24.04/environment.yml:79",
+    "notebooks/environment.yml:82",
+    "notebooks/environment-minimal.yml:37",
+]
+severity = "medium"
+status = "confirmed"
+evidence = """PyPI JSON API for daymetpy: latest version 1.0.0, license "AGPL-3", classifier "GNU Affero General \
+Public License v3". notebooks/environment.yml:82 asks for `daymetpy>=1.1`, which cannot be satisfied. \
+`git grep -n -E 'import +daymetpy|from +daymetpy'` over the whole tree returns nothing: the package is installed \
+into the workflow image and the notebook environments but never used. Dropping it from the new locked \
+environments removes an AGPL component from the image at no functional cost."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-009"
+title = "The CC BY 4.0 licence of the documentation is stated only inside docs/license.md"
+location = ["docs/license.md:45", "README.md:203", "docs/code_of_conduct.md:45"]
+severity = "low"
+status = "confirmed"
+evidence = """docs/license.md:45 "This documentation is licensed under Creative Commons Attribution 4.0 \
+International (CC BY 4.0)"; LICENSE and README.md:203 mention only BSD 3-Clause, and no CC BY text was in the \
+repository before LICENSES/CC-BY-4.0.txt was added. REUSE.toml follows docs/license.md (docs/** is CC-BY-4.0, \
+site code under docs/javascripts, docs/stylesheets and docs/overrides stays BSD-3-Clause). \
+docs/code_of_conduct.md:45 credits the Contributor Covenant 2.0 but does not say that text is CC BY 4.0. \
+Owner decision: confirm CC BY 4.0 for docs/ (and say so in README.md), or state another choice."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-010"
+title = "Three uploaded third-party DEMs of unknown origin, a job database and a Work Queue password file remain in the public git history"
+location = ["web-interface/uploads/", "web-interface/jobs.db", "sol/.eemt-makeflow-password"]
+severity = "medium"
+status = "confirmed"
+evidence = """Commit ee0e99f stopped tracking them, which does not remove them from history. \
+`git log --diff-filter=A --name-only -- web-interface/uploads` -> commit 27d73ea (2026-01-01) added \
+215ec74d-..._topo.tif (36 MB), dc45ad53-..._VCaldera_0939_DEM_025m.tif (25 MB) and \
+dd41c773-..._VCaldera_1270_DEM_025m_raw.tif (28 MB). Their source and terms of use are recorded nowhere. \
+Removing them means rewriting published history, which only the owner can decide; the password should be \
+treated as disclosed either way."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-011"
+title = "notebooks/install_grass.sh says it is based on a GRASS wiki page whose licence is not recorded"
+location = ["notebooks/install_grass.sh:8"]
+severity = "low"
+status = "suspected"
+evidence = """Line 8: "# Based on https://grasswiki.osgeo.org/wiki/Compile_and_Install". How much of the script \
+is copied from that page, and under what terms the wiki text is published, was not checked. The file carries the \
+repository header (BSD-3-Clause) like every other script. The approved plan deletes this script in favour of the \
+locked conda environments, which would close the question."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
