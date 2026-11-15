@@ -33,14 +33,15 @@ fi
 
 cd "$(dirname "${BASH_SOURCE[0]}")"   # repository root
 WORKFLOW_IMAGE="eemt:$(tr -d '[:space:]' < docker/VERSION)"
+WEB_IMAGE="eemt-web:$(tr -d '[:space:]' < docker/VERSION)"
 
 echo -e "${YELLOW}Step 1: Stopping any running EEMT containers...${NC}"
 docker ps -q --filter "ancestor=${WORKFLOW_IMAGE}" | xargs -r docker stop
-docker ps -q --filter "ancestor=eemt-web" | xargs -r docker stop
+docker ps -q --filter "ancestor=${WEB_IMAGE}" | xargs -r docker stop
 
 echo -e "${YELLOW}Step 2: Removing old containers...${NC}"
 docker ps -aq --filter "ancestor=${WORKFLOW_IMAGE}" | xargs -r docker rm
-docker ps -aq --filter "ancestor=eemt-web" | xargs -r docker rm
+docker ps -aq --filter "ancestor=${WEB_IMAGE}" | xargs -r docker rm
 
 echo -e "${YELLOW}Step 3: Building workflow container ${WORKFLOW_IMAGE}...${NC}"
 docker/build.sh
@@ -49,8 +50,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo -e "${YELLOW}Step 4: Building web interface container...${NC}"
-docker build -t eemt-web -f docker/web-interface/Dockerfile .
+echo -e "${YELLOW}Step 4: Building web interface container ${WEB_IMAGE}...${NC}"
+docker/build.sh web --build-arg "EEMT_DOCKER_GID=$(stat -c %g /var/run/docker.sock 2>/dev/null || echo 999)"
 if [ $? -ne 0 ]; then
     echo -e "${RED}Error: Failed to build web interface container${NC}"
     exit 1
@@ -64,7 +65,7 @@ else
     exit 1
 fi
 
-if docker images | grep -q "eemt-web"; then
+if docker image inspect "${WEB_IMAGE}" > /dev/null 2>&1; then
     echo -e "${GREEN}✓ Web interface container built successfully${NC}"
 else
     echo -e "${RED}✗ Web interface container not found${NC}"
@@ -97,4 +98,4 @@ echo "To start the web interface, run:"
 echo "  docker-compose up"
 echo ""
 echo "Or manually:"
-echo "  docker run -p 5000:5000 -v \$(pwd)/data:/app/data eemt-web"
+echo "  docker run -p 5000:5000 -v \$(pwd)/data:/app/data ${WEB_IMAGE}"

@@ -8,7 +8,7 @@
 # EEMT Web Interface Container Startup Script
 # 
 # This script handles container initialization including:
-# - Optional cleanup cron job setup
+# - Cleanup configuration report and an initial dry-run check (no cron in the image)
 # - Health check endpoints
 # - Application startup
 #
@@ -17,35 +17,22 @@ set -euo pipefail
 
 echo "Starting EEMT Web Interface container..."
 
-# Function to setup cleanup if enabled
+# Report the cleanup configuration. The image has no cron daemon: scheduled cleanup
+# runs outside this process (the compose eemt-cleanup service, a Kubernetes CronJob,
+# or the host's scheduler calling cleanup_jobs.py).
 setup_cleanup() {
     if [[ "${EEMT_CLEANUP_ENABLED:-true}" == "true" ]]; then
-        echo "Setting up automated job data cleanup..."
-        
-        # Use environment variables for configuration
         local success_retention=${EEMT_SUCCESS_RETENTION_DAYS:-7}
         local failed_retention=${EEMT_FAILED_RETENTION_HOURS:-12}
-        
+
         echo "Cleanup configuration:"
         echo "  - Successful job data retention: ${success_retention} days"
         echo "  - Failed job data retention: ${failed_retention} hours"
-        echo "  - Schedule: Daily at 2 AM UTC"
-        
-        # Set up cron job for cleanup
-        local cron_entry="0 2 * * * cd /app && python3 cleanup_jobs.py --success-retention-days ${success_retention} --failed-retention-hours ${failed_retention} >> /app/logs/cleanup.log 2>&1"
-        
-        # Add cron job (avoid duplicates)
-        (crontab -l 2>/dev/null | grep -v "cleanup_jobs.py" || true; echo "# EEMT Job Data Cleanup"; echo "$cron_entry") | crontab -
-        
-        # Start cron service
-        service cron start
-        
-        echo "Cleanup cron job configured successfully"
-        
-        # Run initial cleanup check (dry run)
+        echo "  - Schedule: not run in this container (no cron); schedule cleanup_jobs.py externally"
+
+        # Initial cleanup check (dry run, never fatal)
         echo "Running initial cleanup check..."
         python3 /app/cleanup_jobs.py --dry-run > /app/logs/initial_cleanup_check.log 2>&1 || echo "Initial cleanup check completed with warnings"
-        
     else
         echo "Automated cleanup is disabled (EEMT_CLEANUP_ENABLED=false)"
     fi
@@ -128,11 +115,7 @@ main() {
 # Handle cleanup on container shutdown
 cleanup_on_exit() {
     echo "Container shutting down..."
-    echo "$(date): Container shutdown" >> /app/logs/app.log
-    
-    # Stop cron if running
-    service cron stop 2>/dev/null || true
-    
+    echo "$(date): Container shutdown" >> /app/logs/app.log || true
     echo "Cleanup complete"
 }
 

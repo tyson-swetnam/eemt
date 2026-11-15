@@ -3,25 +3,35 @@
 # SPDX-License-Identifier: BSD-3-Clause
 #
 # Variables (shell environment or a .env file next to this file):
-#   EEMT_VERSION   workflow image tag, eemt:<EEMT_VERSION>; keep equal to docker/VERSION
-#                  (default 3.0.0). Build it with docker/build.sh.
-#   EEMT_UID       UID the web container runs as (default 1000)
-#   EEMT_GID       GID the web container runs as (default 1000). The web container
-#                  launches workflow containers through /var/run/docker.sock, so for real
-#                  workflows this must be the group that owns the socket:
-#                  EEMT_GID=$(stat -c %g /var/run/docker.sock)
+#   EEMT_VERSION     image tag of eemt:<EEMT_VERSION>, eemt-web:<EEMT_VERSION> and
+#                    eemt-docs:<EEMT_VERSION>; keep equal to docker/VERSION (default 3.0.0).
+#                    Build them with docker/build.sh [workflow|web|docs].
+#   EEMT_UID         UID the web container runs as (default 1000)
+#   EEMT_GID         GID the web container runs as (default 1000)
+#   EEMT_DOCKER_GID  group that owns /var/run/docker.sock (default 999). The web container
+#                    launches workflow containers through the socket, so for real workflows
+#                    set EEMT_DOCKER_GID=$(stat -c %g /var/run/docker.sock); it is added to
+#                    the container's groups (group_add) and baked in as the image's docker
+#                    group at build time.
 
 version: '3.8'
 
 services:
   # EEMT Web Interface (Local Mode)
   eemt-web:
-    image: eemt-web:latest
+    image: eemt-web:${EEMT_VERSION:-3.0.0}
     build:
       context: .
       dockerfile: docker/web-interface/Dockerfile
+      args:
+        EEMT_VERSION: ${EEMT_VERSION:-3.0.0}
+        EEMT_UID: ${EEMT_UID:-1000}
+        EEMT_GID: ${EEMT_GID:-1000}
+        EEMT_DOCKER_GID: ${EEMT_DOCKER_GID:-999}
     container_name: eemt-web-local
-    user: "${EEMT_UID:-1000}:${EEMT_GID:-1000}"  # EEMT_GID: group of /var/run/docker.sock (see top)
+    user: "${EEMT_UID:-1000}:${EEMT_GID:-1000}"
+    group_add:
+      - "${EEMT_DOCKER_GID:-999}"  # group of /var/run/docker.sock (see top)
     ports:
       - "5000:5000"
     volumes:
@@ -57,7 +67,7 @@ services:
           cpus: '1.0'
           memory: 2G
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      test: ["CMD", "python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=5).status == 200 else 1)"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -66,10 +76,15 @@ services:
 
   # EEMT Master Node (Distributed Mode)
   eemt-master:
-    image: eemt-web:latest
+    image: eemt-web:${EEMT_VERSION:-3.0.0}
     build:
       context: .
       dockerfile: docker/web-interface/Dockerfile
+      args:
+        EEMT_VERSION: ${EEMT_VERSION:-3.0.0}
+        EEMT_UID: ${EEMT_UID:-1000}
+        EEMT_GID: ${EEMT_GID:-1000}
+        EEMT_DOCKER_GID: ${EEMT_DOCKER_GID:-999}
     container_name: eemt-master
     ports:
       - "5000:5000"  # Web interface
@@ -115,7 +130,7 @@ services:
           cpus: '2.0'
           memory: 4G
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      test: ["CMD", "python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=5).status == 200 else 1)"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -238,10 +253,15 @@ services:
 
   # Dedicated Cleanup Service (Optional)
   eemt-cleanup:
-    image: eemt-web:latest
+    image: eemt-web:${EEMT_VERSION:-3.0.0}
     build:
       context: .
       dockerfile: docker/web-interface/Dockerfile
+      args:
+        EEMT_VERSION: ${EEMT_VERSION:-3.0.0}
+        EEMT_UID: ${EEMT_UID:-1000}
+        EEMT_GID: ${EEMT_GID:-1000}
+        EEMT_DOCKER_GID: ${EEMT_DOCKER_GID:-999}
     container_name: eemt-cleanup
     volumes:
       - ./data/uploads:/app/uploads
@@ -253,18 +273,16 @@ services:
       - EEMT_SUCCESS_RETENTION_DAYS=7
       - EEMT_FAILED_RETENTION_HOURS=12
       - EEMT_CLEANUP_ENABLED=true
-      - EEMT_CLEANUP_SCHEDULE=0 2 * * *  # Daily at 2 AM
+      - EEMT_CLEANUP_INTERVAL_SECONDS=86400  # once a day, counted from container start
+    # The image has no cron daemon: a shell loop runs the cleanup at a fixed interval.
     command: >
       bash -c "
         echo 'EEMT Dedicated Cleanup Service';
-        # Set up cron job for cleanup
-        echo '${EEMT_CLEANUP_SCHEDULE:-0 2 * * *} cd /app && python3 cleanup_jobs.py >> /app/logs/cleanup.log 2>&1' | crontab -;
-        # Start cron service
-        service cron start;
-        # Run initial cleanup check
         python3 cleanup_jobs.py --dry-run;
-        # Keep container running
-        tail -f /app/logs/cleanup.log
+        while true; do
+          sleep $${EEMT_CLEANUP_INTERVAL_SECONDS};
+          python3 cleanup_jobs.py >> /app/logs/cleanup.log 2>&1 || echo 'cleanup run failed';
+        done
       "
     networks:
       - eemt-network
