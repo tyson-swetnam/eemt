@@ -22,6 +22,8 @@ LOCKTOOL_LOCK="scripts/locks/tools/locktool-lock.yml"
 CONDA_LOCKS=(
     "scripts/locks/tools|locktool.yml|locktool-lock.yml"
     "docker/workflow|environment.yml|conda-lock.yml"
+    "notebooks|environment.yml|conda-lock.yml"
+    "notebooks|environment-minimal.yml|minimal-conda-lock.yml"
 )
 
 # pip: "<input .in>|<hashed .txt>", relative to the repository root, in compile order
