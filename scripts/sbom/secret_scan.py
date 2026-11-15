@@ -22,6 +22,7 @@ Prints every finding and a one-line summary.
 from __future__ import annotations
 
 import argparse
+import posixpath
 import re
 import sys
 import tarfile
@@ -58,9 +59,21 @@ MAX_CONTENT_SCAN = 1 << 20
 ALLOWED_KEY_FILES: dict[str, str] = {}
 
 
+def normalise(path: str) -> str:
+    """Absolute, normalised POSIX form of a tar member name.
+
+    `"./.netrc"`, `".netrc"` and `"/.netrc"` all become `"/.netrc"`. Leading dots
+    that belong to a file name are kept: a character-set strip such as
+    `lstrip("./")` would turn `.netrc` into `netrc` and hide it from the checks.
+    `..` components cannot climb above the root. Leading slashes are dropped first
+    because POSIX `normpath` keeps exactly two of them (`//x` stays `//x`).
+    """
+    return posixpath.normpath("/" + path.lstrip("/"))
+
+
 def classify(path: str) -> str | None:
     """Reason why a regular file at `path` must not be in an image (None if fine)."""
-    p = PurePosixPath("/" + path.lstrip("./"))
+    p = PurePosixPath(normalise(path))
     name = p.name
     if name in BAD_NAMES:
         return f"credential/state file name {name!r}"
@@ -81,8 +94,8 @@ def scan(stream: IO[bytes]) -> tuple[list[str], int]:
             if not member.isfile():
                 continue
             files += 1
-            path = "/" + member.name.lstrip("./")
-            reason = classify(member.name)
+            path = normalise(member.name)
+            reason = classify(path)
             if reason:
                 findings.append(f"{path}: {reason}")
             if member.size <= MAX_CONTENT_SCAN:
