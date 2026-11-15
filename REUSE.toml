@@ -37,7 +37,7 @@ SPDX-FileCopyrightText = "2019 Tyson Lee Swetnam"
 SPDX-License-Identifier = "BSD-3-Clause"
 
 # Lock files and tool-owned files: regenerated or parsed by tools, so a header
-# would be lost or is not allowed.
+# would be lost or is not allowed (docker/VERSION is read as a bare version string).
 [[annotations]]
 path = [
     ".gitignore",
@@ -46,6 +46,7 @@ path = [
     "web-interface/requirements.txt",
     "**/*-lock.yml",
     "lean4-verification/lean-toolchain",
+    "docker/VERSION",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2019 Tyson Lee Swetnam"
