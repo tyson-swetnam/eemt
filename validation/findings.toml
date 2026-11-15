@@ -304,3 +304,204 @@ changes_scientific_output = false
 sdr = ""
 fix_commit = ""
 reason = ""
+
+[[finding]]
+id = "F-A-013"
+title = "The old workflow image set GISBASE to /usr/lib/grass84, a directory that did not exist, so `grass` crashed in the image's default environment"
+location = ["docker/ubuntu/24.04/Dockerfile:61", "docker/ubuntu/24.04/Dockerfile:78"]
+severity = "high"
+status = "fixed"
+evidence = """The image installed Ubuntu 24.04's apt GRASS 8.3.2 (`dpkg -l`: grass-core 8.3.2-1ubuntu2), whose GISBASE \
+is /usr/lib/grass83, while the Dockerfile exported /usr/lib/grass84 (file present at bd19386). In \
+eemt:legacy-e7637f45c202 with the image's environment: `ls /usr/lib/grass84` -> No such file or directory; \
+`grass --version` -> FileNotFoundError: '/usr/lib/grass84/etc/license'; `which r.sun` -> nothing (only \
+/usr/lib/grass83/bin/r.sun exists). S1 had to override GISBASE, LD_LIBRARY_PATH and PATH to run any module. \
+GRASS 8.3.2 also echoes $GISBASE for `grass --config path`, so the value was never checked. New image: GISBASE \
+/opt/eemt/env/lib/grass85 is static ENV, and the build fails unless it equals `grass --config path` (which in GRASS \
+8.5.0 ignores the environment: with GISBASE=/wrong it still prints /opt/eemt/env/lib/grass85). \
+docker/workflow/eemt-selftest run inside the legacy image: 7 of 8 checks fail (versions, environment, \
+python-imports, rsun-module, epsg-lookup, rsun-day, makeflow-local); inside eemt:3.0.0: 0 fail, also as UID \
+12345 with a read-only root filesystem and with the entrypoint bypassed."""
+test = "docker/workflow/eemt-selftest (checks: versions, environment, rsun-module, rsun-day); build-time RUN assertions in docker/workflow/Dockerfile"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-014"
+title = "The old workflow image mixed two ABIs: apt GRASS 8.3.2 built against apt GDAL 3.8.4 and Python 3.12, next to a conda GDAL 3.11.5 and Python 3.11 that came first on PATH"
+location = ["docker/ubuntu/24.04/Dockerfile:50", "docker/ubuntu/24.04/install_grass.sh:19"]
+severity = "medium"
+status = "fixed"
+evidence = """eemt:legacy-e7637f45c202: `which -a gdalinfo` -> /opt/conda/envs/eemt-gis/bin/gdalinfo (GDAL 3.11.5) and \
+/usr/bin/gdalinfo (GDAL 3.8.4); `which -a python` -> conda Python 3.11.14 first, /usr/bin/python3 3.12.3; \
+`dpkg -l`: grass-core 8.3.2, libgdal34t64 3.8.4, gdal-bin 3.8.4. The GRASS modules used apt GDAL/PROJ while \
+the Python scripts and command-line GDAL found first on PATH were conda's (/usr/bin/grass itself runs \
+under /usr/bin/python3, 3.12). New image: one conda-forge environment (225 packages, sha256-locked): GRASS \
+8.5.0, GDAL 3.12.3, PROJ 9.7.1, Python 3.14.10; no apt packages added to ubuntu:26.04; `eemt-selftest` \
+imports grass.script, osgeo.gdal, numpy, netCDF4 and sqlite3 in that one interpreter."""
+test = "docker/workflow/eemt-selftest (checks: versions, python-imports)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-015"
+title = "The old workflow image downloaded Miniforge from a moving 'releases/latest' URL and the CCTools 7.15.14 source tarball without any checksum"
+location = ["docker/ubuntu/24.04/Dockerfile:36", "docker/ubuntu/24.04/Dockerfile:103", "docker/ubuntu/24.04/Dockerfile:70"]
+severity = "medium"
+status = "fixed"
+evidence = """`scripts/locks/check.sh downloads` at 4d6c9f4 reports docker/ubuntu/24.04/Dockerfile:36 (Miniforge \
+releases/latest), :70 (QGIS archive key) and :103 (cctools-release-7.15.14 tarball): "network fetch without a \
+checksum check". The base was the moving tag ubuntu:24.04 (`check.sh images`). The resulting CCTools build \
+reports "Built by root@buildkitsandbox on 2026-02-01", i.e. whatever the URL served that day. New image: \
+docker/workflow/Dockerfile fetches nothing itself; micromamba installs conda-lock.yml, in which every package \
+has a sha256, and aborts on a mismatch (a copy of the lock with one altered sha256 -> "tarball has incorrect \
+SHA256 ... Aborting", 0 packages installed). Both FROM lines are digest-pinned. check.sh images and downloads \
+report nothing for docker/workflow/Dockerfile and flag it once a FROM loses its digest or an unchecked curl is \
+added (throwaway-repository test)."""
+test = "scripts/locks/check.sh images; scripts/locks/check.sh downloads"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-016"
+title = "The old workflow image's g.extension installs of r.sun.mp, r.sun.hourly and r.sun.daily all failed, and the build ignored the failures"
+location = ["docker/ubuntu/24.04/Dockerfile:85", "eemt/eemt/rsun.sh:175"]
+severity = "medium"
+status = "fixed"
+evidence = """Each install ended in `|| echo '... extension install attempted'`, so the build succeeded regardless. In \
+eemt:legacy-e7637f45c202, `find / -xdev -name 'r.sun.mp*' -o -name 'r.sun.hourly*' -o -name 'r.sun.daily*'` finds \
+nothing and neither /root/.grass8/addons nor /home/eemt/.grass8/addons exists. eemt/eemt/rsun.sh:175 and :184 still \
+call r.sun.mp, so that script could never run in the image (the port to `r.sun nprocs=` is Area C's). The new \
+image installs no add-ons and nothing in the build can fail silently (every RUN uses `set -eu`); core r.sun has \
+nprocs and links libgomp (`eemt-selftest` check rsun-module)."""
+test = "docker/workflow/eemt-selftest (check: rsun-module)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-017"
+title = "The old workflow image contained the Work Queue password file /opt/eemt/sol/.eemt-makeflow-password"
+location = ["docker/ubuntu/24.04/Dockerfile:138"]
+severity = "medium"
+status = "fixed"
+evidence = """Workflow-image part of F-A-012: `COPY sol/` copied the tracked sol/.eemt-makeflow-password into \
+eemt:legacy-e7637f45c202 (`find /opt/eemt` lists /opt/eemt/sol/.eemt-makeflow-password; contents not read). The \
+root .dockerignore (24a5d5d) keeps it out of the context, and the new Dockerfile's last RUN fails the build when \
+any file named .eemt-makeflow-password or *.password exists in the image. eemt:3.0.0: build passes; the image \
+has no such file; Work Queue runs use a password file generated per run (loopback test: manager and worker \
+with `--password` on a fresh 64-hex-digit file in scratch). F-A-012 stays open for the web and minimal images and \
+for the copies already in public history (F-A-010)."""
+test = "docker/workflow/Dockerfile (final RUN: password-file assertion)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-018"
+title = "The old workflow image was 6.9 GB, most of it unused (a 3.9 GB conda environment with Jupyter, dask and plotting stacks, plus QGIS)"
+location = ["docker/ubuntu/24.04/Dockerfile:50", "docker/ubuntu/24.04/Dockerfile:73"]
+severity = "low"
+status = "fixed"
+evidence = """`docker image inspect eemt:legacy-e7637f45c202` -> 6,876,862,733 bytes; in the image `du -sh /opt/conda` -> \
+3.9G; QGIS: 7 qgis packages installed, /usr/share/qgis 202M and /usr/lib/qgis 20M. No pipeline code imports or \
+calls QGIS, pandas, xarray, rasterio, geopandas, jupyter or dask (`git grep` of imports and commands in sol/, \
+eemt/, container scripts, scripts/ and pinaleno/scripts). eemt:3.0.0 (sha256:04159cfc...) is 1,572,411,569 bytes; \
+the conda environment layer is 1.47 GB."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-019"
+title = "The compose 'distributed' worker cannot start in the workflow image: scripts/start-worker.py needs the docker and psutil packages"
+location = ["scripts/start-worker.py:22", "web-interface/containers/workflow_manager.py:16", "docker-compose.yml:129"]
+severity = "medium"
+status = "confirmed"
+evidence = """scripts/start-worker.py imports containers.workflow_manager, which imports docker at module level. In \
+eemt:3.0.0 with scripts/ and web-interface/ mounted as compose does: `python /scripts/start-worker.py --help` -> \
+ModuleNotFoundError: No module named 'docker'. The legacy image had no docker package in its conda env either \
+(not checked whether the profile ever started). Adding docker and psutil to the workflow environment is possible \
+but only serves this path; the worker topology belongs to Area C."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-020"
+title = "SAGA GIS is in neither the old nor the new workflow image, so eemt/eemt/twi.sh (saga_cmd) cannot run"
+location = ["eemt/eemt/twi.sh:14"]
+severity = "medium"
+status = "deferred"
+evidence = """`command -v saga_cmd` -> not found in eemt:3.0.0; the old Dockerfile never installed SAGA either. SAGA is \
+not packaged on conda-forge (saga, saga-gis, libsaga, saga-cmd all 404 on anaconda.org); Ubuntu 26.04 has an apt \
+saga 9.9.3, which the no-apt, hash-locked runtime does not take."""
+test = ""
+changes_scientific_output = true
+sdr = "SDR-016"
+fix_commit = ""
+reason = "Replacing the SAGA wetness index with GRASS (r.watershed / r.topidx) changes TWI values; that is the science decision SDR-016, not a container change."
+
+[[finding]]
+id = "F-A-021"
+title = "makeflow --batch-type=dryrun (CCTools 7.17.6) never exits: it treats every rule as failed because no outputs appear, then spins at full CPU"
+location = ["docker/workflow/README.md:118"]
+severity = "low"
+status = "confirmed"
+evidence = """Reproduced in eemt:3.0.0 in clean directories: a two-rule cp workflow and the prep + day-172/173 slice \
+of sol/sol/run-workflow both log "submitted job ... completed", then "rule 0 failed, moving any outputs to \
+makeflow.failed.0" and "failed too many times", and keep running at ~96% CPU until killed (timeout 90 s; also \
+with --retry-count=0 and =1, timeout 300 s). The commands are written to <file>.sh. `makeflow_analyze -k \
+workflow.mf` checks syntax and exits (0 = "Syntax OK"; a bad keyword exits non-zero). Tests must not use \
+dryrun (Area C's Makeflow test tier)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-022"
+title = "scripts/eemt_zscore_animation.py cannot run in the workflow image: it needs opencv, matplotlib, Pillow and an ffmpeg binary"
+location = ["scripts/eemt_zscore_animation.py:23", "scripts/eemt_zscore_animation.py:301"]
+severity = "low"
+status = "deferred"
+evidence = """Imports cv2, matplotlib and PIL and runs ffmpeg. Locks solved for Python 3.14: core + matplotlib-base + \
+pillow + py-opencv (headless) + ffmpeg -> 302 packages (77 added: openvino, a GPL ffmpeg build, ...) and the \
+snappy (1.3.1 -> 1.2.2) and blosc builds under GDAL/netCDF change; with non-headless opencv also qt6-main; \
+matplotlib-base + pillow alone -> 13 added, nothing else changed."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = "Report-only script; its extras would change the pipeline's own libraries. Either drop cv2 (it only draws text, resizes and converts colours) and add matplotlib-base, or give reports their own environment."
+
+[[finding]]
+id = "F-A-023"
+title = "The conda-forge GCC runtime packages in the image ship only the GCC runtime-library exception, not the GPL-3.0 text it modifies"
+location = ["docker/workflow/Dockerfile:36"]
+severity = "low"
+status = "confirmed"
+evidence = """In eemt:3.0.0, 213 of 225 packages have info/licenses, copied to /opt/eemt/share/licenses. Without: \
+libgcc, libgcc-ng, libgomp, libstdcxx, libstdcxx-ng, libgfortran, libgfortran5 (GPL-3.0-only WITH \
+GCC-exception-3.1; they install only share/licenses/*/RUNTIME.LIBRARY.EXCEPTION), libfreetype and libfreetype6 \
+(covered by the freetype package's licence directory), libsqlite and sqlite (public domain), libglu (SGI-B-2.0, \
+no text). A GPL-3.0 text is in the image under the ld_impl_linux-64, readline and wget licence directories. GRASS \
+(GPL-2.0-or-later) and ndcctools (GPL-2.0-only) ship COPYING."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
