@@ -49,3 +49,9 @@ data/results/
 # Generated documentation site
 site/
 rsun/target/
+
+# Local runtime state (never commit)
+.eemt-makeflow-password
+*.db
+*.sqlite
+docker/kubernetes/kind
