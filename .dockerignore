@@ -1,0 +1,65 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Build-context filter. Every image is built with the repository root as its
+# context (docker build -f docker/<name>/Dockerfile .), so this one file
+# applies to all of them. It keeps local state and credentials out of images
+# and keeps the context small.
+#
+# Syntax notes (this is not .gitignore):
+# - A pattern is matched from the context root. "data" excludes ./data only;
+#   "**/name" excludes name at any depth, the root included.
+# - A later "!pattern" line re-includes a path. An image that really needs an
+#   excluded file gets one exact "!path" line below the rule that excludes it.
+
+# Version control
+**/.git
+
+# Credentials and local configuration
+**/.eemt-makeflow-password
+**/.env
+**/*.env.local
+
+# Local runtime state of the web interface and of workflow runs
+data
+test-output
+web-interface/jobs.db
+web-interface/uploads
+web-interface/results
+web-interface/cleanup_summary_*.json
+**/*.db
+**/*.sqlite
+**/*.log
+
+# Rasters, point clouds and container archives. No image copies sample data;
+# sol/examples/mcn_10m.tif is bind-mounted at run time.
+**/*.tif
+**/*.tiff
+**/*.laz
+**/*.las
+**/*.sif
+**/*.simg
+
+# Build and interpreter caches
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/.pytest_cache
+**/*.egg-info
+lean4-verification/.lake
+rsun/target
+
+# Documentation, papers and notebooks: not part of any image
+docs
+site
+pdfs
+notebooks
+
+# Local tool binary (untracked)
+docker/kubernetes/kind
+
+# Editor and operating-system files
+.vscode
+.idea
+**/*.swp
+**/.DS_Store
