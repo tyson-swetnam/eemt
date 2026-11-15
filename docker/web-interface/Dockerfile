@@ -58,13 +58,23 @@ COPY docker/web-interface/startup.sh /app/startup.sh
 COPY scripts/start-master.py scripts/start-worker.py /scripts/
 
 # Runtime state directories: writable for any UID (compose may run the container with
-# --user UID:GID and usually bind-mounts host directories over them).
+# --user UID:GID and usually bind-mounts host directories over them). /app itself is
+# sticky and world-writable because cleanup_jobs.py writes cleanup_jobs.log and
+# cleanup_summary_*.json next to itself; the root-owned code files stay read-only.
 RUN chmod 0755 /app/startup.sh /scripts/start-master.py /scripts/start-worker.py \
+    && chmod 1777 /app \
     && mkdir -p /app/uploads /app/results /app/temp /app/cache /app/shared /app/logs \
     && chown "${EEMT_UID}:${EEMT_GID}" /app/uploads /app/results /app/temp /app/cache /app/shared /app/logs \
     && chmod 1777 /app/uploads /app/results /app/temp /app/cache /app/shared /app/logs \
     && python -c "import fastapi, starlette, docker, urllib3, uvicorn, jinja2, multipart, psutil, requests" \
-    && docker --version
+    && docker --version \
+    && state="$(find /app /scripts \( -name '*.db' -o -name '*.sqlite' -o -name '*.tif' -o -name '*.tiff' \
+           -o -name '*.password' -o -name '.eemt-makeflow-password' -o -name '.env' \
+           -o -name 'cleanup_summary_*.json' -o -name '*.log' -o -name '__pycache__' \) -print)" \
+    && if [ -n "${state}" ]; then \
+           echo "local state or credentials in the image (validation/findings.toml F-A-012):" >&2; \
+           echo "${state}" >&2; exit 1; \
+       fi
 
 ENV PYTHONPATH=/app \
     PATH="/scripts:${PATH}" \
