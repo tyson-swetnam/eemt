@@ -505,3 +505,124 @@ changes_scientific_output = false
 sdr = ""
 fix_commit = ""
 reason = ""
+
+[[finding]]
+id = "F-A-024"
+title = "The web image was built FROM eemt-test:minimal, a tag that nothing in the repository builds, so eemt-web only built on a host that still had that local image"
+location = ["docker/web-interface/Dockerfile:6", "docker/minimal/Dockerfile:5"]
+severity = "high"
+status = "fixed"
+evidence = """`git grep eemt-test:minimal` before 181fa08: only docker/web-interface/Dockerfile (FROM) and docker/README.md; \
+docker/minimal/Dockerfile was never tagged by any script or compose file. The web image is now FROM \
+python:3.14.10-slim-trixie@sha256:9aaa4740..., Docker CLI from docker:29.9.3-cli@sha256:5a7af0dc..., \
+pip --require-hashes; `docker/build.sh web` builds it (rc=0, 212,521,090 bytes). docker/minimal/ was removed in \
+2d2f68a."""
+test = "docker/build.sh web (image build); scripts/locks/check.sh images"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "181fa08"
+reason = ""
+
+[[finding]]
+id = "F-A-025"
+title = "GET / and GET /monitor return 500 with Starlette 1.x: both TemplateResponse calls use the removed (name, context) signature"
+location = ["web-interface/app.py:401", "web-interface/app.py:834"]
+severity = "high"
+status = "confirmed"
+evidence = """eemt-web image with the locked stack (fastapi 0.163.1, starlette 1.10.0), container with --network none, \
+python urllib from inside: GET / -> 500, GET /monitor -> 500, GET /health -> 200; log: "TypeError: cannot use \
+'tuple' as a dict key (unhashable type: 'dict')". Commit 3c3c5ca changes both calls to \
+TemplateResponse(request, "<template>"): GET / -> 200 (18,009 bytes), GET /monitor -> 200 (7,513 bytes). \
+Status stays "confirmed" until a committed regression test exists: Area C's web tests (Starlette TestClient, httpx \
+from requirements-dev.txt) should request both routes; then set status "fixed", fix_commit "3c3c5ca"."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-026"
+title = "The docs image and compose service ran MkDocs against a mkdocs.yml that does not exist, and the root requirements.txt demanded the non-existent zensical>=1.0.0"
+location = ["docker/docs/Dockerfile:5", "docker-compose.yml:247", "requirements.txt:3"]
+severity = "medium"
+status = "fixed"
+evidence = """The site is built by Zensical from zensical.toml; there is no mkdocs.yml in the repository. Zensical's \
+newest release is 0.1.1 (uv pip compile, 2026-11-15), so `pip install -r requirements.txt` could not resolve. \
+a0a09d2: docker/docs is a Zensical image from requirements-docs.txt (hashed); compose mounts zensical.toml and \
+docs/ read-only; the root requirements.txt is removed. `zensical build` in the image on the tree: rc=0, \
+"6 issues found" (the known broken links), 54 HTML pages; `zensical serve` healthy, GET / 200."""
+test = "docker/build.sh docs (pip --require-hashes, zensical --version at build time)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "a0a09d2"
+reason = ""
+
+[[finding]]
+id = "F-A-027"
+title = "The legacy web image carried the job database, uploaded DEMs, cleanup summaries and logs (web part of F-A-012)"
+location = ["docker/web-interface/Dockerfile:25"]
+severity = "medium"
+status = "fixed"
+evidence = """Web-image part of F-A-012 (`find /app` in eemt-web:legacy-9aa38795e41c lists /app/jobs.db, three \
+/app/uploads/*.tif, eight cleanup_summary_*.json, logs). The new Dockerfile copies named files only and its final \
+RUN fails when /app or /scripts holds *.db, *.sqlite, *.tif(f), *.password, .eemt-makeflow-password, .env, \
+cleanup_summary_*.json, *.log or __pycache__. Negative build (RUN touch /app/jobs.db /app/cleanup_summary_1.json \
+inserted): rc=1, both paths listed. F-A-012 stays open for the build-context regression test and the copies in \
+public history (F-A-010)."""
+test = "docker/web-interface/Dockerfile (final RUN: local-state assertion)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "7cd48d8"
+reason = ""
+
+[[finding]]
+id = "F-A-028"
+title = "Kubernetes manifests, the Helm chart and Area C scripts still name the old image tags eemt-web:2.0, eemt-web:latest and eemt:ubuntu24.04 instead of eemt-web:<docker/VERSION> and eemt:<docker/VERSION>"
+location = [
+    "docker/kubernetes/eemt-manifests.yaml:250",
+    "docker/kubernetes/eemt-manifests.yaml:417",
+    "docker/kubernetes/eemt-manifests.yaml:554",
+    "docker/kubernetes/eemt-manifests.yaml:748",
+    "docker/kubernetes/helm/eemt/Chart.yaml:52",
+    "docker/kubernetes/helm/eemt/Chart.yaml:54",
+    "docker/kubernetes/helm/eemt/values.yaml:40",
+    "docker/kubernetes/helm/eemt/values.yaml:46",
+    "docker/kubernetes/manifests/cleanup-cronjob.yaml:41",
+    "docker/kubernetes/validate-deployment.sh:163",
+    "web-interface/containers/workflow_manager.py:41",
+    "rsun/validation/compare.sh:53",
+]
+severity = "medium"
+status = "confirmed"
+evidence = """`git grep -nE 'eemt-web:(2\\.0|latest)|eemt:ubuntu24\\.04|tag: "(2\\.0|ubuntu24\\.04)"'` at 7cd48d8. \
+docker/build.sh, docker-compose.yml, rebuild-container.sh and test-deployment.sh use eemt:<VERSION> and \
+eemt-web:<VERSION> (VERSION = docker/VERSION, 3.0.0). These files belong to Area C and were not edited. \
+/api/system/status in the new web image reports image_name "eemt:ubuntu24.04" (workflow_manager.py:41 default; \
+EEMT_WORKFLOW_IMAGE is set by compose but not read yet). Prose copies (README.md, CLAUDE.md, \
+web-interface/README.md, .claude/agents/container-orchestrator.md, docs/) are listed in \
+scripts/docs/stale_terms.txt."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-029"
+title = "Compose eemt-master runs 'python scripts/start-master.py' from /app, where no scripts/ directory exists, and eemt-cleanup reads a different jobs.db than the web app writes"
+location = ["docker-compose.yml:112", "docker-compose.yml:273", "web-interface/app.py:47", "web-interface/cleanup_jobs.py:55"]
+severity = "low"
+status = "suspected"
+evidence = """Image check (confirmed): in eemt-work/eemt-web:3.0.0 `cd /app && python scripts/start-master.py --help` -> \
+"can't open file '/app/scripts/start-master.py'"; the launcher is /scripts/start-master.py (on PATH, \
+`start-master.py --help` works). The legacy eemt-web image had the same layout (no /app/scripts, \
+/scripts/start-master.py present), so the distributed profile could not start before either. Reading only (not \
+run): app.py keeps its database at /tmp/jobs.db inside the eemt-web container, while the eemt-cleanup service \
+mounts ./web-interface/jobs.db at /app/jobs.db, the path cleanup_jobs.py opens; the two never meet. Compose \
+service topology is Area C's."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
