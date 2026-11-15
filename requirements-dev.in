@@ -5,7 +5,7 @@
 # Test and lint tools. Constrained by the web lock so that both hashed files can be
 # installed together:
 #   pip install --require-hashes -r web-interface/requirements.txt -r requirements-dev.txt
-# Regenerate requirements-dev.txt with scripts/locks/pip-compile.sh.
+# Regenerate requirements-dev.txt with scripts/locks/refresh.sh pip.
 
 -c web-interface/requirements.txt
 

@@ -38,8 +38,9 @@ SPDX-License-Identifier = "BSD-3-Clause"
 
 # Lock files and tool-owned files: regenerated or parsed by tools, so a header
 # would be lost or is not allowed. The hashed requirements*.txt files are
-# rewritten by scripts/locks/pip-compile.sh; docker/VERSION is read as a bare
-# version string.
+# rewritten by scripts/locks/refresh.sh, which also writes
+# scripts/locks/inputs.sha256 (sha256sum format, no comments allowed);
+# docker/VERSION is read as a bare version string.
 [[annotations]]
 path = [
     ".gitignore",
@@ -48,6 +49,7 @@ path = [
     "requirements-docs.txt",
     "requirements-dev.txt",
     "**/*-lock.yml",
+    "scripts/locks/inputs.sha256",
     "lean4-verification/lean-toolchain",
     "docker/VERSION",
 ]

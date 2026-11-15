@@ -4,7 +4,7 @@
 #
 # Direct dependencies of the web interface (web-interface/**, scripts/start-master.py,
 # scripts/start-worker.py). Edit this file, then regenerate the hashed lock
-# web-interface/requirements.txt with scripts/locks/pip-compile.sh.
+# web-interface/requirements.txt with scripts/locks/refresh.sh pip.
 # Lower bounds that are security floors (Dependabot alerts) must never be lowered.
 
 fastapi>=0.163.1             # app.py; brings starlette (request-first TemplateResponse)

@@ -20,7 +20,7 @@
 # --- Stage 1: hash-locked conda environment ---------------------------------
 # mambaorg/micromamba 2.10.0 (ubuntu24.04 variant). Only the environment it builds is
 # copied out; its own OS is never shipped.
-FROM mambaorg/micromamba@sha256:c3897a06f87c1c13f038188b3665a8c4162da62eac5109ae6a939d1e290dcefa AS env
+FROM mambaorg/micromamba:2.10.0-ubuntu24.04@sha256:c3897a06f87c1c13f038188b3665a8c4162da62eac5109ae6a939d1e290dcefa AS env
 
 USER root
 COPY docker/workflow/conda-lock.yml /tmp/eemt/conda-lock.yml
@@ -68,7 +68,7 @@ RUN set -eu; \
 
 # --- Stage 2: runtime --------------------------------------------------------
 # ubuntu:26.04, pinned by digest.
-FROM ubuntu@sha256:065aa8626841f16057b78b027b464cd59c4fac36c204c72dcbf48d66f5fa8a96 AS runtime
+FROM ubuntu:26.04@sha256:065aa8626841f16057b78b027b464cd59c4fac36c204c72dcbf48d66f5fa8a96 AS runtime
 
 ARG EEMT_VERSION=unset
 ARG EEMT_REVISION=unknown

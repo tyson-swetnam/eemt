@@ -21,7 +21,7 @@ a hashed lock file; `scripts/locks/check.sh` enforces the digests.
 | `build.sh` | Builds one image (`workflow`, `web` or `docs`) |
 | `kubernetes/` | Helm chart and manifests (no image definitions) |
 
-Python lock files are regenerated with `scripts/locks/pip-compile.sh` (uv in a container):
+Python lock files are regenerated with `scripts/locks/refresh.sh pip` (uv in a container):
 `web-interface/requirements.in` -> `web-interface/requirements.txt`, `requirements-docs.in` ->
 `requirements-docs.txt`, `requirements-dev.in` -> `requirements-dev.txt`.
 
