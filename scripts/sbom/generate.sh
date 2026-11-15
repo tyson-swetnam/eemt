@@ -23,6 +23,9 @@
 #                           "eemt-work/" -> eemt-work/eemt:<VERSION> (default: none)
 #   EEMT_SBOM_CACHE         keep the Python tool venv, cargo registry and scratch files
 #                           here (default: a temporary directory, removed on exit)
+#   EEMT_SBOM_SPDX3_DIR     also write syft's SPDX 3.0 JSON of each image scan to
+#                           <dir>/<target>.spdx3.json (a CI artifact; never under sbom/,
+#                           because syft's SPDX 3.0 output is not normalised or validated)
 #
 # Network: the first run installs the Python tools (requirements-dev.txt, hashed) and
 # `cargo metadata` downloads the crates of rsun/Cargo.lock; nothing else needs it.
@@ -50,6 +53,16 @@ EPOCH_FILE=sbom/SOURCE_DATE_EPOCH
 VERSION="$(tr -d '[:space:]' <docker/VERSION)"
 PREFIX="${EEMT_SBOM_IMAGE_PREFIX:-}"
 [[ -f "$EPOCH_FILE" ]] || { echo "missing $EPOCH_FILE" >&2; exit 1; }
+SPDX3_DIR=""
+if [[ -n "${EEMT_SBOM_SPDX3_DIR:-}" ]]; then
+    SPDX3_DIR="$(mkdir -p "$EEMT_SBOM_SPDX3_DIR" && cd "$EEMT_SBOM_SPDX3_DIR" && pwd)"
+    case "$SPDX3_DIR/" in
+        "$SBOM_ROOT/sbom/"*)
+            echo "EEMT_SBOM_SPDX3_DIR must not be under sbom/ ($SPDX3_DIR)" >&2
+            exit 2
+            ;;
+    esac
+fi
 
 sbom_cache_init
 WORK="$SBOM_CACHE/work"
@@ -78,9 +91,11 @@ finish_from_cdx() {
 }
 
 do_images() {
-    local name kind image buildtarget lock ref
+    local name kind image buildtarget lock ref spdx3
     while IFS='|' read -r name kind image buildtarget lock; do
         ref="${PREFIX}${image}:${VERSION}"
+        spdx3=()
+        [[ -n "$SPDX3_DIR" ]] && spdx3=(-o "spdx-json@3.0=/cache/work/$name.spdx3.json")
         echo "== image: $name ($ref)"
         if ((build)); then
             EEMT_IMAGE_NAME="${PREFIX}${image}" docker/build.sh "$buildtarget" --label eemt-work=1 >&2
@@ -93,8 +108,12 @@ do_images() {
             --source-name "$image" --source-version "$VERSION" \
             -o "syft-json=/cache/work/$name.syft.json" \
             -o "cyclonedx-json@1.7=/cache/work/$name.cdx.raw.json" \
-            -o "spdx-json@2.3=/cache/work/$name.spdx.raw.json"
+            -o "spdx-json@2.3=/cache/work/$name.spdx.raw.json" "${spdx3[@]}"
         rm -f "$WORK/$name.tar"
+        if [[ -n "$SPDX3_DIR" ]]; then
+            cp "$WORK/$name.spdx3.json" "$SPDX3_DIR/$name.spdx3.json"
+            echo "   $SPDX3_DIR/$name.spdx3.json (SPDX 3.0, not committed)"
+        fi
         normalize "$name" "/cache/work/$name.cdx.raw.json" "sbom/$name.cdx.json" --syft-json "/cache/work/$name.syft.json"
         normalize "$name" "/cache/work/$name.spdx.raw.json" "sbom/$name.spdx.json" --syft-json "/cache/work/$name.syft.json"
         echo "   sbom/$name.cdx.json sbom/$name.spdx.json"

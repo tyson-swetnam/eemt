@@ -1,0 +1,279 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
+# Lock/pin checks, image builds, image self-tests and the SBOM drift gate.
+# Nothing is pushed to a registry: the images are built into the runner's Docker
+# store and used by later steps of the same job.
+#
+# Reproduce a job locally (no GitHub cache needed):
+#   scripts/locks/check.sh all
+#   docker/build.sh && docker/build.sh web
+#   docker run --rm eemt:"$(cat docker/VERSION)" eemt-selftest
+#   scripts/sbom/generate.sh all --no-build && scripts/sbom/validate.sh
+#   git status --porcelain -- sbom/     # must print nothing
+
+name: Containers
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: containers-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  locks:
+    name: Pins and locks (check.sh all)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Actions, image digests, downloads and lock files are pinned
+        run: scripts/locks/check.sh all
+
+  images-sbom:
+    name: Images, self-test and SBOM drift
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      # Repository prefix of the image tags; empty here, so the images are
+      # eemt:<VERSION> and eemt-web:<VERSION>. generate.sh and validate.sh read the
+      # same variable (a local run of these steps can use e.g. "eemt-work/").
+      EEMT_SBOM_IMAGE_PREFIX: ""
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Two commits: on a pull request HEAD is the merge commit and HEAD^1 the
+          # base branch, so `git diff HEAD^1 HEAD` is exactly what the PR changes.
+          fetch-depth: 2
+          persist-credentials: false
+
+      # The image build (about 1.6 GB plus 0.2 GB) is skipped only on a pull request
+      # whose every changed path is listed below as unable to reach an image, its
+      # SBOM or the in-image tests. Unknown paths build. The SBOM documents made from
+      # lock files are regenerated and drift-checked on every run either way, and a
+      # push to master always builds.
+      - name: Decide whether the images must be built
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          build=true
+          reason="event $EVENT_NAME always builds"
+          if [[ "$EVENT_NAME" == pull_request ]]; then
+            changed="$(git diff --name-only HEAD^1 HEAD)"
+            printf 'Changed paths:\n%s\n' "$changed"
+            skip_re='^(docs/|lean4-verification/|equations/|pdfs/|notebooks/|rsun/|validation/|[^/]+\.md$|zensical\.toml$|requirements-docs\.(in|txt)$|REUSE\.toml$|\.github/workflows/(ghpages|reuse|lean|science-signoff|tests)\.yml$)'
+            relevant="$(grep -vE "$skip_re" <<<"$changed" || true)"
+            if [[ -z "$changed" ]]; then
+              reason="no changed paths found; building to be safe"
+            elif [[ -z "$relevant" ]]; then
+              build=false
+              reason="only paths that cannot reach an image changed"
+            else
+              reason="image-relevant paths changed: $(head -5 <<<"$relevant" | paste -sd' ')"
+            fi
+          fi
+          echo "build=$build" >>"$GITHUB_OUTPUT"
+          echo "images: build=$build ($reason)"
+          echo "Image build: **$build** ($reason)" >>"$GITHUB_STEP_SUMMARY"
+
+      - name: Image build arguments and cache directory
+        id: args
+        run: |
+          version="$(tr -d '[:space:]' <docker/VERSION)"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error file=docker/VERSION::not a version: '$version'"
+            exit 1
+          fi
+          {
+            echo "version=$version"
+            echo "revision=$(git rev-parse HEAD)"
+            echo "created=$(git log -1 --format=%cI)"
+          } >>"$GITHUB_OUTPUT"
+          echo "EEMT_SBOM_CACHE=$RUNNER_TEMP/sbom-cache" >>"$GITHUB_ENV"
+
+      - name: Free disk space
+        if: steps.scope.outputs.build == 'true'
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - name: Set up Docker Buildx
+        if: steps.scope.outputs.build == 'true'
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      # Same arguments as docker/build.sh. The GitHub Actions cache is read on every
+      # run and written only from master, so pull requests cannot evict it.
+      - name: Build the workflow image
+        if: steps.scope.outputs.build == 'true'
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: docker/workflow/Dockerfile
+          tags: ${{ env.EEMT_SBOM_IMAGE_PREFIX }}eemt:${{ steps.args.outputs.version }}
+          build-args: |
+            EEMT_VERSION=${{ steps.args.outputs.version }}
+            EEMT_REVISION=${{ steps.args.outputs.revision }}
+            EEMT_CREATED=${{ steps.args.outputs.created }}
+          load: true
+          push: false
+          provenance: false
+          sbom: false
+          cache-from: type=gha,scope=eemt-workflow
+          cache-to: ${{ github.event_name == 'push' && 'type=gha,scope=eemt-workflow,mode=max' || '' }}
+
+      - name: Build the web image
+        if: steps.scope.outputs.build == 'true'
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          file: docker/web-interface/Dockerfile
+          tags: ${{ env.EEMT_SBOM_IMAGE_PREFIX }}eemt-web:${{ steps.args.outputs.version }}
+          build-args: |
+            EEMT_VERSION=${{ steps.args.outputs.version }}
+            EEMT_REVISION=${{ steps.args.outputs.revision }}
+            EEMT_CREATED=${{ steps.args.outputs.created }}
+          load: true
+          push: false
+          provenance: false
+          sbom: false
+          cache-from: type=gha,scope=eemt-web
+          cache-to: ${{ github.event_name == 'push' && 'type=gha,scope=eemt-web,mode=max' || '' }}
+
+      - name: eemt-selftest (image user and an arbitrary UID)
+        if: steps.scope.outputs.build == 'true'
+        env:
+          VERSION: ${{ steps.args.outputs.version }}
+        run: |
+          image="${EEMT_SBOM_IMAGE_PREFIX}eemt:$VERSION"
+          docker run --rm "$image" eemt-selftest
+          docker run --rm --user 12345:12345 "$image" eemt-selftest
+
+      - name: In-image tests (pytest -m grass)
+        if: steps.scope.outputs.build == 'true'
+        env:
+          VERSION: ${{ steps.args.outputs.version }}
+        run: |
+          if [[ ! -d tests ]]; then
+            echo "No tests/ directory; nothing to run."
+            exit 0
+          fi
+          rc=0
+          docker run --rm --user "$(id -u):$(id -g)" -e PYTHONDONTWRITEBYTECODE=1 \
+            -v "$PWD:/repo:ro" -w /repo "${EEMT_SBOM_IMAGE_PREFIX}eemt:$VERSION" \
+            python -m pytest -m grass -p no:cacheprovider tests || rc=$?
+          if [[ $rc -eq 5 ]]; then
+            echo "No test marked 'grass' was collected (pytest exit status 5); nothing to run."
+            rc=0
+          fi
+          exit "$rc"
+
+      - name: Regenerate the SBOMs
+        id: generate
+        env:
+          BUILD: ${{ steps.scope.outputs.build }}
+        run: |
+          if [[ "$BUILD" == true ]]; then
+            EEMT_SBOM_SPDX3_DIR="$RUNNER_TEMP/sbom-spdx3" scripts/sbom/generate.sh all --no-build
+          else
+            # Images not rebuilt: the committed image documents stay as they are; every
+            # document made from a lock file and the aggregate are regenerated.
+            scripts/sbom/generate.sh static
+            scripts/sbom/generate.sh aggregate
+          fi
+
+      - name: Validate the SBOMs
+        env:
+          BUILD: ${{ steps.scope.outputs.build }}
+        run: |
+          if [[ "$BUILD" == true ]]; then
+            scripts/sbom/validate.sh
+          else
+            scripts/sbom/validate.sh --skip-image-scan
+          fi
+
+      # Runs even when validation failed, as long as the documents were regenerated:
+      # the drift message is the one that says how to fix it.
+      - name: Committed SBOMs are current (sbom/ drift)
+        id: drift
+        if: always() && steps.generate.outcome == 'success'
+        run: |
+          status="$(git status --porcelain --untracked-files=all -- sbom/)"
+          if [[ -z "$status" ]]; then
+            echo "sbom/ is current."
+            exit 0
+          fi
+          echo "::error title=SBOM drift::sbom/ differs from what scripts/sbom/generate.sh produces. A lock file, an image input or an SBOM script changed without regenerating the SBOMs."
+          echo "Changed or new files under sbom/:"
+          printf '%s\n' "$status"
+          echo
+          git diff --stat -- sbom/
+          cat <<'EOF'
+
+          To fix it, regenerate and commit sbom/ on this branch:
+            scripts/locks/refresh.sh            # only if a lock input changed
+            docker/build.sh && docker/build.sh web
+            scripts/sbom/generate.sh all --no-build
+            scripts/sbom/validate.sh
+            git add sbom/ && git commit -m "UPDATE: Regenerate SBOMs"
+          The regenerated tree is attached to this run as the artifact 'sbom-regenerated'.
+          EOF
+          exit 1
+
+      - name: Upload the regenerated sbom/ tree
+        if: always() && steps.drift.outcome == 'failure'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sbom-regenerated
+          path: sbom/
+          retention-days: 14
+
+      # A report, not a gate (scripts/sbom/vuln-report.sh explains why).
+      - name: Vulnerability report (grype, not gating)
+        if: always() && steps.scope.outputs.build == 'true' && steps.generate.outcome == 'success'
+        continue-on-error: true
+        run: |
+          # tee opens its file before vuln-report.sh creates build/sbom-vuln.
+          mkdir -p build
+          EEMT_GRYPE_CACHE="$RUNNER_TEMP/grype-db" scripts/sbom/vuln-report.sh build/sbom-vuln \
+            | tee build/vuln-summary.txt
+          {
+            echo '### Vulnerability report (grype, not gating)'
+            echo '```'
+            grep -E '^image-' build/vuln-summary.txt || true
+            echo '```'
+          } >>"$GITHUB_STEP_SUMMARY"
+
+      - name: Upload SPDX 3.0 and grype reports
+        if: always() && steps.scope.outputs.build == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sbom-spdx3-and-grype
+          path: |
+            ${{ runner.temp }}/sbom-spdx3/
+            build/sbom-vuln/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Disk usage
+        if: always()
+        run: df -h /
