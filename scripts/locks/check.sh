@@ -171,7 +171,7 @@ check_input() {
 
 check_requirements() {
     # Join backslash-continued lines; every logical line that is not a comment must be
-    # `name[extras]==version [; marker]` followed by at least one --hash=sha256:<64 hex>.
+    # `name[extras]==version [; marker]` (uv writes several extras as `[a, b]`) followed by at least one --hash=sha256:<64 hex>.
     local file="$1" line_no=0 start=0 logical="" line req
     while IFS= read -r line || [[ -n "$line" ]]; do
         line_no=$((line_no + 1))
@@ -185,7 +185,7 @@ check_requirements() {
         logical="$(sed -E 's/[[:space:]]+/ /g; s/^ //; s/ $//' <<<"$logical")"
         if [[ -n "$logical" ]]; then
             req="${logical%% --hash=*}"
-            if [[ ! "$req" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*(\[[A-Za-z0-9._,-]+\])?==[^[:space:]\;=\<\>!~*]+([[:space:]]*\;.*)?$ ]]; then
+            if [[ ! "$req" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*(\[[A-Za-z0-9._,[:space:]-]+\])?==[^[:space:]\;=\<\>!~*]+([[:space:]]*\;.*)?$ ]]; then
                 report "$file" "$start" "not an exact '==' pin: ${req:0:80}"
             elif [[ ! "$logical" =~ --hash=sha256:[0-9a-f]{64} ]]; then
                 report "$file" "$start" "no --hash=sha256 for: ${req:0:80}"

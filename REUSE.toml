@@ -72,6 +72,16 @@ precedence = "override"
 SPDX-FileCopyrightText = "2019 Tyson Lee Swetnam"
 SPDX-License-Identifier = "BSD-3-Clause"
 
+# --- Generated SBOMs: CC0-1.0 ------------------------------------------------
+# SPDX 2.3 requires dataLicense CC0-1.0 for SPDX documents; the CycloneDX twins and
+# the manifest carry the same data, so the whole generated tree uses it.
+# sbom/README.md is Markdown and stays BSD-3-Clause (table above).
+[[annotations]]
+path = ["sbom/*.json", "sbom/SOURCE_DATE_EPOCH"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Tyson Lee Swetnam"
+SPDX-License-Identifier = "CC0-1.0"
+
 # --- rsun: GPL-2.0-or-later (rsun/README.md, "License") ---------------------
 
 [[annotations]]
