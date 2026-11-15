@@ -200,8 +200,9 @@ status = "confirmed"
 evidence = """Headers were written as "Tyson Lee Swetnam" (the holder named in LICENSE) with the year of each \
 file's first commit. `git log --diff-filter=A --follow` shows every tracked file was first committed by the owner's \
 accounts, but `git log --author='Mats Rynge'` lists 15 commits (2017-09-18 to 2017-12-20) that modify \
-sol/sol/rsun.sh and sol/sol/run-workflow, and docker/grass72/Dockerfile carries LABEL authors="Tyson L Swetnam, \
-Mats Rynge". The sol/ and eemt/ workflow code entered this repository in bulk in September 2017, so earlier \
+sol/sol/rsun.sh and sol/sol/run-workflow, and docker/grass72/Dockerfile and docker/ubuntu/grass72/Dockerfile \
+carried LABEL authors="Tyson L Swetnam, Mats Rynge" (line 7 of each; both files were deleted with the legacy \
+container definitions and remain readable with `git show 40d8389:docker/grass72/Dockerfile`). The sol/ and eemt/ workflow code entered this repository in bulk in September 2017, so earlier \
 authors, if any, cannot be read from git. Owner decision: keep the single holder (for example if contributions \
 were made under an assignment or as work for hire), or add the other holders or an "EEMT contributors" line."""
 test = ""
