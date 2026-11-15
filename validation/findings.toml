@@ -225,11 +225,13 @@ evidence = """PyPI JSON API for daymetpy: latest version 1.0.0, license "AGPL-3"
 Public License v3". notebooks/environment.yml:82 asks for `daymetpy>=1.1`, which cannot be satisfied. \
 `git grep -n -E 'import +daymetpy|from +daymetpy'` over the whole tree returns nothing: the package is installed \
 into the workflow image and the notebook environments but never used. Dropping it from the new locked \
-environments removes an AGPL component from the image at no functional cost."""
-test = ""
+environments removes an AGPL component from the image at no functional cost. \
+Fixed: the workflow environment (docker/workflow/environment.yml, c5843c4) never listed it, and 4f27742 removed \
+it from both notebook environments; none of the four conda locks contains it. Re-adding it is an owner choice."""
+test = "git grep -n daymetpy -- '*environment*.yml' '*-lock.yml' (no output)"
 changes_scientific_output = false
 sdr = ""
-fix_commit = ""
+fix_commit = "4f27742"
 reason = ""
 
 [[finding]]
@@ -277,11 +279,13 @@ status = "suspected"
 evidence = """Line 8: "# Based on https://grasswiki.osgeo.org/wiki/Compile_and_Install". How much of the script \
 is copied from that page, and under what terms the wiki text is published, was not checked. The file carries the \
 repository header (BSD-3-Clause) like every other script. The approved plan deletes this script in favour of the \
-locked conda environments, which would close the question."""
-test = ""
+locked conda environments, which would close the question. \
+Fixed by removal: 4f27742 deletes notebooks/install_grass.sh (and install_qgis.sh); GRASS 8.5.0 now comes from \
+the locked conda-forge environments. The wiki page's terms were not checked; the script stays in history."""
+test = "git ls-files notebooks/install_grass.sh (no output)"
 changes_scientific_output = false
 sdr = ""
-fix_commit = ""
+fix_commit = "4f27742"
 reason = ""
 
 [[finding]]
@@ -621,6 +625,68 @@ evidence = """Image check (confirmed): in eemt-work/eemt-web:3.0.0 `cd /app && p
 run): app.py keeps its database at /tmp/jobs.db inside the eemt-web container, while the eemt-cleanup service \
 mounts ./web-interface/jobs.db at /app/jobs.db, the path cleanup_jobs.py opens; the two never meet. Compose \
 service topology is Area C's."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-030"
+title = "Neither notebook environment file could be solved: they named packages that are not on conda-forge or defaults, a daymetpy release that does not exist, and lacked four packages the notebooks import"
+location = ["notebooks/environment.yml:20", "notebooks/environment.yml:46", "notebooks/environment.yml:49", "notebooks/environment.yml:50", "notebooks/environment.yml:82", "notebooks/environment-minimal.yml:17"]
+severity = "medium"
+status = "fixed"
+evidence = """anaconda.org API (2026-11-15), HTTP status per conda-forge package: spatialindex 404 (the library is \
+libspatialindex), dask-distributed 404 (distributed 200), nextflow 404 (bioconda only), snakemake 404, \
+snakemake-minimal 404, grass-core 404 (the minimal file asked for grass-core>=8.4). daymetpy>=1.1 does not exist \
+on PyPI (latest 1.0.0, F-A-008). conda-lock on the first rewrite stopped at "spatialindex >=1.9 * does not exist". \
+The notebooks import sympy, seaborn (01_background), pyvista (02_solar_topography) and laspy \
+(gordon_gulch_eemt_report), none of which either file listed. Fix 4f27742: conda-forge only, the correct names, \
+nextflow/snakemake/daymetpy dropped (used by no notebook), the four imports added, GRASS 8.5.0 from conda-forge, \
+and the versions shared with the workflow image pinned to its releases. Both now solve on Python 3.14.10 \
+(notebooks/conda-lock.yml 567 packages, minimal-conda-lock.yml 429, all sha256), and micromamba installs the \
+minimal lock (428/428 conda + grass-session; python 3.14.10, GDAL 3.12.3, GRASS 8.5.0). The full lock was solved \
+but not installed."""
+test = "scripts/locks/refresh.sh conda (solves both); scripts/locks/check.sh locks (inputs refreshed, sha256 per package, pins aligned with the workflow lock)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "4f27742"
+reason = ""
+
+[[finding]]
+id = "F-A-031"
+title = "lean4-verification/lake-manifest.json is git-ignored, so the Lean dependency revisions (Mathlib and its dependencies) are not locked"
+location = ["lean4-verification/.gitignore:5", "lean4-verification/lakefile.lean:18"]
+severity = "medium"
+status = "confirmed"
+evidence = """`git check-ignore -v lean4-verification/lake-manifest.json` -> "lean4-verification/.gitignore:5:lake-manifest.json". \
+The lakefile requires Mathlib by the tag "v4.16.0"; the exact revisions of Mathlib and of its own dependencies \
+(batteries, aesop, ...) are recorded only in lake-manifest.json, which is never committed, so two `lake update` \
+runs can resolve different commits. scripts/locks/check.sh locks requires the manifest next to the lakefile; this \
+finding is its recorded exemption (scripts/locks/lib.sh NATIVE_LOCKS, until 2027-01-31). lean4-verification/** \
+belongs to Area B: commit the manifest and drop line 5 of its .gitignore."""
+test = "scripts/locks/check.sh locks (fails once the manifest is missing after the exemption date)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-032"
+title = "rsun/rsun-py/pyproject.toml leaves its build backend and runtime dependency unpinned (maturin>=1.0,<2.0; numpy)"
+location = ["rsun/rsun-py/pyproject.toml:6", "rsun/rsun-py/pyproject.toml:15"]
+severity = "low"
+status = "confirmed"
+evidence = """[build-system] `requires = ["maturin>=1.0,<2.0"]` and [project] `dependencies = ["numpy"]` (no bound), \
+`requires-python = ">=3.9"`. A wheel build resolves whatever maturin 1.x and NumPy are current at build time, \
+with no hash, so two builds of the same commit can differ; nothing in scripts/locks covers this file. The Rust side \
+is locked: in rust@sha256:cc9edbca... (rustc 1.100.0, toolchain installed from rsun/rust-toolchain.toml), \
+`cargo build --locked -p rsun-core` succeeded and `cargo test --locked -p rsun-core` passed 40/40 with \
+rsun/Cargo.lock unchanged (sha256sum -c OK). rsun/** belongs to Area C: pin maturin exactly and build wheels from \
+a hashed requirements file (or add rsun-py's build inputs to scripts/locks/lib.sh). The branch deps/pyo3-0.29 \
+records the maturin half of this as its own F-A-025 (1.16.0 tested); when that branch is cherry-picked onto \
+area-a, keep one of the two entries."""
 test = ""
 changes_scientific_output = false
 sdr = ""
