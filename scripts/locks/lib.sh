@@ -39,6 +39,20 @@ PIP_LOCKS=(
 # refresh.
 INPUTS_MANIFEST="scripts/locks/inputs.sha256"
 
+# Exact pins (`- name=1.2.3`) in the other conda environments must name the release this
+# lock has, so notebooks and the workflow image run the same GRASS/GDAL/PROJ/Python.
+ALIGN_REFERENCE="docker/workflow/conda-lock.yml"
+
+# Projects whose lock is produced by their own toolchain (not by refresh.sh):
+# "<project file>|<lock file that must be tracked>|<exemption>". An exemption is
+# "<finding id>:<YYYY-MM-DD>": a missing lock is reported as a note, and fails the check
+# only after that date (UTC). Lean's lake-manifest.json is ignored by
+# lean4-verification/.gitignore (Area B's file) until Area B commits it.
+NATIVE_LOCKS=(
+    "rsun/Cargo.toml|rsun/Cargo.lock|"
+    "lean4-verification/lakefile.lean|lean4-verification/lake-manifest.json|F-A-031:2027-01-31"
+)
+
 # Every lock input, repository-relative (for the manifest).
 lock_inputs() {
     local entry dir input lock

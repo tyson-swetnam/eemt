@@ -150,7 +150,7 @@ update_manifest() {
     fi
     if [[ -f "$INPUTS_MANIFEST" ]]; then
         while read -r hash path; do
-            [[ -n "${path:-}" ]] && hashes["$path"]="$hash"
+            if [[ -n "${path:-}" ]]; then hashes["$path"]="$hash"; fi
         done <"$INPUTS_MANIFEST"
     fi
     for path in "${refreshed[@]}"; do
@@ -158,7 +158,7 @@ update_manifest() {
     done
     {
         while IFS= read -r path; do
-            [[ -n "${hashes[$path]:-}" ]] && printf '%s  %s\n' "${hashes[$path]}" "$path"
+            if [[ -n "${hashes[$path]:-}" ]]; then printf '%s  %s\n' "${hashes[$path]}" "$path"; fi
         done < <(lock_inputs | LC_ALL=C sort)
     } >"$INPUTS_MANIFEST.tmp"
     mv "$INPUTS_MANIFEST.tmp" "$INPUTS_MANIFEST"

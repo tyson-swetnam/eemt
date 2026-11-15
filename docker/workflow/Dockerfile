@@ -24,9 +24,12 @@ FROM mambaorg/micromamba:2.10.0-ubuntu24.04@sha256:c3897a06f87c1c13f038188b3665a
 
 USER root
 COPY docker/workflow/conda-lock.yml /tmp/eemt/conda-lock.yml
+COPY scripts/locks/assert-conda-env.sh /opt/eemt/share/eemt/assert-conda-env.sh
 
 # The lock file name must end in "-lock.yml": micromamba reads any other name as a
-# plain environment file. Licence texts of every package (GPL components included)
+# plain environment file and can create an empty environment without failing;
+# assert-conda-env.sh fails the build unless exactly the locked name-version-build
+# set is installed. Licence texts of every package (GPL components included)
 # are copied out of the package cache before it is cleaned, so they ship with the
 # binaries in /opt/eemt/share/licenses/<name>-<version>-<build>/.
 RUN set -eu; \
@@ -39,11 +42,9 @@ RUN set -eu; \
         cp -a "$d" "/opt/eemt/share/licenses/${dist}"; \
     done < /tmp/eemt/licence-dirs; \
     rm -rf /tmp/eemt/pkgs; \
-    locked="$(grep -c '^- name: ' /tmp/eemt/conda-lock.yml)"; \
-    installed="$(ls /opt/eemt/env/conda-meta/*.json | wc -l)"; \
+    bash /opt/eemt/share/eemt/assert-conda-env.sh /tmp/eemt/conda-lock.yml /opt/eemt/env; \
     licensed="$(ls /opt/eemt/share/licenses | wc -l)"; \
-    echo "packages: locked=${locked} installed=${installed} with-licence-files=${licensed}"; \
-    test "${locked}" -eq "${installed}"; \
+    echo "packages with licence files: ${licensed}"; \
     test "${licensed}" -gt 0
 
 # micromamba links packages in parallel and runs the gdk-pixbuf and gtk3 post-link
@@ -137,7 +138,7 @@ RUN set -eu; \
     grep -qx "PROJ_DATA=${PROJ_DATA}" /opt/eemt/share/activation.env; \
     test -f "${PROJ_DATA}/proj.db"; \
     test -x "${GISBASE}/bin/r.sun"; \
-    test "$(ls /opt/eemt/env/conda-meta/*.json | wc -l)" -eq "$(grep -c '^- name: ' /opt/eemt/share/eemt/conda-lock.yml)"; \
+    bash /opt/eemt/share/eemt/assert-conda-env.sh /opt/eemt/share/eemt/conda-lock.yml /opt/eemt/env; \
     if [ "${EEMT_VERSION}" != unset ]; then \
         test "$(tr -d '[:space:]' < /opt/eemt/share/eemt/VERSION)" = "${EEMT_VERSION}"; \
     fi; \
