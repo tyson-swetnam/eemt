@@ -748,3 +748,31 @@ changes_scientific_output = false
 sdr = ""
 fix_commit = ""
 reason = "Filling them needs every package file (or the conda-forge repodata and PyPI JSON) at generation time, i.e. multi-GB downloads in every CI run; NTIA minimum elements do not require licences. Revisit if licence compliance reporting for the notebooks or the docs toolchain is needed."
+
+[[finding]]
+id = "F-A-036"
+title = "The new workflow image changes GDAL-side numbers (bilinear gdalwarp of Float64 rasters in the last digits; gdal_translate -projwin extent by one row or column versus GDAL 3.8.4); all GRASS outputs are bit-identical"
+location = ["docker/workflow/conda-lock.yml", "sol/sol/Tiff.py:157", "sol/sol/parser.py:180", "eemt/eemt/metget.sh:24", "sol/sol/read_meta.py:334"]
+severity = "low"
+status = "confirmed"
+evidence = """Recorded run of scripts/validation/toolchain_delta/run.sh (report: validation/toolchain-delta.md) with \
+legacy eemt:legacy-e7637f45c202 (GRASS 8.3.2, apt GDAL 3.8.4 / PROJ 9.4.0, plus a conda GDAL 3.11.5 / PROJ 9.7.1 \
+first on PATH) and new eemt-work/a7-eemt:3.0.0 (rev 08dd73e; GRASS 8.5.0, GDAL 3.12.3, PROJ 9.7.1), identical \
+explicit commands, on mcn_10m, the Gordon Gulch 3DEP DEM and the eight S1 convention fixtures. GRASS: 1290/1290 \
+rasters bit-identical (r.slope.aspect; r.sun mode 2 glob/insol/beam/diff/refl on days 1, 80, 172, 266, 355 with \
+step=0.25 linke_value=3.0 albedo_value=0.2 nprocs=4; r.sun mode 1 at 09/12/15 h on days 80 and 355; r.horizon \
+8 directions; 31 daily sums and the r.series monthly sum); NULL masks, geotransforms and CRS equal; same-image \
+repeat runs also identical. GDAL: gdalwarp -r bilinear to the Daymet LCC of the Float64 mcn_10m differs in \
+6615/48019 pixels, max |d| 7.6e-10 m (rel 3.1e-13); the EPSG:3857 warp in 6144/48060, max 1.6e-10 m; NULL masks \
+equal; Float32 DEMs identical. GDAL 3.8.4/PROJ 9.4.0 and GDAL 3.11.5/PROJ 9.7.1 give identical warps, so the \
+change lies in GDAL 3.11.5 -> 3.12.3 with PROJ unchanged (nearest-neighbour warp identical: same source pixels). \
+gdal_translate -projwin with window edges inside pixels returns one more row/column than GDAL 3.8.4 (mcn_10m \
+114x106 -> 114x107, Gordon Gulch 217x148 -> 218x148; same origin, overlapping pixels identical); GDAL 3.11.5, \
+which the legacy image's scripts called first on PATH, already behaves like the new image. Point transforms \
+differ by <= 2.8e-9 m at a few points. Severity is set only to fill the field: whether these changes are \
+acceptable is the owner's sign-off on SDR-025."""
+test = ""
+changes_scientific_output = true
+sdr = "SDR-025"
+fix_commit = ""
+reason = ""
