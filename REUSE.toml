@@ -181,10 +181,12 @@ precedence = "override"
 SPDX-FileCopyrightText = "2016 ACM"
 SPDX-License-Identifier = "LicenseRef-third-party-publication"
 
-# Sample DEM (228 x 211 cells, 10 m, NAD83 / UTM zone 13N). Its source is not
-# recorded (validation/findings.toml F-A-003).
+# Sample DEM (228 x 211 cells, 10 m, NAD83 / UTM zone 13N). USGS 3D Elevation
+# Program data, U.S. public domain: the repository owner stated its source on
+# 2026-11-15 ("the sample DEM mcn_10m is from USGS 3DEP"; validation/findings.toml
+# F-A-003). No copyright is claimed; the text below names the producer.
 [[annotations]]
 path = "sol/examples/mcn_10m.tif"
 precedence = "override"
-SPDX-FileCopyrightText = "Copyright holder not recorded (sample DEM of unknown provenance)"
-SPDX-License-Identifier = "LicenseRef-unknown-provenance"
+SPDX-FileCopyrightText = "U.S. Geological Survey, 3D Elevation Program (3DEP); U.S. public domain"
+SPDX-License-Identifier = "LicenseRef-USGS-public-domain"

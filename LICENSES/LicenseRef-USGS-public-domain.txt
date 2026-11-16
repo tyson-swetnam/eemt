@@ -1,0 +1,27 @@
+LicenseRef-USGS-public-domain
+
+U.S. Geological Survey data in the U.S. public domain. Not covered by the
+licence of this repository.
+
+Files carrying this identifier are, or are derived from, data produced by the
+U.S. Geological Survey (USGS), such as elevation data of the 3D Elevation
+Program (3DEP). The USGS states in its information policy "Copyrights and
+Credits":
+
+    "USGS-authored or produced data and information are considered to be in
+    the U.S. Public Domain."
+
+    "When using information from USGS information products, publications, or
+    websites, we ask that proper credit be given. Credit can be provided by
+    including a citation such as the following: Credit: U.S. Geological
+    Survey"
+
+Source: https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits
+(read 2026-11-15).
+
+No copyright is claimed in these files and no licence is needed to use,
+modify or redistribute them. Please credit the source as "Credit: U.S.
+Geological Survey" (for 3DEP data: "U.S. Geological Survey, 3D Elevation
+Program"). The USGS name and identifier are trademarks and are not licensed by
+this notice. Public-domain status is a matter of United States law; users
+elsewhere should check the law that applies to them.
