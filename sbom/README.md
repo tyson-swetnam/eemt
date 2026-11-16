@@ -121,6 +121,7 @@ The path rules for components with no package manager:
 
 ## Licences
 
+- **Root components.** The images, the environments and the release aggregate `eemt` bundle third-party software under many licences (GRASS GPL-2.0-or-later, CCTools GPL-2.0-only, GEOS LGPL-2.1-only, ...). Their root component therefore declares no licence: no `licenses` in CycloneDX, `licenseDeclared: NOASSERTION` in SPDX. Only roots that are the project's own code declare one: `cargo-rsun` (`rsun`, GPL-2.0-or-later) and, once generated, `lean-eemtverify` (BSD-3-Clause). The `root_license` key in `scripts/sbom/targets.toml` sets this.
 - **Images.** Licences are those found in the image: conda-meta for conda packages, the copyright files of the deb packages, and the metadata of the Python packages.
 - **`env-conda-workflow`.** It has the same licences as the image's conda packages, because both are the same builds (identical purls).
 - **The notebook environments.** conda-lock files carry no licences. A notebook package gets a licence only when the workflow image contains the identical build. `manifest.json` gives the number of components per document. Count the components that have licences directly from each document.

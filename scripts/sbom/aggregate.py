@@ -141,12 +141,13 @@ def aggregate_cdx(
                 "version": version,
                 "description": agg.description,
                 "supplier": config.project_supplier.cdx(),
-                "licenses": [{"expression": agg.root_license}],
             },
         },
         "components": top,
         "dependencies": dependencies,
     }
+    if agg.root_license:
+        doc["metadata"]["component"]["licenses"] = [{"expression": agg.root_license}]
     doc["serialNumber"] = f"urn:uuid:{sbomlib.content_uuid(doc, ('serialNumber',))}"
     return sbomlib.canon(doc)
 
@@ -169,7 +170,7 @@ def aggregate_spdx(
             "downloadLocation": "NOASSERTION",
             "filesAnalyzed": False,
             "licenseConcluded": "NOASSERTION",
-            "licenseDeclared": agg.root_license,
+            "licenseDeclared": agg.root_license or "NOASSERTION",
             "copyrightText": "NOASSERTION",
             "primaryPackagePurpose": "APPLICATION",
             "description": agg.description,

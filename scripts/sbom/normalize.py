@@ -370,8 +370,9 @@ def normalize_cdx(doc: Json, opts: Options) -> Json:
         "name": opts.root_name,
         "version": opts.version,
         "supplier": opts.project_supplier.cdx(),
-        "licenses": [{"expression": opts.root_license}],
     }
+    if opts.root_license:
+        root["licenses"] = [{"expression": opts.root_license}]
     if opts.description:
         root["description"] = opts.description
     md["component"] = root
@@ -638,7 +639,7 @@ def normalize_spdx(doc: Json, opts: Options) -> Json:
             "supplier": opts.project_supplier.spdx(),
             "downloadLocation": "NOASSERTION",
             "filesAnalyzed": False,
-            "licenseDeclared": opts.root_license,
+            "licenseDeclared": opts.root_license or "NOASSERTION",
             "licenseConcluded": "NOASSERTION",
             "copyrightText": "NOASSERTION",
             "primaryPackagePurpose": "CONTAINER"

@@ -14,6 +14,13 @@
 # inputs   the lock (first entry) and other files the document is derived from; their
 #          sha256 values are recorded in sbom/manifest.json
 # root_name name of the described component (default: the target name)
+# root_license
+#          licence of the described component itself, only where the root is the
+#          project's own code (cargo: the rsun crates, GPL-2.0-or-later; lean: the
+#          EEMTVerify project). Left out for images, environments and the release
+#          aggregate: they bundle third-party software under many licences (GPL,
+#          LGPL, ...), so the root gets no licence in CycloneDX and licenseDeclared
+#          NOASSERTION in SPDX. Each component carries its own licence.
 # parent   the aggregate (eemt) nests the target under this one
 # path_supplier
 #          supplier for components identified only by file location (binaries and
@@ -27,7 +34,6 @@ supplier = { name = "EEMT project", url = "https://github.com/tyson-swetnam/eemt
 name = "eemt"
 kind = "aggregate"
 root_type = "application"
-root_license = "BSD-3-Clause"
 description = "EEMT (Effective Energy and Mass Transfer) release: container images, locked environments and the rsun Rust workspace. Each member is described by its own SBOM in sbom/."
 
 [[target]]
@@ -39,7 +45,6 @@ build = "workflow"
 dockerfile = "docker/workflow/Dockerfile"
 inputs = ["docker/workflow/conda-lock.yml", "docker/workflow/Dockerfile"]
 root_type = "container"
-root_license = "BSD-3-Clause"
 description = "Workflow image eemt:<docker/VERSION>: Ubuntu 26.04 runtime with the conda-forge environment of docker/workflow/conda-lock.yml (GRASS GIS, GDAL, CCTools, Python)."
 
 # /usr/bin/pebble ships in the ubuntu:26.04 base image and belongs to no deb package.
@@ -54,7 +59,6 @@ kind = "conda"
 parent = "image-eemt"
 inputs = ["docker/workflow/conda-lock.yml"]
 root_type = "application"
-root_license = "BSD-3-Clause"
 description = "Conda environment installed in the workflow image at /opt/eemt/env, from docker/workflow/conda-lock.yml."
 
 [[target]]
@@ -66,7 +70,6 @@ build = "web"
 dockerfile = "docker/web-interface/Dockerfile"
 inputs = ["web-interface/requirements.txt", "docker/web-interface/Dockerfile"]
 root_type = "container"
-root_license = "BSD-3-Clause"
 description = "Web interface image eemt-web:<docker/VERSION>: python:3.14.10-slim-trixie with the packages of web-interface/requirements.txt and the Docker CLI."
 
 [[target.path_supplier]]
@@ -90,7 +93,6 @@ kind = "pip"
 parent = "image-eemt-web"
 inputs = ["web-interface/requirements.txt", "web-interface/requirements.in"]
 root_type = "application"
-root_license = "BSD-3-Clause"
 description = "Python packages of the web interface, from the hashed lock web-interface/requirements.txt."
 
 [[target]]
@@ -98,7 +100,6 @@ name = "env-conda-notebooks"
 kind = "conda"
 inputs = ["notebooks/conda-lock.yml"]
 root_type = "application"
-root_license = "BSD-3-Clause"
 description = "Conda environment for the notebooks, from notebooks/conda-lock.yml."
 
 [[target]]
@@ -106,7 +107,6 @@ name = "env-conda-notebooks-minimal"
 kind = "conda"
 inputs = ["notebooks/minimal-conda-lock.yml"]
 root_type = "application"
-root_license = "BSD-3-Clause"
 description = "Minimal conda environment for the notebooks, from notebooks/minimal-conda-lock.yml."
 
 [[target]]
@@ -114,7 +114,6 @@ name = "env-pip-docs"
 kind = "pip"
 inputs = ["requirements-docs.txt", "requirements-docs.in"]
 root_type = "application"
-root_license = "BSD-3-Clause"
 description = "Documentation toolchain (Zensical), from the hashed lock requirements-docs.txt."
 
 [[target]]
@@ -122,7 +121,6 @@ name = "env-pip-dev"
 kind = "pip"
 inputs = ["requirements-dev.txt", "requirements-dev.in"]
 root_type = "application"
-root_license = "BSD-3-Clause"
 description = "Test, lint and SBOM tools, from the hashed lock requirements-dev.txt."
 
 [[target]]

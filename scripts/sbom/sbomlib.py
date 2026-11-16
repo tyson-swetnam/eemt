@@ -68,6 +68,8 @@ class Target:
     name: str
     kind: str
     root_type: str
+    # Licence of the described component itself; "" when the root bundles third-party
+    # software under other licences (images, environments, the release aggregate).
     root_license: str
     description: str
     root_name: str = ""
@@ -102,7 +104,7 @@ def load_config(path: Path) -> Config:
             name=t["name"],
             kind=t["kind"],
             root_type=t["root_type"],
-            root_license=t["root_license"],
+            root_license=t.get("root_license", ""),
             description=t["description"],
             root_name=t.get("root_name", t["name"]),
             parent=t.get("parent", ""),

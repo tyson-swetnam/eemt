@@ -116,27 +116,65 @@ CARGO_METADATA = {
 PROJECT = sbomlib.Supplier("EEMT project", "https://github.com/tyson-swetnam/eemt")
 
 
-def opts(name: str = "env-test") -> normalize.Options:
+def opts(
+    name: str = "env-test", root_license: str = "BSD-3-Clause"
+) -> normalize.Options:
     return normalize.Options(
         name=name,
         root_name=name,
         version="3.0.0",
         epoch=0,
         root_type="application",
-        root_license="BSD-3-Clause",
+        root_license=root_license,
         description="",
         project_supplier=PROJECT,
         namespace="https://github.com/tyson-swetnam/eemt/sbom",
     )
 
 
-def finish(raw: dict, name: str = "env-test") -> tuple[dict, dict]:
+def finish(
+    raw: dict, name: str = "env-test", root_license: str = "BSD-3-Clause"
+) -> tuple[dict, dict]:
     """The generate.sh pipeline for a lock-derived document."""
-    cdx = normalize.normalize(raw, opts(name))
+    cdx = normalize.normalize(raw, opts(name, root_license))
     spdx = normalize.normalize(
-        cdx2spdx.convert(json.loads(sbomlib.dumps(cdx))), opts(name)
+        cdx2spdx.convert(json.loads(sbomlib.dumps(cdx))), opts(name, root_license)
     )
     return cdx, spdx
+
+
+def spdx_root(spdx: dict) -> dict:
+    return next(p for p in spdx["packages"] if p["SPDXID"] == "SPDXRef-DocumentRoot")
+
+
+# --- root licence -----------------------------------------------------------------
+
+
+def test_root_without_licence_declares_none(tmp_path: Path):
+    """An image or environment root bundles other licences: no root licence claimed."""
+    lock = tmp_path / "x-lock.yml"
+    lock.write_text(CONDA_LOCK)
+    cdx, spdx = finish(lock2cdx.conda_bom(lock, "linux-64", []), root_license="")
+    assert "licenses" not in cdx["metadata"]["component"]
+    assert spdx_root(spdx)["licenseDeclared"] == "NOASSERTION"
+    cdx, spdx = finish(lock2cdx.conda_bom(lock, "linux-64", []), root_license="MIT")
+    assert cdx["metadata"]["component"]["licenses"] == [{"expression": "MIT"}]
+    assert spdx_root(spdx)["licenseDeclared"] == "MIT"
+
+
+def test_bundle_targets_declare_no_root_licence():
+    """scripts/sbom/targets.toml: images, environments and the aggregate bundle
+    third-party licences (GRASS GPL-2.0-or-later, CCTools GPL-2.0-only, GEOS
+    LGPL-2.1-only, ...), so they must not declare a project licence for the whole."""
+    root = Path(__file__).resolve().parents[2]
+    config = sbomlib.load_config(root / "scripts" / "sbom" / "targets.toml")
+    bundles = {
+        t.name: t.root_license
+        for t in config.targets.values()
+        if t.kind in ("image", "aggregate", "conda", "pip")
+    }
+    assert bundles and all(v == "" for v in bundles.values()), bundles
+    assert config.targets["cargo-rsun"].root_license == "GPL-2.0-or-later"
 
 
 # --- conda ------------------------------------------------------------------------
@@ -341,7 +379,6 @@ supplier = { name = "EEMT project" }
 name = "eemt"
 kind = "aggregate"
 root_type = "application"
-root_license = "BSD-3-Clause"
 description = "agg"
 [[target]]
 name = "env-a"
@@ -368,6 +405,9 @@ description = "b"
     ms = aggregate.members(config, sbom)
     a_cdx = aggregate.aggregate_cdx(config, agg, ms, sbom, "3.0.0", 0)
     a_spdx = aggregate.aggregate_spdx(config, agg, ms, sbom, "3.0.0", 0)
+    # No root_license in the aggregate's table: no licence claimed for the release.
+    assert "licenses" not in a_cdx["metadata"]["component"]
+    assert spdx_root(a_spdx)["licenseDeclared"] == "NOASSERTION"
     (sbom / "eemt.cdx.json").write_text(sbomlib.dumps(a_cdx))
     (sbom / "eemt.spdx.json").write_text(sbomlib.dumps(a_spdx))
     # Hierarchy: env-b is nested in env-a.
