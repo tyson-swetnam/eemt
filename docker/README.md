@@ -134,6 +134,10 @@ to it as `EEMT_WORKFLOW_IMAGE=eemt:${EEMT_VERSION:-3.0.0}`:
 EEMT_UID=$(id -u) EEMT_GID=$(id -g) EEMT_DOCKER_GID=$(stat -c %g /var/run/docker.sock) docker-compose up
 ```
 
+The web app does not read `EEMT_WORKFLOW_IMAGE` yet and still launches `eemt:ubuntu24.04`,
+which nothing builds any more (`validation/findings.toml` F-A-039): until that is fixed, jobs
+submitted through the web interface fail with "Docker image not found".
+
 `EEMT_DOCKER_GID` is also a build argument: the image's own user `eemt` is put in a `docker`
 group with that GID, so `docker run` without `--user` reaches the socket too. The image's
 `USER` is the numeric UID only; `UID:GID` would drop the supplementary group.

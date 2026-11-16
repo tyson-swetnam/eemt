@@ -51,7 +51,10 @@ docker run --rm --user "$(id -u):$(id -g)" \
   --dem /data/input/mcn_10m.tif --output /data/output --num-threads 2 --job-id test-001
 ```
 
-The web interface picks the image from `EEMT_WORKFLOW_IMAGE` (set in `docker-compose.yml`).
+`docker-compose.yml` passes this image to the web interface as `EEMT_WORKFLOW_IMAGE`. The web
+app does not read that variable yet: it still launches `eemt:ubuntu24.04`, which nothing builds
+any more, so jobs submitted through the web interface fail until that is fixed
+(`validation/findings.toml` F-A-039).
 
 ### Any user ID
 
