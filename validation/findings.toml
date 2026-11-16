@@ -109,16 +109,16 @@ id = "F-A-003"
 title = "The sample DEM sol/examples/mcn_10m.tif has no recorded source, author or terms of use"
 location = ["sol/examples/mcn_10m.tif"]
 severity = "medium"
-status = "confirmed"
+status = "fixed"
 evidence = """`tiffinfo sol/examples/mcn_10m.tif`: 228 x 211 cells, 64-bit float, 10 m pixels, tie point \
 352120 E / 3964370 N, "NAD83 / UTM zone 13N"; no Software, Artist, Copyright or ImageDescription tag. \
 First commit 8c23929 (2017-09-12, "attempting fix for solar") gives no source. `git grep -i mcn_10m -- '*.md'` \
 finds usage examples only, no provenance statement. Annotated LicenseRef-unknown-provenance in REUSE.toml \
-until the owner states where it came from (a USGS 3DEP product would be public domain)."""
-test = ""
+until the owner states where it came from (a USGS 3DEP product would be public domain). Resolved 2026-11-15: the owner stated "the sample DEM mcn_10m is from USGS 3DEP". Fix a6f01a3 annotates it in REUSE.toml as LicenseRef-USGS-public-domain (new LICENSES/LicenseRef-USGS-public-domain.txt quoting the USGS "Copyrights and Credits" policy), holder "U.S. Geological Survey, 3D Elevation Program (3DEP)", and removes the now unused LicenseRef-unknown-provenance. reuse lint 6.3.0 on a git-archive export: 345/345, compliant."""
+test = "reuse lint (fsfe/reuse 6.3.0, .github/workflows/reuse.yml); reuse spdx lists mcn_10m.tif with LicenseRef-USGS-public-domain"
 changes_scientific_output = false
 sdr = ""
-fix_commit = ""
+fix_commit = "a6f01a3"
 reason = ""
 
 [[finding]]
@@ -802,9 +802,39 @@ built an unaligned &[f32], which is undefined behaviour in Rust, so it returned 
 ValueError instead of panicking (which would also change today's strided-input panic) is left to the rsun-py \
 owner. Evidence: eemt-validation-inputs/deps/pyo3.md, deps/pyo3-evidence/ and deps/pyo3-review/ (outside the \
 repository)."""
-test = "osv-scanner scan source --lockfile Cargo.lock:rsun/Cargo.lock and cargo audit --file rsun/Cargo.lock (no pyo3 advisory); blocking lock-file vulnerability check in scripts/locks/check.sh is Area A's follow-up"
+test = "scripts/locks/check.sh vulns (blocking in containers.yml; master's rsun/Cargo.lock reports RUSTSEC-2025-0020, RUSTSEC-2026-0176, RUSTSEC-2026-0177 for pyo3 0.23.5, this branch none)"
 changes_scientific_output = false
 sdr = ""
 fix_commit = "78ab8f9"
 reason = ""
 
+[[finding]]
+id = "F-A-038"
+title = "rsun/Cargo.lock pinned crossbeam-epoch 0.9.18, affected by RUSTSEC-2026-0204"
+location = ["rsun/Cargo.lock"]
+severity = "medium"
+status = "fixed"
+evidence = """osv-scanner 2.7.1 (ghcr.io/google/osv-scanner@sha256:a70ffffc2bfd33482953e5d6b64c6fcdb30239717a07b0f0d3ab2859ce3e4cde) on master's rsun/Cargo.lock: crossbeam-epoch 0.9.18, RUSTSEC-2026-0204 (invalid pointer dereference in the fmt::Pointer impl of Atomic/Shared), fixed 0.9.20; cargo audit 0.22.0 exits 1 on it (deps/pyo3 report). It is pulled in by rayon-core through crossbeam-deque. Not one of the Dependabot alerts. Fix 52b997c: `cargo update -p crossbeam-epoch --precise 0.9.20` (only that entry moved). After it, in Rust 1.100.0 / Python 3.14.10: cargo build -p rsun-py and --workspace --exclude rsun-cuda exit 0, cargo test -p rsun-core 40 passed."""
+test = "scripts/locks/check.sh vulns (blocking in containers.yml; reports RUSTSEC-2026-0204 on master's rsun/Cargo.lock, nothing on this branch)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "52b997c"
+reason = ""
+
+[[finding]]
+id = "F-A-039"
+title = "The web app ignores EEMT_WORKFLOW_IMAGE and launches eemt:ubuntu24.04, which no script builds any more, so a job submitted after rebuild-container.sh and docker-compose up fails"
+location = [
+    "web-interface/containers/workflow_manager.py:41",
+    "web-interface/static/app.js:95",
+    "docker-compose.yml:53",
+    "rebuild-container.sh:47",
+]
+severity = "high"
+status = "confirmed"
+evidence = """ContainerConfig.image defaults to "eemt:ubuntu24.04" (workflow_manager.py:41) and nothing in web-interface/ reads EEMT_WORKFLOW_IMAGE (`grep -n 'EEMT_WORKFLOW_IMAGE' web-interface -r`: empty); the page shows "ubuntu24.04" (app.js:95). On master rebuild-container.sh built eemt:ubuntu24.04, so the path worked. On this branch docker/build.sh, rebuild-container.sh and test-deployment.sh build only eemt:<docker/VERSION> (eemt:3.0.0), and docker-compose.yml passes EEMT_WORKFLOW_IMAGE=eemt:${EEMT_VERSION:-3.0.0}. Run in eemt-work/eemt-web:3.0.0 (--network none, --user 12345:12345) with EEMT_WORKFLOW_IMAGE=eemt-work/eemt:3.0.0: `WorkflowManager(Path('/tmp/w'), NodeType.LOCAL).container_config.image` -> 'eemt:ubuntu24.04'. On a clean host the documented path (rebuild-container.sh, docker-compose up, submit a job) therefore ends in "Docker image not found". F-A-028 lists the stale default among other old tags; this entry records the end-to-end break. web-interface/** belongs to Area C: ContainerConfig must take EEMT_WORKFLOW_IMAGE (default eemt:<docker/VERSION>). This is a merge blocker for the Area A pull request: it must not merge before that Area C change, and its description must say so. A legacy alias tag is not built (decision of the plan)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
