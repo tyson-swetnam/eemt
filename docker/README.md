@@ -51,7 +51,15 @@ scripts/locks/refresh.sh              # all: images, actions, conda, pip
 scripts/locks/refresh.sh conda        # or pip, actions, images
 scripts/locks/refresh.sh --upgrade    # conda: re-solve everything; pip: newest allowed releases
 scripts/locks/check.sh                # offline gate: pins, digests, hashes, inputs refreshed
+scripts/locks/check.sh vulns          # known advisories in requirements*.txt and Cargo.lock
 ```
+
+`check.sh vulns` runs osv-scanner (`OSV_SCANNER_IMAGE` in `scripts/locks/lib.sh`, pinned
+by digest; needs Docker and access to api.osv.dev) on every hashed `requirements*.txt` and
+`Cargo.lock`. It is blocking in CI. An advisory that cannot be fixed yet goes into
+`scripts/locks/osv-scanner.toml` with its id, a `reason` and an `effectiveUntil` expiry
+date; after that date the advisory is reported again. Conda locks are not scanned (OSV
+has no conda-forge ecosystem); the image-level grype report covers them, not as a gate.
 
 Without `--upgrade` a refresh changes only what its input requires: a conda lock whose
 recorded input hash still matches is left alone, and uv keeps existing pins. Running it twice
@@ -105,7 +113,7 @@ Nothing is pushed to a registry. Both workflows run on every pull request, on pu
 
 | Workflow | Job | What it does |
 |---|---|---|
-| `.github/workflows/containers.yml` | `locks` | `scripts/locks/check.sh all`: actions pinned by commit SHA, images by `name:tag@sha256`, downloads verified, lock files current and hashed |
+| `.github/workflows/containers.yml` | `locks` | `scripts/locks/check.sh all`: actions pinned by commit SHA, images by `name:tag@sha256`, downloads verified, lock files current and hashed; then `scripts/locks/check.sh vulns`: no known advisory in the pip and Cargo locks outside the allowlist |
 | | `images-sbom` | Builds the workflow and web images (BuildKit, GitHub Actions cache written only from `master`, no attestations), runs `eemt-selftest` as the image user and as UID 12345, runs `pytest -m grass` inside the workflow image, then `generate.sh all --no-build`, `validate.sh` and the drift gate: the job fails if `sbom/` differs from what the scripts produce, prints the changed files and the commands above, and attaches the regenerated tree. The grype report and syft's SPDX 3.0 JSON are attached as artifacts (not gates, not committed). |
 | `.github/workflows/reuse.yml` | `reuse` | `reuse lint` (fsfe/reuse 6.3.0 by digest); the `reuse spdx` report is attached as an artifact, never committed |
 

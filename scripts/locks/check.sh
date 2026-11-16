@@ -13,9 +13,15 @@
 #                                      its last edit; lock files are fully pinned and hashed;
 #                                      Dockerfiles that install a conda lock assert the result
 #   scripts/locks/check.sh all         every check above
+#   scripts/locks/check.sh vulns       no known vulnerability (OSV database) in any hashed
+#                                      requirements*.txt or Cargo.lock, except advisories
+#                                      allowed with a reason and an expiry date in
+#                                      scripts/locks/osv-scanner.toml
 #
-# Run from anywhere inside the repository. No network, no containers. Exit status 1 on
-# any violation.
+# Run from anywhere inside a git checkout (the checks list files with `git ls-files`).
+# Exit status 1 on any violation. All modes except `vulns` are offline and start no
+# container; `vulns` (not part of `all`) runs osv-scanner from a digest-pinned image and
+# needs Docker and access to api.osv.dev.
 set -euo pipefail
 
 ROOT="$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)"
@@ -267,6 +273,64 @@ check_native() {
     report "$lock" 0 "not tracked next to $project"
 }
 
+check_allowlist() {
+    # Every [[IgnoredVulns]] entry needs an id, an effectiveUntil date and a non-empty reason.
+    local bad
+    if [[ ! -f "$VULN_ALLOWLIST" ]]; then
+        report "$VULN_ALLOWLIST" 0 "allowlist missing"
+        return
+    fi
+    bad="$(awk '
+        function flush() {
+            if (start) {
+                if (id == "") print start ":entry has no id"
+                if (until == "") print start ":" id " has no effectiveUntil = YYYY-MM-DD"
+                if (!reason) print start ":" id " has no reason"
+            }
+            id = ""; until = ""; reason = 0
+        }
+        /^[[:space:]]*\[\[IgnoredVulns\]\][[:space:]]*$/ { flush(); start = NR; next }
+        /^[[:space:]]*\[/ { flush(); start = 0; next }
+        !start { next }
+        /^[[:space:]]*id[[:space:]]*=/ { v = $0; sub(/^[^=]*=[[:space:]]*/, "", v); gsub(/"/, "", v); id = v }
+        /^[[:space:]]*effectiveUntil[[:space:]]*=[[:space:]]*[0-9]{4}-[0-9]{2}-[0-9]{2}[[:space:]]*(#.*)?$/ { until = 1 }
+        /^[[:space:]]*reason[[:space:]]*=[[:space:]]*("""|")[^"[:space:]]/ { reason = 1 }
+        END { flush() }
+    ' "$VULN_ALLOWLIST")"
+    while IFS=: read -r ln msg; do
+        if [[ -n "$ln" ]]; then report "$VULN_ALLOWLIST" "$ln" "$msg"; fi
+    done <<<"$bad"
+}
+
+check_vulns() {
+    # osv-scanner on every hashed pip lock and every Cargo.lock, with the allowlist as its
+    # configuration. Conda locks are not covered: OSV has no conda-forge ecosystem.
+    local file rc=0 home
+    local -a args=()
+    check_allowlist
+    while IFS= read -r file; do
+        args+=(--lockfile "requirements.txt:$file")
+    done < <(git ls-files | grep -E '(^|/)requirements[^/]*\.txt$' || true)
+    while IFS= read -r file; do
+        args+=(--lockfile "Cargo.lock:$file")
+    done < <(git ls-files | grep -E '(^|/)Cargo\.lock$' || true)
+    if ((${#args[@]} == 0)); then
+        report . 0 "no requirements*.txt or Cargo.lock to scan"
+        return
+    fi
+    home="$(mktemp -d)"
+    docker run --rm --name "eemt-vulns-$$" --label eemt-work=1 \
+        --user "$(id -u):$(id -g)" -e HOME=/home/scan -v "$home:/home/scan" \
+        -v "$ROOT:/repo:ro" -w /repo "$OSV_SCANNER_IMAGE" \
+        scan source --config "/repo/$VULN_ALLOWLIST" "${args[@]}" || rc=$?
+    rm -rf "$home"
+    # osv-scanner exits 1 when it finds an advisory that the allowlist does not cover,
+    # and 127/128 when it could not scan; either fails the check.
+    if ((rc != 0)); then
+        report . 0 "osv-scanner exit status $rc (advisories above, or the scan failed)"
+    fi
+}
+
 case "${1:-all}" in
     actions) check_actions ;;
     images) check_images ;;
@@ -278,8 +342,9 @@ case "${1:-all}" in
         check_downloads
         check_locks
         ;;
+    vulns) check_vulns ;;
     *)
-        echo "usage: $0 [actions|images|downloads|locks|all]" >&2
+        echo "usage: $0 [actions|images|downloads|locks|all|vulns]" >&2
         exit 2
         ;;
 esac

@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Allowlist for `scripts/locks/check.sh vulns` (osv-scanner configuration file).
+#
+# An advisory goes here only when no fixed release can be used. Every entry needs
+#   id              the OSV id the scanner prints (GHSA-..., RUSTSEC-..., PYSEC-...)
+#   effectiveUntil  expiry date (YYYY-MM-DD, at most about six months ahead); after it
+#                   osv-scanner reports the advisory again and the check fails, so the
+#                   entry has to be re-justified or the dependency fixed
+#   reason          why it cannot be fixed now and why it is acceptable meanwhile
+#                   (the text starts on the `reason =` line)
+# check.sh refuses entries without all three.
+
+[[IgnoredVulns]]
+id = "RUSTSEC-2024-0436"
+effectiveUntil = 2027-05-15
+reason = """paste 1.0.15 is unmaintained (informational advisory, no vulnerability \
+and no fixed release). It is a compile-time proc-macro that reaches rsun/Cargo.lock \
+only through metal, the macOS backend of wgpu (rsun-gpu); Linux builds do not \
+compile it (`cargo tree -i paste --target x86_64-unknown-linux-gnu` is empty). \
+Remove when wgpu/metal drop paste."""

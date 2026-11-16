@@ -8,6 +8,7 @@
 #
 # Reproduce a job locally (no GitHub cache needed):
 #   scripts/locks/check.sh all
+#   scripts/locks/check.sh vulns        # needs Docker and api.osv.dev
 #   docker/build.sh && docker/build.sh web
 #   docker run --rm eemt:"$(cat docker/VERSION)" eemt-selftest
 #   scripts/sbom/generate.sh all --no-build && scripts/sbom/validate.sh
@@ -34,7 +35,7 @@ defaults:
 
 jobs:
   locks:
-    name: Pins and locks (check.sh all)
+    name: Pins, locks and lock vulnerabilities (check.sh all, vulns)
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -45,6 +46,12 @@ jobs:
 
       - name: Actions, image digests, downloads and lock files are pinned
         run: scripts/locks/check.sh all
+
+      # osv-scanner (digest-pinned) on every hashed requirements*.txt and Cargo.lock.
+      # Blocking: an advisory fails the job unless scripts/locks/osv-scanner.toml
+      # allows it with a reason and an expiry date.
+      - name: Lock files have no known vulnerability
+        run: scripts/locks/check.sh vulns
 
   images-sbom:
     name: Images, self-test and SBOM drift

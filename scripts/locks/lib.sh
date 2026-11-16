@@ -10,6 +10,11 @@ MICROMAMBA_IMAGE="mambaorg/micromamba:2.10.0-ubuntu24.04@sha256:c3897a06f87c1c13
 UV_IMAGE="ghcr.io/astral-sh/uv:0.13.8-python3.14-trixie-slim@sha256:81a1340fea1e72ad4a8e9a016128b0c61041cf182ea49fd788023e52842bc147"
 GIT_IMAGE="alpine/git:v2.52.0@sha256:4a0e72d49596a1f5d3701aeedafdadc5c0da4062be4657c7bdc4017387f591cc"
 CRANE_IMAGE="gcr.io/go-containerregistry/crane:v0.22.1@sha256:1f968817b95790bed063f71175aa6b8ff879fa17064020415f3e18bb6e6a36e1"
+# Vulnerability scanner for `check.sh vulns` (OSV database: PyPI and crates.io advisories).
+OSV_SCANNER_IMAGE="ghcr.io/google/osv-scanner:v2.7.1@sha256:a70ffffc2bfd33482953e5d6b64c6fcdb30239717a07b0f0d3ab2859ce3e4cde"
+
+# Advisories `check.sh vulns` accepts, each with a reason and an expiry date.
+VULN_ALLOWLIST="scripts/locks/osv-scanner.toml"
 
 # conda-lock itself runs from a hash-locked environment (inputs below, first entry), so
 # the solver version does not float between refreshes.
