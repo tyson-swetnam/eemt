@@ -776,3 +776,35 @@ changes_scientific_output = true
 sdr = "SDR-025"
 fix_commit = ""
 reason = ""
+
+[[finding]]
+id = "F-A-037"
+title = "rsun-py pinned PyO3 0.23.5, which carries three security advisories (Dependabot alerts 19-24) and cannot build for Python 3.14"
+location = ["rsun/rsun-py/Cargo.toml:19", "rsun/Cargo.lock"]
+severity = "high"
+status = "fixed"
+evidence = """osv-scanner 2.7.1 (ghcr.io/google/osv-scanner@sha256:a70ffffc2bfd33482953e5d6b64c6fcdb30239717a07b0f0d3ab2859ce3e4cde) \
+on rsun/Cargo.lock before the fix: pyo3 0.23.5 with GHSA-pph8-gcv7-4qj5 / RUSTSEC-2025-0020 (fixed 0.24.1), \
+GHSA-36hh-v3qg-5jq4 / RUSTSEC-2026-0176 (CVSS 8.7, fixed 0.29.0) and GHSA-chgr-c6px-7xpp / RUSTSEC-2026-0177 \
+(fixed 0.29.0). In a rust 1.100.0 + python:3.14-slim container, `cargo build --locked -p rsun-py` failed in the \
+pyo3-ffi 0.23.5 build script: "the configured Python interpreter version (3.14) is newer than PyO3's maximum \
+supported version (3.13)". Fix 78ab8f9 (cherry-picked from 8a89033) moves to pyo3 0.30.1 and numpy 0.30.0; after it, osv-scanner 2.7.1 and \
+cargo audit 0.22.0 report no pyo3 advisory, rsun-py and the workspace (minus rsun-cuda) build on Python 3.14 and \
+3.13, rsun-core tests 40/40, and a behaviour probe of every exported function gives 13600 float32 outputs \
+bit-identical to the 0.23 wheel; an independent 173-case probe agrees on 172 cases (97299 float32 values \
+bit-identical). The module docstring is unchanged ('rsun Python module'). Exception message texts changed \
+(types unchanged), and DayResult.day.__doc__ is None instead of ''. Known behaviour change: a C-contiguous but \
+unaligned float32 dem/lat/lon array (e.g. np.frombuffer(buf, np.float32, offset=1, ...)) now raises \
+PanicException "called `Result::unwrap()` on an `Err` value: AsSliceError" from numpy_to_grid's \
+`.as_slice().unwrap()` (rsun/rsun-py/src/lib.rs:22), because rust-numpy 0.30.0's as_slice also checks \
+is_aligned() (numpy-0.30.0 src/array.rs:765). 0.23 checked contiguity only (numpy-0.23.0 src/array.rs:866) and \
+built an unaligned &[f32], which is undefined behaviour in Rust, so it returned results. Returning a Python \
+ValueError instead of panicking (which would also change today's strided-input panic) is left to the rsun-py \
+owner. Evidence: eemt-validation-inputs/deps/pyo3.md, deps/pyo3-evidence/ and deps/pyo3-review/ (outside the \
+repository)."""
+test = "osv-scanner scan source --lockfile Cargo.lock:rsun/Cargo.lock and cargo audit --file rsun/Cargo.lock (no pyo3 advisory); blocking lock-file vulnerability check in scripts/locks/check.sh is Area A's follow-up"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "78ab8f9"
+reason = ""
+
