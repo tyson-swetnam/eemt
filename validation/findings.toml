@@ -220,7 +220,7 @@ location = [
     "notebooks/environment-minimal.yml:37",
 ]
 severity = "medium"
-status = "confirmed"
+status = "fixed"
 evidence = """PyPI JSON API for daymetpy: latest version 1.0.0, license "AGPL-3", classifier "GNU Affero General \
 Public License v3". notebooks/environment.yml:82 asks for `daymetpy>=1.1`, which cannot be satisfied. \
 `git grep -n -E 'import +daymetpy|from +daymetpy'` over the whole tree returns nothing: the package is installed \
@@ -275,7 +275,7 @@ id = "F-A-011"
 title = "notebooks/install_grass.sh says it is based on a GRASS wiki page whose licence is not recorded"
 location = ["notebooks/install_grass.sh:8"]
 severity = "low"
-status = "suspected"
+status = "fixed"
 evidence = """Line 8: "# Based on https://grasswiki.osgeo.org/wiki/Compile_and_Install". How much of the script \
 is copied from that page, and under what terms the wiki text is published, was not checked. The file carries the \
 repository header (BSD-3-Clause) like every other script. The approved plan deletes this script in favour of the \
@@ -420,7 +420,7 @@ evidence = """`docker image inspect eemt:legacy-e7637f45c202` -> 6,876,862,733 b
 calls QGIS, pandas, xarray, rasterio, geopandas, jupyter or dask (`git grep` of imports and commands in sol/, \
 eemt/, container scripts, scripts/ and pinaleno/scripts). eemt:3.0.0 (sha256:04159cfc...) is 1,572,411,569 bytes; \
 the conda environment layer is 1.47 GB."""
-test = ""
+test = "docker/workflow/Dockerfile runs scripts/locks/assert-conda-env.sh, which fails the build unless the installed conda packages equal docker/workflow/conda-lock.yml; git grep -n -i -E 'qgis|jupyter|dask' -- docker/workflow/conda-lock.yml (no output)"
 changes_scientific_output = false
 sdr = ""
 fix_commit = "c5843c4"
