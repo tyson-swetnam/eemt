@@ -33,7 +33,7 @@ Both `run-workflow` scripts are Python-based Makeflow generators (not direct exe
 ### Container Architecture
 - Workflow image `eemt:<docker/VERSION>` (`docker/workflow/Dockerfile`): a hash-locked conda-forge environment (`docker/workflow/conda-lock.yml`: Python 3.14, GRASS GIS 8.5.0, GDAL 3.12, CCTools/ndcctools 7.17.6) copied into a digest-pinned Ubuntu 26.04 runtime. Runs as any `--user UID:GID`. `eemt-selftest` checks it.
 - Container entry points: `docker/workflow/container-scripts/run-solar-workflow.py` and `run-eemt-workflow.py` (installed in `/opt/eemt/bin`)
-- Web image `eemt-web:<docker/VERSION>` (`docker/web-interface/Dockerfile`): pinned `python:3.14.10-slim-trixie` with the hashed `web-interface/requirements.txt` and the Docker CLI binary; it does not extend the workflow image. The web app starts workflow containers from `EEMT_WORKFLOW_IMAGE`.
+- Web image `eemt-web:<docker/VERSION>` (`docker/web-interface/Dockerfile`): pinned `python:3.14.10-slim-trixie` with the hashed `web-interface/requirements.txt` and the Docker CLI binary; it does not extend the workflow image. `docker-compose.yml` passes the workflow image as `EEMT_WORKFLOW_IMAGE`, but the web app does not read it yet and still launches `eemt:ubuntu24.04`, which nothing builds (F-A-039).
 - Every base image is pinned as `name:tag@sha256`, every package comes from a hashed lock, and `sbom/` holds the generated SBOMs. Details: `docker/README.md`.
 
 ### GRASS GIS Integration
@@ -86,7 +86,7 @@ pytest
 
 ## Requirements Files and Locks
 
-Edit the input, never the lock; regenerate with `scripts/locks/refresh.sh` (all tools run in digest-pinned containers) and check with `scripts/locks/check.sh` (offline):
+Edit the input, never the lock; regenerate with `scripts/locks/refresh.sh` (all tools run in digest-pinned containers) and check with `scripts/locks/check.sh` (offline) and `scripts/locks/check.sh vulns` (osv-scanner; advisories allowed only in `scripts/locks/osv-scanner.toml`, each with a reason and an expiry date):
 
 - `web-interface/requirements.in` → `web-interface/requirements.txt` (hashed): FastAPI, uvicorn, docker SDK, psutil for the web app
 - `requirements-docs.in` → `requirements-docs.txt` (hashed): Zensical docs toolchain
@@ -100,7 +100,7 @@ A lock change also means regenerating the SBOMs in the same branch:
 
 ## CI/CD
 
-- `.github/workflows/containers.yml` (pull requests, pushes to `master`): `scripts/locks/check.sh all`; builds the workflow and web images (no registry push), runs `eemt-selftest` and `pytest -m grass` in the workflow image, regenerates and validates the SBOMs and fails if the committed `sbom/` is out of date. The grype report and an SPDX 3.0 SBOM are attached as artifacts.
+- `.github/workflows/containers.yml` (pull requests, pushes to `master`): `scripts/locks/check.sh all` and `scripts/locks/check.sh vulns` (blocking); builds the workflow and web images (no registry push), runs `eemt-selftest` and `pytest -m grass` in the workflow image, regenerates and validates the SBOMs and fails if the committed `sbom/` is out of date. The grype report and an SPDX 3.0 SBOM are attached as artifacts.
 - `.github/workflows/reuse.yml`: `reuse lint` (every file needs an SPDX header, a `.license` sidecar or a `REUSE.toml` entry).
 - `.github/workflows/ghpages.yml`: docs deploy on push to `master` or `2026_update` using `zensical build`.
 
