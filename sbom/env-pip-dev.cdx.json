@@ -3948,11 +3948,6 @@
     "component": {
       "bom-ref": "env-pip-dev@3.0.0",
       "description": "Test, lint and SBOM tools, from the hashed lock requirements-dev.txt.",
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
       "name": "env-pip-dev",
       "supplier": {
         "name": "EEMT project",
@@ -3992,7 +3987,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:6b98d288-7315-5f5d-97d5-8dda4a6a5dfe",
+  "serialNumber": "urn:uuid:fa23f4fd-fe39-5e21-a916-3037575c2b37",
   "specVersion": "1.7",
   "version": 1
 }

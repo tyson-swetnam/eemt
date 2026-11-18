@@ -11,11 +11,11 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "e58042a337d60c7d6449471bf69273ba099626a3a950e55e939308bde734a633"
+              "content": "e6493a9dbdfa3e5463b16d17b7dd740e45de285c6adf96c7ab9c82749538df31"
             }
           ],
           "type": "bom",
-          "url": "urn:cdx:e51ecad6-a0e3-5063-b3d5-a9e0c949a187/1"
+          "url": "urn:cdx:e3d9ad94-5dd8-5bdb-948c-63a83991af36/1"
         }
       ],
       "licenses": [
@@ -27,7 +27,7 @@
       "properties": [
         {
           "name": "eemt:component-count",
-          "value": "196"
+          "value": "194"
         },
         {
           "name": "eemt:sbom-target",
@@ -52,18 +52,14 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "bfc429104bdc0de2e7badd84834d56cc33d7e20a45b4d4bbbfd92dc4fd407f30"
+              "content": "45555f642a81dfe3ff0a58b57911c75ed360007ec342058a50b9c3154b99cf9b"
             }
           ],
           "type": "bom",
-          "url": "urn:cdx:501fb7c4-c989-5cf4-8ddd-9a7536a3b6e4/1"
+          "url": "urn:cdx:4c563004-4887-59fb-ad39-4f2e7e593395/1"
         }
       ],
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
+      "licenses": [],
       "name": "env-conda-notebooks",
       "properties": [
         {
@@ -93,18 +89,14 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "d9e32623103ebefea33ff5f5c1d92425fadcb31367b20cbab1fe00b0b6b3cea2"
+              "content": "bf9a024f5618d411c263c55c8ba7a0bb058e964cdb5126f295e9b3099a67a5cd"
             }
           ],
           "type": "bom",
-          "url": "urn:cdx:31fa737a-f606-54fe-9ef7-8c71bfef88c4/1"
+          "url": "urn:cdx:97867f07-6aa9-5649-a616-fceff230455b/1"
         }
       ],
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
+      "licenses": [],
       "name": "env-conda-notebooks-minimal",
       "properties": [
         {
@@ -134,18 +126,14 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "68038afe7df14fb016aa0683f4dddfe306f5e0cdac266eabd1d52c37e6e74bbc"
+              "content": "90518964b1f9c6742e79e56b59fa7f36e83efefc835a55cd8d4dae3ceaa6d975"
             }
           ],
           "type": "bom",
-          "url": "urn:cdx:6b98d288-7315-5f5d-97d5-8dda4a6a5dfe/1"
+          "url": "urn:cdx:fa23f4fd-fe39-5e21-a916-3037575c2b37/1"
         }
       ],
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
+      "licenses": [],
       "name": "env-pip-dev",
       "properties": [
         {
@@ -175,18 +163,14 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "fcd5c13e6f1db05d2d960a7ad0260103120ed78cf7ae15e4bfed7b2cb44415c5"
+              "content": "a552baa395fcf1eabafde2607013971a1b900315c95287ed09b56acbdd0ed77d"
             }
           ],
           "type": "bom",
-          "url": "urn:cdx:0ae4096f-4095-5bf4-ba03-04f0f5832fe9/1"
+          "url": "urn:cdx:f4c0a578-5dba-555c-ac62-924805326fd3/1"
         }
       ],
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
+      "licenses": [],
       "name": "env-pip-docs",
       "properties": [
         {
@@ -219,18 +203,14 @@
               "hashes": [
                 {
                   "alg": "SHA-256",
-                  "content": "a2e2f16864d50201f6925b3ca362f3c2369aacf17ddce1286b73e672fe71baa1"
+                  "content": "2cd51dbd16b89abcf38d9c042098075c86accf5ac66efe67d3ff24f82696d7ba"
                 }
               ],
               "type": "bom",
-              "url": "urn:cdx:b88e78fd-3822-5c90-b395-ac4449e4e9fe/1"
+              "url": "urn:cdx:4f465dbf-9c1f-53ab-b048-d892551d8c71/1"
             }
           ],
-          "licenses": [
-            {
-              "expression": "BSD-3-Clause"
-            }
-          ],
+          "licenses": [],
           "name": "env-conda-workflow",
           "properties": [
             {
@@ -259,18 +239,14 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "49d837e7522bd4327123038dce6b43459ca30473d03f9ad48f7a33e5cd655b7f"
+              "content": "c8ebce5c69857300ee9348bf45eee671f5a9761a5bbdb52511817e4552c7b84d"
             }
           ],
           "type": "bom",
-          "url": "urn:cdx:e72b4cc2-0fdd-580c-aa8f-1846ae5ba121/1"
+          "url": "urn:cdx:89136397-1f75-5b6e-8998-e1463c3cf6a0/1"
         }
       ],
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
+      "licenses": [],
       "name": "eemt",
       "properties": [
         {
@@ -303,18 +279,14 @@
               "hashes": [
                 {
                   "alg": "SHA-256",
-                  "content": "3131254359142cab03b73cfff0f5a5f61f289a2fdf7fb1c15a124671a00206aa"
+                  "content": "b0ea6344590090bec8e1e18cf1d3871d452eb7cf07a25a13fc251a6e2d984b72"
                 }
               ],
               "type": "bom",
-              "url": "urn:cdx:c09e1767-2efa-5ba7-9bb2-5e49662d2799/1"
+              "url": "urn:cdx:a1f19e98-f119-5aa4-87e8-ea63af465f79/1"
             }
           ],
-          "licenses": [
-            {
-              "expression": "BSD-3-Clause"
-            }
-          ],
+          "licenses": [],
           "name": "env-pip-web",
           "properties": [
             {
@@ -343,18 +315,14 @@
           "hashes": [
             {
               "alg": "SHA-256",
-              "content": "5d813459b2f606a26a91156cb7d9d6f4d05af52acd258cc70796a1bd902362a6"
+              "content": "931707d5366d35d4c6e99efb3fc3c74b5421b8ffa2dd6d44a36e416b0b4b6c94"
             }
           ],
           "type": "bom",
-          "url": "urn:cdx:d3bc4ce9-061f-5f85-af38-336b522aef58/1"
+          "url": "urn:cdx:c289b07f-ea08-57b6-bf2d-66be141cf586/1"
         }
       ],
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
+      "licenses": [],
       "name": "eemt-web",
       "properties": [
         {
@@ -427,11 +395,6 @@
     "component": {
       "bom-ref": "eemt@3.0.0",
       "description": "EEMT (Effective Energy and Mass Transfer) release: container images, locked environments and the rsun Rust workspace. Each member is described by its own SBOM in sbom/.",
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
       "name": "eemt",
       "supplier": {
         "name": "EEMT project",
@@ -459,7 +422,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:40f72f46-f6a1-5cce-950a-81b3c8184f2e",
+  "serialNumber": "urn:uuid:47f2d05b-23ab-5ce2-aa0b-cc10371e73f9",
   "specVersion": "1.7",
   "version": 1
 }

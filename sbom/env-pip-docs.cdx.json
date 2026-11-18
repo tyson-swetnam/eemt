@@ -1548,11 +1548,6 @@
     "component": {
       "bom-ref": "env-pip-docs@3.0.0",
       "description": "Documentation toolchain (Zensical), from the hashed lock requirements-docs.txt.",
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
       "name": "env-pip-docs",
       "supplier": {
         "name": "EEMT project",
@@ -1592,7 +1587,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:0ae4096f-4095-5bf4-ba03-04f0f5832fe9",
+  "serialNumber": "urn:uuid:f4c0a578-5dba-555c-ac62-924805326fd3",
   "specVersion": "1.7",
   "version": 1
 }

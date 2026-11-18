@@ -10299,11 +10299,6 @@
     "component": {
       "bom-ref": "env-conda-workflow@3.0.0",
       "description": "Conda environment installed in the workflow image at /opt/eemt/env, from docker/workflow/conda-lock.yml.",
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
       "name": "env-conda-workflow",
       "supplier": {
         "name": "EEMT project",
@@ -10336,7 +10331,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:b88e78fd-3822-5c90-b395-ac4449e4e9fe",
+  "serialNumber": "urn:uuid:4f465dbf-9c1f-53ab-b048-d892551d8c71",
   "specVersion": "1.7",
   "version": 1
 }

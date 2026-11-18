@@ -45,7 +45,7 @@
       "sbom": [
         "cargo-rsun"
       ],
-      "sha256": "5a1ff854605fa44a1b09cb0f3710401348cf4b2b37002fdaf5ad930ea95f3194"
+      "sha256": "6e6af0690728fece5c22cbff5a01aae2b93b3a61cf13556fff8c99a2cffcc00b"
     },
     {
       "path": "scripts/locks/tools/locktool-lock.yml",
@@ -72,7 +72,7 @@
       "components": 11,
       "cyclonedx": {
         "path": "sbom/env-pip-docs.cdx.json",
-        "sha256": "fcd5c13e6f1db05d2d960a7ad0260103120ed78cf7ae15e4bfed7b2cb44415c5",
+        "sha256": "a552baa395fcf1eabafde2607013971a1b900315c95287ed09b56acbdd0ed77d",
         "spec": "1.7"
       },
       "inputs": [
@@ -103,12 +103,12 @@
         "normalize": {
           "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
           "path": "scripts/sbom/normalize.py",
-          "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
         }
       },
       "spdx": {
         "path": "sbom/env-pip-docs.spdx.json",
-        "sha256": "3c4ebe43c3cadd715e31a9d8c2a553806453ef7c9637ddf7dac56d19f809def8",
+        "sha256": "6ba5bf3a8f67d6e9e437e9343b09979efcdaa51f6f8d92f110e4ffea2652f08f",
         "spec": "SPDX-2.3"
       }
     },
@@ -116,7 +116,7 @@
       "components": 127,
       "cyclonedx": {
         "path": "sbom/image-eemt-web.cdx.json",
-        "sha256": "5d813459b2f606a26a91156cb7d9d6f4d05af52acd258cc70796a1bd902362a6",
+        "sha256": "931707d5366d35d4c6e99efb3fc3c74b5421b8ffa2dd6d44a36e416b0b4b6c94",
         "spec": "1.7"
       },
       "inputs": [
@@ -136,7 +136,7 @@
         "normalize": {
           "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
           "path": "scripts/sbom/normalize.py",
-          "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
         },
         "syft": {
           "image": "anchore/syft:v1.57.1@sha256:03215d0e98b661d0ecbc8575dbc14d65be1743b5de5df6410aecb7e80f95b060",
@@ -145,21 +145,21 @@
       },
       "spdx": {
         "path": "sbom/image-eemt-web.spdx.json",
-        "sha256": "1db8c674862e0a4a9f4432abbfaa7b88329e7899fbaac6d4279bf39ee7fa77b3",
+        "sha256": "82adb245d6fe4e4880f40b68c60e461bbac56f999d99eeb42081d349601a3275",
         "spec": "SPDX-2.3"
       }
     },
     {
-      "components": 196,
+      "components": 194,
       "cyclonedx": {
         "path": "sbom/cargo-rsun.cdx.json",
-        "sha256": "e58042a337d60c7d6449471bf69273ba099626a3a950e55e939308bde734a633",
+        "sha256": "e6493a9dbdfa3e5463b16d17b7dd740e45de285c6adf96c7ab9c82749538df31",
         "spec": "1.7"
       },
       "inputs": [
         {
           "path": "rsun/Cargo.lock",
-          "sha256": "5a1ff854605fa44a1b09cb0f3710401348cf4b2b37002fdaf5ad930ea95f3194"
+          "sha256": "6e6af0690728fece5c22cbff5a01aae2b93b3a61cf13556fff8c99a2cffcc00b"
         },
         {
           "path": "rsun/Cargo.toml",
@@ -187,12 +187,12 @@
         "normalize": {
           "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
           "path": "scripts/sbom/normalize.py",
-          "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
         }
       },
       "spdx": {
         "path": "sbom/cargo-rsun.spdx.json",
-        "sha256": "0a6d9c9b8c8df70fb84b3dcdb1e18b0794299bd664d0dfa875f0f7456161bbd9",
+        "sha256": "d079f3659c3efa09f9e3e0dac4c1d9471d04c2b6d1fb793c79087adddf6f089d",
         "spec": "SPDX-2.3"
       }
     },
@@ -200,7 +200,7 @@
       "components": 225,
       "cyclonedx": {
         "path": "sbom/env-conda-workflow.cdx.json",
-        "sha256": "a2e2f16864d50201f6925b3ca362f3c2369aacf17ddce1286b73e672fe71baa1",
+        "sha256": "2cd51dbd16b89abcf38d9c042098075c86accf5ac66efe67d3ff24f82696d7ba",
         "spec": "1.7"
       },
       "inputs": [
@@ -226,12 +226,12 @@
         "normalize": {
           "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
           "path": "scripts/sbom/normalize.py",
-          "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
         }
       },
       "spdx": {
         "path": "sbom/env-conda-workflow.spdx.json",
-        "sha256": "00bed0f3fcc0867dd5b15885a7ba372fbc662768e0d4179d7cacf682d1cb656d",
+        "sha256": "a240335d85020075a4af3d3b42a4337304f31a8a39b0fb58ac6fe1380578974c",
         "spec": "SPDX-2.3"
       }
     },
@@ -239,7 +239,7 @@
       "components": 29,
       "cyclonedx": {
         "path": "sbom/env-pip-web.cdx.json",
-        "sha256": "3131254359142cab03b73cfff0f5a5f61f289a2fdf7fb1c15a124671a00206aa",
+        "sha256": "b0ea6344590090bec8e1e18cf1d3871d452eb7cf07a25a13fc251a6e2d984b72",
         "spec": "1.7"
       },
       "inputs": [
@@ -270,12 +270,12 @@
         "normalize": {
           "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
           "path": "scripts/sbom/normalize.py",
-          "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
         }
       },
       "spdx": {
         "path": "sbom/env-pip-web.spdx.json",
-        "sha256": "ae7e809bbe663a77680af80cd33893dc7beb12c2667dd2af21a0bb8b4bd42b71",
+        "sha256": "700ec690746d11e18bb680c86b83668a5b5392f9cb71471b277ad389c680f754",
         "spec": "SPDX-2.3"
       }
     },
@@ -283,7 +283,7 @@
       "components": 324,
       "cyclonedx": {
         "path": "sbom/image-eemt.cdx.json",
-        "sha256": "49d837e7522bd4327123038dce6b43459ca30473d03f9ad48f7a33e5cd655b7f",
+        "sha256": "c8ebce5c69857300ee9348bf45eee671f5a9761a5bbdb52511817e4552c7b84d",
         "spec": "1.7"
       },
       "inputs": [
@@ -303,7 +303,7 @@
         "normalize": {
           "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
           "path": "scripts/sbom/normalize.py",
-          "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
         },
         "syft": {
           "image": "anchore/syft:v1.57.1@sha256:03215d0e98b661d0ecbc8575dbc14d65be1743b5de5df6410aecb7e80f95b060",
@@ -312,7 +312,7 @@
       },
       "spdx": {
         "path": "sbom/image-eemt.spdx.json",
-        "sha256": "2d3b8f9c5cb0d360617add71e3d397987bf11dcaee28468c25b481f6c491303b",
+        "sha256": "6e592b403e6a72e410cf065df56666e1c74af8ba358c139214c67c82c1d8f64a",
         "spec": "SPDX-2.3"
       }
     },
@@ -320,7 +320,7 @@
       "components": 429,
       "cyclonedx": {
         "path": "sbom/env-conda-notebooks-minimal.cdx.json",
-        "sha256": "d9e32623103ebefea33ff5f5c1d92425fadcb31367b20cbab1fe00b0b6b3cea2",
+        "sha256": "bf9a024f5618d411c263c55c8ba7a0bb058e964cdb5126f295e9b3099a67a5cd",
         "spec": "1.7"
       },
       "inputs": [
@@ -346,12 +346,12 @@
         "normalize": {
           "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
           "path": "scripts/sbom/normalize.py",
-          "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
         }
       },
       "spdx": {
         "path": "sbom/env-conda-notebooks-minimal.spdx.json",
-        "sha256": "231e737880f9202673f60a7ce43b7e0d4a94666046c7251a3f5753dea983ae3e",
+        "sha256": "92eaa2e9b6c33c351de1f8db9caffb07fa87220e703b0f025a0ea29c1ca93e64",
         "spec": "SPDX-2.3"
       }
     },
@@ -359,7 +359,7 @@
       "components": 55,
       "cyclonedx": {
         "path": "sbom/env-pip-dev.cdx.json",
-        "sha256": "68038afe7df14fb016aa0683f4dddfe306f5e0cdac266eabd1d52c37e6e74bbc",
+        "sha256": "90518964b1f9c6742e79e56b59fa7f36e83efefc835a55cd8d4dae3ceaa6d975",
         "spec": "1.7"
       },
       "inputs": [
@@ -390,12 +390,12 @@
         "normalize": {
           "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
           "path": "scripts/sbom/normalize.py",
-          "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
         }
       },
       "spdx": {
         "path": "sbom/env-pip-dev.spdx.json",
-        "sha256": "b285be8eec4a442c68abc58edb4b2cbc5e79d6ea62bb26e690d22c7b9d831240",
+        "sha256": "eaf752bdf840ab5593378ffcea31b3118a36b6c1234c1870d988b86f9c353224",
         "spec": "SPDX-2.3"
       }
     },
@@ -403,7 +403,7 @@
       "components": 567,
       "cyclonedx": {
         "path": "sbom/env-conda-notebooks.cdx.json",
-        "sha256": "bfc429104bdc0de2e7badd84834d56cc33d7e20a45b4d4bbbfd92dc4fd407f30",
+        "sha256": "45555f642a81dfe3ff0a58b57911c75ed360007ec342058a50b9c3154b99cf9b",
         "spec": "1.7"
       },
       "inputs": [
@@ -429,12 +429,12 @@
         "normalize": {
           "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
           "path": "scripts/sbom/normalize.py",
-          "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
         }
       },
       "spdx": {
         "path": "sbom/env-conda-notebooks.spdx.json",
-        "sha256": "03fe1ab948e3e361d14f555794fec31c8853d6505b7bc7f231c354d61fe43dea",
+        "sha256": "efad336a1bb7abba7ebc3a0803aba4538cb209341850f14f17d539f45a563c4e",
         "spec": "SPDX-2.3"
       }
     }
@@ -462,7 +462,7 @@
     "normalize": {
       "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
       "path": "scripts/sbom/normalize.py",
-      "sha256": "eef6d6d75e695a692c516a4b1859f7958c67061f6872a1fb093d91b6356080fa"
+      "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
     },
     "syft": {
       "image": "anchore/syft:v1.57.1@sha256:03215d0e98b661d0ecbc8575dbc14d65be1743b5de5df6410aecb7e80f95b060"

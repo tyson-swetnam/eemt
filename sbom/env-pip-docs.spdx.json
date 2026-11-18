@@ -11,7 +11,7 @@
     ]
   },
   "dataLicense": "CC0-1.0",
-  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-docs-fb0c6f94-0292-5cc4-add7-d6ea79f61f3d",
+  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-docs-97bf0a55-bbac-591c-ac71-6b93e14b77b1",
   "name": "env-pip-docs",
   "packages": [
     {
@@ -241,7 +241,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "env-pip-docs",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",

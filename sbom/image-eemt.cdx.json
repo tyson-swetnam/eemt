@@ -27805,11 +27805,6 @@
     "component": {
       "bom-ref": "eemt@3.0.0",
       "description": "Workflow image eemt:<docker/VERSION>: Ubuntu 26.04 runtime with the conda-forge environment of docker/workflow/conda-lock.yml (GRASS GIS, GDAL, CCTools, Python).",
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
       "name": "eemt",
       "supplier": {
         "name": "EEMT project",
@@ -27843,7 +27838,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:e72b4cc2-0fdd-580c-aa8f-1846ae5ba121",
+  "serialNumber": "urn:uuid:89136397-1f75-5b6e-8998-e1463c3cf6a0",
   "specVersion": "1.7",
   "version": 1
 }

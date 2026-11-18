@@ -18066,11 +18066,6 @@
     "component": {
       "bom-ref": "env-conda-notebooks-minimal@3.0.0",
       "description": "Minimal conda environment for the notebooks, from notebooks/minimal-conda-lock.yml.",
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
       "name": "env-conda-notebooks-minimal",
       "supplier": {
         "name": "EEMT project",
@@ -18103,7 +18098,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:31fa737a-f606-54fe-9ef7-8c71bfef88c4",
+  "serialNumber": "urn:uuid:97867f07-6aa9-5649-a616-fceff230455b",
   "specVersion": "1.7",
   "version": 1
 }

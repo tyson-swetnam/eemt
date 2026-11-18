@@ -10,7 +10,7 @@
     ]
   },
   "dataLicense": "CC0-1.0",
-  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-notebooks-bd0a2dca-c492-5ca5-9688-5212eac6e6c9",
+  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-notebooks-50084ec6-ef6a-5d40-9ab2-52a085d4655d",
   "hasExtractedLicensingInfos": [
     {
       "extractedText": "The package metadata names the licence 'LGPL-2.1-only-or-MPL-1.1', which is not an SPDX License List identifier. Its text is not included in this document.",
@@ -16478,7 +16478,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "env-conda-notebooks",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",

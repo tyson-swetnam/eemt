@@ -10,7 +10,7 @@
     "licenseListVersion": "3.29"
   },
   "dataLicense": "CC0-1.0",
-  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/image-eemt-79fe2dd9-962f-58ca-8786-50dde1447f57",
+  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/image-eemt-ee2c931b-9275-54a2-b7c0-2d888b1cd6b7",
   "hasExtractedLicensingInfos": [
     {
       "extractedText": "NOASSERTION",
@@ -422,7 +422,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "eemt",
       "primaryPackagePurpose": "CONTAINER",
       "supplier": "Organization: EEMT project",

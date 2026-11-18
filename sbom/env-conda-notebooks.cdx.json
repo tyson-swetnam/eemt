@@ -23625,11 +23625,6 @@
     "component": {
       "bom-ref": "env-conda-notebooks@3.0.0",
       "description": "Conda environment for the notebooks, from notebooks/conda-lock.yml.",
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
       "name": "env-conda-notebooks",
       "supplier": {
         "name": "EEMT project",
@@ -23662,7 +23657,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:501fb7c4-c989-5cf4-8ddd-9a7536a3b6e4",
+  "serialNumber": "urn:uuid:4c563004-4887-59fb-ad39-4f2e7e593395",
   "specVersion": "1.7",
   "version": 1
 }

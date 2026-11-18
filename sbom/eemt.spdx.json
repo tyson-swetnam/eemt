@@ -8,79 +8,79 @@
     ]
   },
   "dataLicense": "CC0-1.0",
-  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/eemt-f91c893c-1593-5097-8e03-72021f937f9a",
+  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/eemt-6a8c4f1f-bd57-5edc-a7dc-9aa64ef6fd51",
   "externalDocumentRefs": [
     {
       "checksum": {
         "algorithm": "SHA1",
-        "checksumValue": "30b110afbcc0afffccdb0f1482c732f3de7b2106"
-      },
-      "externalDocumentId": "DocumentRef-env-conda-workflow",
-      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-workflow-4fb8839a-661c-5b9b-8cba-10a1a41920c3"
-    },
-    {
-      "checksum": {
-        "algorithm": "SHA1",
-        "checksumValue": "33b9c5f54c925dbc6de3a308081c231bc6a24a9e"
-      },
-      "externalDocumentId": "DocumentRef-image-eemt-web",
-      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/image-eemt-web-851914c2-efff-5e9a-a23e-42d110695274"
-    },
-    {
-      "checksum": {
-        "algorithm": "SHA1",
-        "checksumValue": "3e2bb4e1c92824888ecebac22c1334316b6611da"
+        "checksumValue": "28386695d8171a314c141a8864f4930b63fce0c6"
       },
       "externalDocumentId": "DocumentRef-env-conda-notebooks-minimal",
-      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-notebooks-minimal-cb1df925-631f-5d9e-aaae-6cb2edf4f0af"
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-notebooks-minimal-0fbf9c0d-3515-5f54-a8e1-b04f80b04af7"
     },
     {
       "checksum": {
         "algorithm": "SHA1",
-        "checksumValue": "8022e8e83169bcce413eb1f0792cda6af20a43ce"
+        "checksumValue": "9464920c891382f578e3dd3a302400353de06a9c"
       },
       "externalDocumentId": "DocumentRef-env-pip-web",
-      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-web-bee039ea-b606-50fe-8927-3126da65fb64"
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-web-447e7ea4-1356-546e-bbd0-316e37af0751"
     },
     {
       "checksum": {
         "algorithm": "SHA1",
-        "checksumValue": "958d84d8408ba63cc50d7f4735a95ef004bced65"
+        "checksumValue": "a5a9ea66477dd147666cdf6e39276c1ba8394491"
       },
       "externalDocumentId": "DocumentRef-env-pip-dev",
-      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-dev-15bcf4e3-6105-5395-8559-7ba51bc5fd94"
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-dev-660d753c-8a2f-5106-ba14-30e7b0603ccc"
     },
     {
       "checksum": {
         "algorithm": "SHA1",
-        "checksumValue": "a0623bacba329db7a932d3ccaabe4b399f557e7b"
+        "checksumValue": "aba87d0aa53c7b00aedfc51cc38a6dc4706a4243"
       },
       "externalDocumentId": "DocumentRef-image-eemt",
-      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/image-eemt-79fe2dd9-962f-58ca-8786-50dde1447f57"
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/image-eemt-ee2c931b-9275-54a2-b7c0-2d888b1cd6b7"
     },
     {
       "checksum": {
         "algorithm": "SHA1",
-        "checksumValue": "d01b648bd8bfc54da80c5b8a4bbab41a3e6bd24a"
+        "checksumValue": "b0c624a3a3e794fff4e050fc4547cdf7deb4149a"
       },
-      "externalDocumentId": "DocumentRef-env-conda-notebooks",
-      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-notebooks-bd0a2dca-c492-5ca5-9688-5212eac6e6c9"
+      "externalDocumentId": "DocumentRef-image-eemt-web",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/image-eemt-web-48d451b1-98de-5b2f-90d4-ae023df87f6a"
     },
     {
       "checksum": {
         "algorithm": "SHA1",
-        "checksumValue": "e2f61f50473030a8fb3437e925fd5db1f934bcbd"
+        "checksumValue": "b90c5842a27f7b1b908fd034ed04331154441ce4"
       },
-      "externalDocumentId": "DocumentRef-env-pip-docs",
-      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-docs-fb0c6f94-0292-5cc4-add7-d6ea79f61f3d"
+      "externalDocumentId": "DocumentRef-env-conda-workflow",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-workflow-855e678e-d6b7-511d-b5e1-40ec1cf4cd0f"
     },
     {
       "checksum": {
         "algorithm": "SHA1",
-        "checksumValue": "ff7b2743cd6157f458fd25909a43e4de859b895c"
+        "checksumValue": "bb98e4a7e47c979e74e6dfcee5f02a64fad97b13"
       },
       "externalDocumentId": "DocumentRef-cargo-rsun",
-      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/cargo-rsun-63e2af8f-4e68-5e91-8c60-cdf2ad3f24ed"
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/cargo-rsun-589cd592-9698-595d-970c-f5fc45fef8df"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "d5007c2653a525329d0eeabe547fdf48071d0d7c"
+      },
+      "externalDocumentId": "DocumentRef-env-conda-notebooks",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-notebooks-50084ec6-ef6a-5d40-9ab2-52a085d4655d"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "ed0bc2aa7cceb5f42f4748384ca0d59d135362bb"
+      },
+      "externalDocumentId": "DocumentRef-env-pip-docs",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-docs-97bf0a55-bbac-591c-ac71-6b93e14b77b1"
     }
   ],
   "name": "eemt",
@@ -92,7 +92,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "eemt",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",
@@ -100,7 +100,7 @@
     },
     {
       "SPDXID": "SPDXRef-Member-cargo-rsun",
-      "comment": "Described by sbom/cargo-rsun.spdx.json (196 packages).",
+      "comment": "Described by sbom/cargo-rsun.spdx.json (194 packages).",
       "copyrightText": "NOASSERTION",
       "description": "rsun Rust workspace: every crate in rsun/Cargo.lock, licences from cargo metadata.",
       "downloadLocation": "NOASSERTION",
@@ -120,7 +120,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "env-conda-notebooks",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",
@@ -134,7 +134,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "env-conda-notebooks-minimal",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",
@@ -148,7 +148,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "env-conda-workflow",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",
@@ -162,7 +162,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "env-pip-dev",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",
@@ -176,7 +176,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "env-pip-docs",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",
@@ -190,7 +190,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "env-pip-web",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",
@@ -204,7 +204,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "eemt",
       "primaryPackagePurpose": "CONTAINER",
       "supplier": "Organization: EEMT project",
@@ -218,7 +218,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "eemt-web",
       "primaryPackagePurpose": "CONTAINER",
       "supplier": "Organization: EEMT project",

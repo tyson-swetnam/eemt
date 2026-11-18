@@ -4626,11 +4626,6 @@
     "component": {
       "bom-ref": "env-pip-web@3.0.0",
       "description": "Python packages of the web interface, from the hashed lock web-interface/requirements.txt.",
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
       "name": "env-pip-web",
       "supplier": {
         "name": "EEMT project",
@@ -4670,7 +4665,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:c09e1767-2efa-5ba7-9bb2-5e49662d2799",
+  "serialNumber": "urn:uuid:a1f19e98-f119-5aa4-87e8-ea63af465f79",
   "specVersion": "1.7",
   "version": 1
 }

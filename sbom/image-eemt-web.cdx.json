@@ -14406,11 +14406,6 @@
     "component": {
       "bom-ref": "eemt-web@3.0.0",
       "description": "Web interface image eemt-web:<docker/VERSION>: python:3.14.10-slim-trixie with the packages of web-interface/requirements.txt and the Docker CLI.",
-      "licenses": [
-        {
-          "expression": "BSD-3-Clause"
-        }
-      ],
       "name": "eemt-web",
       "supplier": {
         "name": "EEMT project",
@@ -14444,7 +14439,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:d3bc4ce9-061f-5f85-af38-336b522aef58",
+  "serialNumber": "urn:uuid:c289b07f-ea08-57b6-bf2d-66be141cf586",
   "specVersion": "1.7",
   "version": 1
 }

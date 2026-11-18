@@ -10,7 +10,7 @@
     ]
   },
   "dataLicense": "CC0-1.0",
-  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-workflow-4fb8839a-661c-5b9b-8cba-10a1a41920c3",
+  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-workflow-855e678e-d6b7-511d-b5e1-40ec1cf4cd0f",
   "hasExtractedLicensingInfos": [
     {
       "extractedText": "The package metadata names the licence 'LGPL-2.1-only-or-MPL-1.1', which is not an SPDX License List identifier. Its text is not included in this document.",
@@ -6572,7 +6572,7 @@
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
       "licenseConcluded": "NOASSERTION",
-      "licenseDeclared": "BSD-3-Clause",
+      "licenseDeclared": "NOASSERTION",
       "name": "env-conda-workflow",
       "primaryPackagePurpose": "APPLICATION",
       "supplier": "Organization: EEMT project",
