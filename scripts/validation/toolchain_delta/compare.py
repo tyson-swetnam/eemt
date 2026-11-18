@@ -25,6 +25,7 @@ max |dx|, |dy| per target CRS.
 Values are compared in float64 after reading each band in its own type.
 Writes OUT_JSON and prints one summary line per differing file.
 """
+
 from __future__ import annotations
 
 import json
@@ -69,13 +70,17 @@ def compare_rasters(pa: str, pb: str) -> dict[str, Any]:
         "size": [a["size"], b["size"]],
         "gt_equal": a["gt"] == b["gt"],
         "gt": [a["gt"], b["gt"]] if a["gt"] != b["gt"] else a["gt"],
-        "crs_same": bool(a["srs"] is not None and b["srs"] is not None
-                         and a["srs"].IsSame(b["srs"])),
+        "crs_same": bool(
+            a["srs"] is not None and b["srs"] is not None and a["srs"].IsSame(b["srs"])
+        ),
         "nodata": [a["nodata"], b["nodata"]],
     }
-    r["metadata_equal"] = bool(r["gt_equal"] and r["crs_same"]
-                               and a["nodata"] == b["nodata"]
-                               and a["dtype"] == b["dtype"])
+    r["metadata_equal"] = bool(
+        r["gt_equal"]
+        and r["crs_same"]
+        and a["nodata"] == b["nodata"]
+        and a["dtype"] == b["dtype"]
+    )
     r["bit_identical"] = False
     if a["size"] != b["size"]:
         r["comparable"] = False
@@ -130,14 +135,22 @@ def pixel_stats(a: dict[str, Any], b: dict[str, Any], overlap: bool) -> dict[str
     r["max_ulp"] = float(ulp.max()) if both.any() else 0.0
     if r["n_diff"]:
         i, j = np.unravel_index(int(np.argmax(absd)), absd.shape)
-        r["max_abs_at"] = {"row": int(i), "col": int(j),
-                           "a": float(va[i, j]), "b": float(vb[i, j])}
+        r["max_abs_at"] = {
+            "row": int(i),
+            "col": int(j),
+            "a": float(va[i, j]),
+            "b": float(vb[i, j]),
+        }
         r["mean_abs_of_differing"] = float(absd[diff].mean())
     if both.any():
-        r["range_a"] = [float(va[both].min()), float(va[both].mean()), float(va[both].max())]
-    same_bytes = (a["dtype"] == b["dtype"]
-                  and np.array_equal(a["arr"][both].view(np.uint8),
-                                     b["arr"][both].view(np.uint8)))
+        r["range_a"] = [
+            float(va[both].min()),
+            float(va[both].mean()),
+            float(va[both].max()),
+        ]
+    same_bytes = a["dtype"] == b["dtype"] and np.array_equal(
+        a["arr"][both].view(np.uint8), b["arr"][both].view(np.uint8)
+    )
     # bit_identical is never true for an overlap-only comparison.
     r["bit_identical"] = bool(r["null_mask_equal"] and same_bytes and not overlap)
     if overlap:
@@ -154,10 +167,14 @@ def compare_points(pa: str, pb: str) -> dict[str, Any]:
         d = np.abs(pa_ - pb_)
         dx, dy = float(d[:, 0].max()), float(d[:, 1].max())
         ulp = float((d / np.spacing(np.maximum(np.abs(pa_), np.abs(pb_)))).max())
-        r[key] = {"max_abs_dx_m": dx, "max_abs_dy_m": dy, "max_ulp": ulp,
-                  "n_points": len(a[key]),
-                  "n_differ": sum(1 for p, q in zip(a[key], b[key]) if p != q),
-                  "identical": a[key] == b[key]}
+        r[key] = {
+            "max_abs_dx_m": dx,
+            "max_abs_dy_m": dy,
+            "max_ulp": ulp,
+            "n_points": len(a[key]),
+            "n_differ": sum(1 for p, q in zip(a[key], b[key], strict=False) if p != q),
+            "identical": a[key] == b[key],
+        }
     r["bit_identical"] = all(r[k]["identical"] for k in ("daymet", "epsg3857"))
     return r
 
@@ -175,8 +192,10 @@ def main(argv: list[str]) -> int:
     a_dir, b_dir, out = argv[1], argv[2], argv[3]
     fa, fb = files(a_dir), files(b_dir)
     results: dict[str, Any] = {
-        "a": a_dir, "b": b_dir,
-        "only_a": sorted(fa - fb), "only_b": sorted(fb - fa),
+        "a": a_dir,
+        "b": b_dir,
+        "only_a": sorted(fa - fb),
+        "only_b": sorted(fb - fa),
         "files": {},
     }
     for rel in sorted(fa & fb):
@@ -190,16 +209,32 @@ def main(argv: list[str]) -> int:
     results["summary"] = {"compared": n, "bit_identical": nid, "not_identical": n - nid}
     with open(out, "w") as f:
         json.dump(results, f, indent=1)
-    print(f"{a_dir} vs {b_dir}: {n} compared, {nid} bit-identical, "
-          f"only_a={len(results['only_a'])} only_b={len(results['only_b'])}")
+    print(
+        f"{a_dir} vs {b_dir}: {n} compared, {nid} bit-identical, "
+        f"only_a={len(results['only_a'])} only_b={len(results['only_b'])}"
+    )
     for rel, v in results["files"].items():
         if not v["bit_identical"]:
-            brief = {k: v.get(k) for k in ("dtype", "size", "metadata_equal",
-                                            "gt_equal", "crs_same",
-                                            "overlap", "overlap_identical",
-                                            "null_mask_equal", "n_diff", "max_abs",
-                                            "max_rel", "max_ulp", "daymet", "epsg3857")
-                     if k in v}
+            brief = {
+                k: v.get(k)
+                for k in (
+                    "dtype",
+                    "size",
+                    "metadata_equal",
+                    "gt_equal",
+                    "crs_same",
+                    "overlap",
+                    "overlap_identical",
+                    "null_mask_equal",
+                    "n_diff",
+                    "max_abs",
+                    "max_rel",
+                    "max_ulp",
+                    "daymet",
+                    "epsg3857",
+                )
+                if k in v
+            }
             print(f"  DIFF {rel}: {json.dumps(brief)}")
     return 0
 

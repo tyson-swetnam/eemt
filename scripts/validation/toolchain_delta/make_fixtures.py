@@ -22,6 +22,7 @@ equals true north (meridian convergence = 0 at the centre).
 
 Needs numpy + GDAL python bindings (run inside a container that has them).
 """
+
 import json
 import math
 import os
@@ -36,8 +37,8 @@ os.makedirs(out, exist_ok=True)
 ROWS = COLS = 200
 RES = 10.0
 EPSG = 32612
-X0 = 500000.0 - COLS * RES / 2.0          # west edge
-Y_TOP = 3597000.0 + ROWS * RES / 2.0      # north edge
+X0 = 500000.0 - COLS * RES / 2.0  # west edge
+Y_TOP = 3597000.0 + ROWS * RES / 2.0  # north edge
 SLOPE_DEG = 30.0
 Z_PLANE_CENTRE = 1500.0
 Z_PLAIN = 1000.0
@@ -51,8 +52,8 @@ wkt = srs.ExportToWkt()
 # cell-centre coordinates
 cols = np.arange(COLS)
 rows = np.arange(ROWS)
-xc = X0 + (cols + 0.5) * RES              # east increases with col
-yc = Y_TOP - (rows + 0.5) * RES           # north decreases with row
+xc = X0 + (cols + 0.5) * RES  # east increases with col
+yc = Y_TOP - (rows + 0.5) * RES  # north decreases with row
 X, Y = np.meshgrid(xc, yc)
 # probe "centre" is the cell (100,100); use its centre coordinate as origin
 CR, CC = 100, 100
@@ -76,10 +77,10 @@ def write(name, z):
 
 # Planes: the surface FACES the named direction, i.e. elevation falls towards it.
 planes = {
-    "plane_N": Z_PLANE_CENTRE - t * (Y - yo),   # lower to the north
-    "plane_S": Z_PLANE_CENTRE + t * (Y - yo),   # lower to the south
-    "plane_E": Z_PLANE_CENTRE - t * (X - xo),   # lower to the east
-    "plane_W": Z_PLANE_CENTRE + t * (X - xo),   # lower to the west
+    "plane_N": Z_PLANE_CENTRE - t * (Y - yo),  # lower to the north
+    "plane_S": Z_PLANE_CENTRE + t * (Y - yo),  # lower to the south
+    "plane_E": Z_PLANE_CENTRE - t * (X - xo),  # lower to the east
+    "plane_W": Z_PLANE_CENTRE + t * (X - xo),  # lower to the west
 }
 for k, z in planes.items():
     write(k, z)
@@ -88,11 +89,11 @@ walls = {}
 for side in "NESW":
     z = np.full((ROWS, COLS), Z_PLAIN)
     if side == "N":
-        z[:WALL_CELLS, :] += WALL_H            # row 0 = north
+        z[:WALL_CELLS, :] += WALL_H  # row 0 = north
     elif side == "S":
         z[-WALL_CELLS:, :] += WALL_H
     elif side == "W":
-        z[:, :WALL_CELLS] += WALL_H            # col 0 = west
+        z[:, :WALL_CELLS] += WALL_H  # col 0 = west
     elif side == "E":
         z[:, -WALL_CELLS:] += WALL_H
     walls["wall_" + side] = z
@@ -121,14 +122,25 @@ probes = {
 }
 
 meta = {
-    "rows": ROWS, "cols": COLS, "res": RES, "epsg": EPSG,
-    "west": X0, "north": Y_TOP,
-    "slope_deg": SLOPE_DEG, "z_plane_centre": Z_PLANE_CENTRE,
-    "z_plain": Z_PLAIN, "wall_height": WALL_H, "wall_cells": WALL_CELLS,
-    "centre_lat_deg": lat, "centre_lon_deg": lon,
-    "planes": sorted(planes), "walls": sorted(walls), "probes": probes,
+    "rows": ROWS,
+    "cols": COLS,
+    "res": RES,
+    "epsg": EPSG,
+    "west": X0,
+    "north": Y_TOP,
+    "slope_deg": SLOPE_DEG,
+    "z_plane_centre": Z_PLANE_CENTRE,
+    "z_plain": Z_PLAIN,
+    "wall_height": WALL_H,
+    "wall_cells": WALL_CELLS,
+    "centre_lat_deg": lat,
+    "centre_lon_deg": lon,
+    "planes": sorted(planes),
+    "walls": sorted(walls),
+    "probes": probes,
     "note": "plane_X faces X (downslope towards X); wall_X has the wall on side X",
-    "numpy": np.__version__, "gdal": gdal.__version__,
+    "numpy": np.__version__,
+    "gdal": gdal.__version__,
 }
 with open(os.path.join(out, "fixtures.json"), "w") as f:
     json.dump(meta, f, indent=1)

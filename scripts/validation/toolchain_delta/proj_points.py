@@ -12,6 +12,7 @@ a change in the coordinate operation from a change in gdalwarp's resampling.
 
 EPSG "-" means: use the CRS stored in the DEM.
 """
+
 from __future__ import annotations
 
 import json
@@ -34,7 +35,9 @@ def main(argv: list[str]) -> int:
     x0, dx, _, y0, _, dy = ds.GetGeoTransform()
     w, h = ds.RasterXSize * dx, ds.RasterYSize * dy
     n = 40
-    points = [(x0 + w * i / n, y0 + h * j / n) for j in range(n + 1) for i in range(n + 1)]
+    points = [
+        (x0 + w * i / n, y0 + h * j / n) for j in range(n + 1) for i in range(n + 1)
+    ]
 
     src = srs_from(ds.GetProjection() if epsg == "-" else "EPSG:" + epsg)
     result: dict[str, object] = {"source": [list(p) for p in points]}
