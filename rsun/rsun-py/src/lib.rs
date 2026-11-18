@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 //! Python bindings for rsun solar radiation library.
 //!
 //! Provides:
@@ -270,7 +274,12 @@ fn compute_terrain<'py>(
 }
 
 /// rsun Python module
-#[pymodule]
+// `gil_used = true` keeps the PyO3 0.23 declaration: since PyO3 0.28 modules
+// default to `gil_used = false`, which on free-threaded CPython would stop the
+// interpreter from re-enabling the GIL on import. Free-threaded support is a
+// separate decision, not part of the dependency upgrade. (Plain `//` comment on
+// purpose: `///` lines here become the module's Python `__doc__`.)
+#[pymodule(gil_used = true)]
 fn rsun(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(compute_day, m)?)?;
     m.add_function(wrap_pyfunction!(compute_day_from_file, m)?)?;

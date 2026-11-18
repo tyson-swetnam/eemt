@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Documentation toolchain (zensical.toml, docs/, scripts/docs/). Edit this file, then
+# regenerate the hashed lock requirements-docs.txt with scripts/locks/refresh.sh pip.
+
+zensical==0.1.1              # static site generator (zensical build / zensical serve)
+pymdown-extensions>=13.1     # pymdownx.* extensions enabled in zensical.toml
+pyyaml>=6.0.3                # frontmatter parsing in scripts/docs/

@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # EEMT Test Deployment Script
 # Tests the complete Docker deployment with sample data
 
@@ -40,13 +45,13 @@ echo "✅ Sample DEM found: $SAMPLE_DEM ($(du -h $SAMPLE_DEM | cut -f1))"
 # Step 3: Check if container image exists
 echo "📋 Step 3: Checking container images..."
 
-if ! docker images | grep -q "eemt.*ubuntu24.04"; then
-    echo "⚠️  EEMT container not found. Building now..."
-    echo "This may take 10-30 minutes depending on your system..."
+WORKFLOW_IMAGE="eemt:$(tr -d '[:space:]' < docker/VERSION)"
+WEB_IMAGE="eemt-web:$(tr -d '[:space:]' < docker/VERSION)"
+if ! docker image inspect "$WORKFLOW_IMAGE" > /dev/null 2>&1; then
+    echo "⚠️  EEMT container $WORKFLOW_IMAGE not found. Building now..."
+    echo "This may take a few minutes depending on your system..."
     
-    cd docker/ubuntu/24.04/
-    ./build.sh
-    cd ../../..
+    docker/build.sh
     
     echo "✅ Container built successfully"
 else
@@ -72,9 +77,9 @@ docker stop eemt-test-web 2>/dev/null || true
 docker rm eemt-test-web 2>/dev/null || true
 
 # Check if web interface container exists
-if ! docker images | grep -q "eemt-web"; then
-    echo "⚠️  Building web interface container..."
-    docker build -t eemt-web -f docker/web-interface/Dockerfile .
+if ! docker image inspect "$WEB_IMAGE" > /dev/null 2>&1; then
+    echo "⚠️  Building web interface container $WEB_IMAGE..."
+    docker/build.sh web --build-arg "EEMT_DOCKER_GID=$(stat -c %g /var/run/docker.sock)"
 fi
 
 # Start web interface container
@@ -83,8 +88,10 @@ docker run -d \
     -p $WEB_PORT:5000 \
     -v $(pwd)/data:/app/data \
     -v /var/run/docker.sock:/var/run/docker.sock \
+    --group-add "$(stat -c %g /var/run/docker.sock)" \
     -e PYTHONUNBUFFERED=1 \
-    eemt-web
+    -e EEMT_WORKFLOW_IMAGE="$WORKFLOW_IMAGE" \
+    "$WEB_IMAGE"
 
 # Wait for service to start
 echo "⏳ Waiting for web interface to start..."

@@ -1,0 +1,428 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.7.schema.json",
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "cargo-rsun",
+      "description": "rsun Rust workspace: every crate in rsun/Cargo.lock, licences from cargo metadata.",
+      "externalReferences": [
+        {
+          "comment": "sbom/cargo-rsun.cdx.json",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "e6493a9dbdfa3e5463b16d17b7dd740e45de285c6adf96c7ab9c82749538df31"
+            }
+          ],
+          "type": "bom",
+          "url": "urn:cdx:e3d9ad94-5dd8-5bdb-948c-63a83991af36/1"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "GPL-2.0-or-later"
+        }
+      ],
+      "name": "rsun",
+      "properties": [
+        {
+          "name": "eemt:component-count",
+          "value": "194"
+        },
+        {
+          "name": "eemt:sbom-target",
+          "value": "cargo-rsun"
+        }
+      ],
+      "supplier": {
+        "name": "EEMT project",
+        "url": [
+          "https://github.com/tyson-swetnam/eemt"
+        ]
+      },
+      "type": "application",
+      "version": "3.0.0"
+    },
+    {
+      "bom-ref": "env-conda-notebooks",
+      "description": "Conda environment for the notebooks, from notebooks/conda-lock.yml.",
+      "externalReferences": [
+        {
+          "comment": "sbom/env-conda-notebooks.cdx.json",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "45555f642a81dfe3ff0a58b57911c75ed360007ec342058a50b9c3154b99cf9b"
+            }
+          ],
+          "type": "bom",
+          "url": "urn:cdx:4c563004-4887-59fb-ad39-4f2e7e593395/1"
+        }
+      ],
+      "licenses": [],
+      "name": "env-conda-notebooks",
+      "properties": [
+        {
+          "name": "eemt:component-count",
+          "value": "567"
+        },
+        {
+          "name": "eemt:sbom-target",
+          "value": "env-conda-notebooks"
+        }
+      ],
+      "supplier": {
+        "name": "EEMT project",
+        "url": [
+          "https://github.com/tyson-swetnam/eemt"
+        ]
+      },
+      "type": "application",
+      "version": "3.0.0"
+    },
+    {
+      "bom-ref": "env-conda-notebooks-minimal",
+      "description": "Minimal conda environment for the notebooks, from notebooks/minimal-conda-lock.yml.",
+      "externalReferences": [
+        {
+          "comment": "sbom/env-conda-notebooks-minimal.cdx.json",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "bf9a024f5618d411c263c55c8ba7a0bb058e964cdb5126f295e9b3099a67a5cd"
+            }
+          ],
+          "type": "bom",
+          "url": "urn:cdx:97867f07-6aa9-5649-a616-fceff230455b/1"
+        }
+      ],
+      "licenses": [],
+      "name": "env-conda-notebooks-minimal",
+      "properties": [
+        {
+          "name": "eemt:component-count",
+          "value": "429"
+        },
+        {
+          "name": "eemt:sbom-target",
+          "value": "env-conda-notebooks-minimal"
+        }
+      ],
+      "supplier": {
+        "name": "EEMT project",
+        "url": [
+          "https://github.com/tyson-swetnam/eemt"
+        ]
+      },
+      "type": "application",
+      "version": "3.0.0"
+    },
+    {
+      "bom-ref": "env-pip-dev",
+      "description": "Test, lint and SBOM tools, from the hashed lock requirements-dev.txt.",
+      "externalReferences": [
+        {
+          "comment": "sbom/env-pip-dev.cdx.json",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "90518964b1f9c6742e79e56b59fa7f36e83efefc835a55cd8d4dae3ceaa6d975"
+            }
+          ],
+          "type": "bom",
+          "url": "urn:cdx:fa23f4fd-fe39-5e21-a916-3037575c2b37/1"
+        }
+      ],
+      "licenses": [],
+      "name": "env-pip-dev",
+      "properties": [
+        {
+          "name": "eemt:component-count",
+          "value": "55"
+        },
+        {
+          "name": "eemt:sbom-target",
+          "value": "env-pip-dev"
+        }
+      ],
+      "supplier": {
+        "name": "EEMT project",
+        "url": [
+          "https://github.com/tyson-swetnam/eemt"
+        ]
+      },
+      "type": "application",
+      "version": "3.0.0"
+    },
+    {
+      "bom-ref": "env-pip-docs",
+      "description": "Documentation toolchain (Zensical), from the hashed lock requirements-docs.txt.",
+      "externalReferences": [
+        {
+          "comment": "sbom/env-pip-docs.cdx.json",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "a552baa395fcf1eabafde2607013971a1b900315c95287ed09b56acbdd0ed77d"
+            }
+          ],
+          "type": "bom",
+          "url": "urn:cdx:f4c0a578-5dba-555c-ac62-924805326fd3/1"
+        }
+      ],
+      "licenses": [],
+      "name": "env-pip-docs",
+      "properties": [
+        {
+          "name": "eemt:component-count",
+          "value": "11"
+        },
+        {
+          "name": "eemt:sbom-target",
+          "value": "env-pip-docs"
+        }
+      ],
+      "supplier": {
+        "name": "EEMT project",
+        "url": [
+          "https://github.com/tyson-swetnam/eemt"
+        ]
+      },
+      "type": "application",
+      "version": "3.0.0"
+    },
+    {
+      "bom-ref": "image-eemt",
+      "components": [
+        {
+          "bom-ref": "env-conda-workflow",
+          "description": "Conda environment installed in the workflow image at /opt/eemt/env, from docker/workflow/conda-lock.yml.",
+          "externalReferences": [
+            {
+              "comment": "sbom/env-conda-workflow.cdx.json",
+              "hashes": [
+                {
+                  "alg": "SHA-256",
+                  "content": "2cd51dbd16b89abcf38d9c042098075c86accf5ac66efe67d3ff24f82696d7ba"
+                }
+              ],
+              "type": "bom",
+              "url": "urn:cdx:4f465dbf-9c1f-53ab-b048-d892551d8c71/1"
+            }
+          ],
+          "licenses": [],
+          "name": "env-conda-workflow",
+          "properties": [
+            {
+              "name": "eemt:component-count",
+              "value": "225"
+            },
+            {
+              "name": "eemt:sbom-target",
+              "value": "env-conda-workflow"
+            }
+          ],
+          "supplier": {
+            "name": "EEMT project",
+            "url": [
+              "https://github.com/tyson-swetnam/eemt"
+            ]
+          },
+          "type": "application",
+          "version": "3.0.0"
+        }
+      ],
+      "description": "Workflow image eemt:<docker/VERSION>: Ubuntu 26.04 runtime with the conda-forge environment of docker/workflow/conda-lock.yml (GRASS GIS, GDAL, CCTools, Python).",
+      "externalReferences": [
+        {
+          "comment": "sbom/image-eemt.cdx.json",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "c8ebce5c69857300ee9348bf45eee671f5a9761a5bbdb52511817e4552c7b84d"
+            }
+          ],
+          "type": "bom",
+          "url": "urn:cdx:89136397-1f75-5b6e-8998-e1463c3cf6a0/1"
+        }
+      ],
+      "licenses": [],
+      "name": "eemt",
+      "properties": [
+        {
+          "name": "eemt:component-count",
+          "value": "324"
+        },
+        {
+          "name": "eemt:sbom-target",
+          "value": "image-eemt"
+        }
+      ],
+      "supplier": {
+        "name": "EEMT project",
+        "url": [
+          "https://github.com/tyson-swetnam/eemt"
+        ]
+      },
+      "type": "container",
+      "version": "3.0.0"
+    },
+    {
+      "bom-ref": "image-eemt-web",
+      "components": [
+        {
+          "bom-ref": "env-pip-web",
+          "description": "Python packages of the web interface, from the hashed lock web-interface/requirements.txt.",
+          "externalReferences": [
+            {
+              "comment": "sbom/env-pip-web.cdx.json",
+              "hashes": [
+                {
+                  "alg": "SHA-256",
+                  "content": "b0ea6344590090bec8e1e18cf1d3871d452eb7cf07a25a13fc251a6e2d984b72"
+                }
+              ],
+              "type": "bom",
+              "url": "urn:cdx:a1f19e98-f119-5aa4-87e8-ea63af465f79/1"
+            }
+          ],
+          "licenses": [],
+          "name": "env-pip-web",
+          "properties": [
+            {
+              "name": "eemt:component-count",
+              "value": "29"
+            },
+            {
+              "name": "eemt:sbom-target",
+              "value": "env-pip-web"
+            }
+          ],
+          "supplier": {
+            "name": "EEMT project",
+            "url": [
+              "https://github.com/tyson-swetnam/eemt"
+            ]
+          },
+          "type": "application",
+          "version": "3.0.0"
+        }
+      ],
+      "description": "Web interface image eemt-web:<docker/VERSION>: python:3.14.10-slim-trixie with the packages of web-interface/requirements.txt and the Docker CLI.",
+      "externalReferences": [
+        {
+          "comment": "sbom/image-eemt-web.cdx.json",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "931707d5366d35d4c6e99efb3fc3c74b5421b8ffa2dd6d44a36e416b0b4b6c94"
+            }
+          ],
+          "type": "bom",
+          "url": "urn:cdx:c289b07f-ea08-57b6-bf2d-66be141cf586/1"
+        }
+      ],
+      "licenses": [],
+      "name": "eemt-web",
+      "properties": [
+        {
+          "name": "eemt:component-count",
+          "value": "127"
+        },
+        {
+          "name": "eemt:sbom-target",
+          "value": "image-eemt-web"
+        }
+      ],
+      "supplier": {
+        "name": "EEMT project",
+        "url": [
+          "https://github.com/tyson-swetnam/eemt"
+        ]
+      },
+      "type": "container",
+      "version": "3.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "cargo-rsun",
+        "env-conda-notebooks",
+        "env-conda-notebooks-minimal",
+        "env-pip-dev",
+        "env-pip-docs",
+        "image-eemt",
+        "image-eemt-web"
+      ],
+      "ref": "eemt@3.0.0"
+    },
+    {
+      "dependsOn": [
+        "env-conda-workflow"
+      ],
+      "ref": "image-eemt"
+    },
+    {
+      "dependsOn": [
+        "env-pip-web"
+      ],
+      "ref": "image-eemt-web"
+    },
+    {
+      "ref": "cargo-rsun"
+    },
+    {
+      "ref": "env-conda-notebooks"
+    },
+    {
+      "ref": "env-conda-notebooks-minimal"
+    },
+    {
+      "ref": "env-conda-workflow"
+    },
+    {
+      "ref": "env-pip-dev"
+    },
+    {
+      "ref": "env-pip-docs"
+    },
+    {
+      "ref": "env-pip-web"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "eemt@3.0.0",
+      "description": "EEMT (Effective Energy and Mass Transfer) release: container images, locked environments and the rsun Rust workspace. Each member is described by its own SBOM in sbom/.",
+      "name": "eemt",
+      "supplier": {
+        "name": "EEMT project",
+        "url": [
+          "https://github.com/tyson-swetnam/eemt"
+        ]
+      },
+      "type": "application",
+      "version": "3.0.0"
+    },
+    "supplier": {
+      "name": "EEMT project",
+      "url": [
+        "https://github.com/tyson-swetnam/eemt"
+      ]
+    },
+    "timestamp": "2026-11-15T15:39:39Z",
+    "tools": {
+      "components": [
+        {
+          "group": "eemt",
+          "name": "eemt-sbom-aggregate",
+          "type": "application"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:47f2d05b-23ab-5ce2-aa0b-cc10371e73f9",
+  "specVersion": "1.7",
+  "version": 1
+}

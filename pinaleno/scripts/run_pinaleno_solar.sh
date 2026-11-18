@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Run 365-day r.sun solar radiation for Pinaleño + Santa Teresa Mts (10m DEM)
 # Uses GRASS GIS 8.4 in --tmp-project session mode (UTM 12N)
 #

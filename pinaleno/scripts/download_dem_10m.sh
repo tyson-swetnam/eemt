@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Download USGS 3DEP 1/3 arc-second (~10m) DEM for Pinaleño + Santa Teresa Mts
 #
 # Pinaleño Mountains:    32.55-32.85 N, -110.10 to -109.80 W (Mt Graham 3267m)

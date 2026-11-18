@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 //! WebAssembly bindings for rsun solar radiation.
 //!
 //! Provides CPU-only computation for browser demos with small DEMs (<1M pixels).

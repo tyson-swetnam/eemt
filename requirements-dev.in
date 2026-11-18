@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Test and lint tools. Constrained by the web lock so that both hashed files can be
+# installed together:
+#   pip install --require-hashes -r web-interface/requirements.txt -r requirements-dev.txt
+# Regenerate requirements-dev.txt with scripts/locks/refresh.sh pip.
+
+-c web-interface/requirements.txt
+
+pytest>=9.2.0
+hypothesis>=6.170.15
+httpx>=0.28.1                # required by starlette.testclient.TestClient
+ruff>=0.17.5
+
+# SBOM tooling (scripts/sbom/): exact pins, because their versions are recorded in
+# sbom/manifest.json and a different version can change the committed documents.
+cyclonedx-bom==8.0.1                              # cyclonedx-py requirements (env-pip-* SBOMs)
+cyclonedx-python-lib[json-validation]==11.12.0    # CycloneDX 1.7 schema validation
+spdx-tools==0.8.5                                 # pyspdxtools (SPDX 2.3 validation)
+ntia-conformance-checker==6.0.0                   # NTIA minimum elements
+pyyaml>=6.0.3                                     # reads conda-lock.yml (scripts/sbom/lock2cdx.py)

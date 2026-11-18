@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Pre-compute TWI for Pinaleño 10m DEM using GRASS r.watershed (C, seconds vs hours).
 # Output goes to the path eemt_smoke_test.py looks for, so its slow numpy D8
 # code path is skipped via the on-disk cache check.

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 // CUDA kernel for full-day solar radiation computation with horizon shading.
 //
 // Port of rsun-core compute_day() + solar.rs + radiation.rs to CUDA.

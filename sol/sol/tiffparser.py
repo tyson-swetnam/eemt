@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2017 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 from subprocess import Popen, PIPE
 from math import pow
 import os

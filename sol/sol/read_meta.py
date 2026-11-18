@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+# SPDX-FileCopyrightText: 2017 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 import os
 from subprocess import Popen, PIPE
 from glob import glob

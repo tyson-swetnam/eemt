@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 // Horizon angle calculations using ray-marching.
 //
 // For each pixel and each azimuth direction, we march outward along the DEM

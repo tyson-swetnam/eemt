@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: 2017 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 set -e
 
 # rsun_day.sh - Daily r.sun calculation using pre-computed slope and aspect

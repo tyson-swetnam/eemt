@@ -1,0 +1,840 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Findings ledger for the EEMT validation effort.
+#
+# One [[finding]] table per confirmed or suspected defect. The rendered report
+# is generated from this file together with equations/decisions.toml; do not
+# edit the rendered report by hand.
+#
+# Fields
+#   id        "F-<area>-<nnn>", area is A (containers, locks, SBOM),
+#             B (equations and Lean), C (code and workflow managers), D (docs).
+#             Ids are never reused.
+#   title     One sentence stating the defect.
+#   location  List of "path:line" strings, relative to the repository root.
+#   severity  "high" | "medium" | "low"
+#   status    "suspected"  reported by a reader, not yet reproduced
+#             "confirmed"  reproduced by a failing test or a recorded run
+#             "refuted"    checked and found not to be a defect (keep the entry)
+#             "fixed"      fix merged on the area branch; fix_commit is set
+#             "deferred"   confirmed, deliberately not fixed; reason is set
+#   evidence  How it was established: the command and decisive output, or a
+#             path to a recorded run.
+#   test      Path (and test id) of the regression test that fails before the
+#             fix and passes after it. Required once status is "fixed".
+#   changes_scientific_output
+#             true when the fix changes any number a pipeline writes.
+#   sdr       "SDR-<nnn>" in equations/decisions.toml. Required when
+#             changes_scientific_output is true; such a fix is not merged
+#             until that decision is approved by the repository owner.
+#   fix_commit  Abbreviated commit hash of the fix. Empty until fixed.
+#   reason    Why a finding is "refuted" or "deferred". Empty otherwise.
+#
+# Entries may quote copyright and licence notices found in other files. The
+# marker on the next line stops `reuse lint` from reading those quotations as
+# licensing statements about this file; keep it above the first entry.
+# REUSE-IgnoreStart
+#
+# Example (commented out so the ledger starts empty):
+#
+# [[finding]]
+# id = "F-C-001"
+# title = "Monthly day table omits day 151, so 31 May is never summed"
+# location = ["sol/sol/run-workflow:32", "eemt/eemt/run-workflow:25"]
+# severity = "high"
+# status = "confirmed"
+# evidence = "tests/workflow/test_calendar.py::test_month_table_partitions_year fails on master"
+# test = "tests/workflow/test_calendar.py::test_month_table_partitions_year"
+# changes_scientific_output = true
+# sdr = "SDR-018"
+# fix_commit = ""
+# reason = ""
+
+schema = 1
+
+# --- Area A: containers, locks, SBOM, licensing ------------------------------
+
+[[finding]]
+id = "F-A-001"
+title = "rsun-cli declares no licence in its Cargo.toml, unlike the other five rsun crates"
+location = ["rsun/rsun-cli/Cargo.toml:5"]
+severity = "low"
+status = "confirmed"
+evidence = """`cargo metadata --format-version 1 --locked` in rsun/ (rust 1.100.0 image pulled by digest): \
+rsun-cli license = null; rsun-core, rsun-cuda, rsun-gpu, rsun-py and rsun-wasm license = "GPL-2.0-or-later". \
+rsun/README.md ("License") states GPL-2.0-or-later for the whole tree, and rsun-cli links rsun-core, so the \
+file headers under rsun/rsun-cli say GPL-2.0-or-later. The Cargo.toml `license` field was left alone: \
+the owner adds it (one line)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-002"
+title = "Five journal and conference PDFs under pdfs/ are publisher copyright with no licence to redistribute"
+location = [
+    "pdfs/pelletier_etal_2017.pdf",
+    "pdfs/rasmussen_etal_2005.pdf",
+    "pdfs/rasmussen_etal_2014.pdf",
+    "pdfs/rasmussen_etal_2015.pdf",
+    "pdfs/swetnam_etal_2016.pdf",
+]
+severity = "high"
+status = "confirmed"
+evidence = """`pdftotext -l 3 <file> -` rights notices: pelletier_etal_2017 "Copyright (c) 2017 John Wiley & Sons, Ltd." \
+(doi:10.1002/esp.4306, page footer "Downloaded from https://onlinelibrary.wiley.com ... by University Of Arizona \
+Library"); rasmussen_etal_2005 "(c) Soil Science Society of America ... All copyrights reserved" \
+(doi:10.2136/sssaj2003.0283); rasmussen_etal_2014 "(c) Soil Science Society of America ... All rights reserved" \
+(doi:10.2136/vzj2014.07.0102); rasmussen_etal_2015 "(c) Springer Science+Business Media B.V. 2010" \
+(doi:10.1007/s10533-010-9476-8); swetnam_etal_2016 "(c) 2016 ACM ... to post on servers or to redistribute to \
+lists, requires prior specific permission" (doi:10.1145/2949550.2949573). No licence text permitting \
+redistribution is in any of the five. They are annotated LicenseRef-third-party-publication in REUSE.toml, not \
+the repository licence. The other three PDFs (rasmussen_2010, rasmussen_gallo_2013, zapata-rios_etal_2016) print \
+"(c) Author(s) <year>. CC Attribution 3.0 License." on page 1 and are annotated CC-BY-3.0. File names do not \
+match the articles: rasmussen_2010.pdf is HESS 16 (2012), rasmussen_etal_2014.pdf is Vadose Zone J. \
+vzj2014.07.0102, rasmussen_etal_2015.pdf is Biogeochemistry 102 (2011), pelletier_etal_2017.pdf is ESPL 43 (2018). \
+Owner decision: confirm the right to redistribute each of the five, or replace them with DOI links (removing \
+them from the tree does not remove them from history)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-003"
+title = "The sample DEM sol/examples/mcn_10m.tif has no recorded source, author or terms of use"
+location = ["sol/examples/mcn_10m.tif"]
+severity = "medium"
+status = "fixed"
+evidence = """`tiffinfo sol/examples/mcn_10m.tif`: 228 x 211 cells, 64-bit float, 10 m pixels, tie point \
+352120 E / 3964370 N, "NAD83 / UTM zone 13N"; no Software, Artist, Copyright or ImageDescription tag. \
+First commit 8c23929 (2017-09-12, "attempting fix for solar") gives no source. `git grep -i mcn_10m -- '*.md'` \
+finds usage examples only, no provenance statement. Annotated LicenseRef-unknown-provenance in REUSE.toml \
+until the owner states where it came from (a USGS 3DEP product would be public domain). Resolved 2026-11-15: the owner stated "the sample DEM mcn_10m is from USGS 3DEP". Fix a6f01a3 annotates it in REUSE.toml as LicenseRef-USGS-public-domain (new LICENSES/LicenseRef-USGS-public-domain.txt quoting the USGS "Copyrights and Credits" policy), holder "U.S. Geological Survey, 3D Elevation Program (3DEP)", and removes the now unused LicenseRef-unknown-provenance. reuse lint 6.3.0 on a git-archive export: 345/345, compliant."""
+test = "reuse lint (fsfe/reuse 6.3.0, .github/workflows/reuse.yml); reuse spdx lists mcn_10m.tif with LicenseRef-USGS-public-domain"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "a6f01a3"
+reason = ""
+
+[[finding]]
+id = "F-A-004"
+title = "rsun is a port of GRASS GIS r.sun but carries none of the upstream copyright notices"
+location = [
+    "rsun/rsun-core/src/lib.rs:23",
+    "rsun/rsun-core/src/radiation.rs:7",
+    "rsun/rsun-core/src/solar.rs:6",
+    "rsun/rsun-gpu/src/shaders/radiation.wgsl:8",
+    "rsun/rsun-cli/src/main.rs:12",
+]
+severity = "medium"
+status = "confirmed"
+evidence = """The sources say so themselves: "Ported from GRASS GIS r.sun rsunlib.c brad() and drad() functions" \
+(radiation.rs:7), "Ported from GRASS GIS r.sun rsunlib.c (Hofierka & Suri 2002)" (solar.rs:6, radiation.wgsl:8), \
+"Ported from GRASS GIS r.sun joules2() + calculate()" (lib.rs:23). GRASS 8.5.0 raster/r.sun/rsunlib.c opens with \
+"(C) 2002 Copyright Jaro Hofierka, Gresaka 22, 085 01 Bardejov, Slovakia, and GeoModel, s.r.o., Bratislava, \
+Slovakia" and "(C) 2011 by Hamish Bowman, and the GRASS Development Team", under GPL version 2 or later. \
+`git grep -n -i -E 'hofierka|GRASS Development Team' -- rsun` finds only the two "Hofierka & Suri 2002" citations \
+and the README reference list; no upstream copyright line. The licence chosen for rsun (GPL-2.0-or-later) matches \
+upstream; what is missing is the retained notice. The header sweep added only the repository owner's line. \
+Owner decision: add the upstream copyright lines to the ported files (and say which files are ports)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-005"
+title = "Browser assets are loaded from public CDNs without integrity hashes, one at a floating version, and appear in no dependency inventory"
+location = [
+    "web-interface/templates/index.html:13",
+    "web-interface/templates/index.html:14",
+    "web-interface/templates/index.html:299",
+    "web-interface/templates/monitor.html:13",
+    "web-interface/templates/monitor.html:14",
+    "web-interface/templates/monitor.html:166",
+    "docs/energetics-map.html:9",
+    "docs/energetics-map.html:10",
+    "zensical.toml:18",
+]
+severity = "medium"
+status = "confirmed"
+evidence = """`git grep -n -E 'cdn\\.jsdelivr|unpkg\\.com'`: bootstrap@5.1.3 (CSS and JS bundle) and \
+bootstrap-icons@1.7.2 from cdn.jsdelivr.net in both web templates; maplibre-gl@4.1.2 (JS and CSS) from unpkg.com \
+in docs/energetics-map.html; "mathjax@3" (major version only, so the file served can change) in zensical.toml. \
+`git grep -c 'integrity=' -- web-interface/templates docs/energetics-map.html docs/overrides` returns nothing: \
+no subresource-integrity attribute anywhere. These third-party packages (their licences were not checked here) are neither vendored with their licence \
+texts nor listed in a lock file, so no SBOM built from the lock files will contain them."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-006"
+title = "The Helm chart advertises the MIT licence; the repository is BSD-3-Clause"
+location = ["docker/kubernetes/helm/eemt/Chart.yaml:41"]
+severity = "low"
+status = "confirmed"
+evidence = """Chart.yaml:41 `artifacthub.io/license: MIT`; LICENSE is the BSD 3-Clause text \
+("Copyright (c) 2019, Tyson Lee Swetnam") and README.md says BSD 3-Clause. `git grep -n -w MIT` finds no other \
+MIT claim for project code. Not changed in the header sweep (the file belongs to the workflow-manager area)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-007"
+title = "File headers name one copyright holder, but two workflow scripts were also written by another contributor and pre-2017 authorship is not in the history"
+location = ["sol/sol/rsun.sh:3", "sol/sol/run-workflow:3"]
+severity = "low"
+status = "confirmed"
+evidence = """Headers were written as "Tyson Lee Swetnam" (the holder named in LICENSE) with the year of each \
+file's first commit. `git log --diff-filter=A --follow` shows every tracked file was first committed by the owner's \
+accounts, but `git log --author='Mats Rynge'` lists 15 commits (2017-09-18 to 2017-12-20) that modify \
+sol/sol/rsun.sh and sol/sol/run-workflow, and docker/grass72/Dockerfile and docker/ubuntu/grass72/Dockerfile \
+carried LABEL authors="Tyson L Swetnam, Mats Rynge" (line 7 of each; both files were deleted with the legacy \
+container definitions and remain readable with `git show 40d8389:docker/grass72/Dockerfile`). The sol/ and eemt/ workflow code entered this repository in bulk in September 2017, so earlier \
+authors, if any, cannot be read from git. Owner decision: keep the single holder (for example if contributions \
+were made under an assignment or as work for hire), or add the other holders or an "EEMT contributors" line."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-008"
+title = "Three environment files install daymetpy (AGPL-3), which no code imports; one of them demands a version that does not exist"
+location = [
+    "docker/ubuntu/24.04/environment.yml:79",
+    "notebooks/environment.yml:82",
+    "notebooks/environment-minimal.yml:37",
+]
+severity = "medium"
+status = "fixed"
+evidence = """PyPI JSON API for daymetpy: latest version 1.0.0, license "AGPL-3", classifier "GNU Affero General \
+Public License v3". notebooks/environment.yml:82 asks for `daymetpy>=1.1`, which cannot be satisfied. \
+`git grep -n -E 'import +daymetpy|from +daymetpy'` over the whole tree returns nothing: the package is installed \
+into the workflow image and the notebook environments but never used. Dropping it from the new locked \
+environments removes an AGPL component from the image at no functional cost. \
+Fixed: the workflow environment (docker/workflow/environment.yml, c5843c4) never listed it, and 4f27742 removed \
+it from both notebook environments; none of the four conda locks contains it. Re-adding it is an owner choice."""
+test = "git grep -n daymetpy -- '*environment*.yml' '*-lock.yml' (no output)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "4f27742"
+reason = ""
+
+[[finding]]
+id = "F-A-009"
+title = "The CC BY 4.0 licence of the documentation is stated only inside docs/license.md"
+location = ["docs/license.md:45", "README.md:203", "docs/code_of_conduct.md:45"]
+severity = "low"
+status = "confirmed"
+evidence = """docs/license.md:45 "This documentation is licensed under Creative Commons Attribution 4.0 \
+International (CC BY 4.0)"; LICENSE and README.md:203 mention only BSD 3-Clause, and no CC BY text was in the \
+repository before LICENSES/CC-BY-4.0.txt was added. REUSE.toml follows docs/license.md (docs/** is CC-BY-4.0, \
+site code under docs/javascripts, docs/stylesheets and docs/overrides stays BSD-3-Clause). \
+docs/code_of_conduct.md:45 credits the Contributor Covenant 2.0 but does not say that text is CC BY 4.0. \
+Owner decision: confirm CC BY 4.0 for docs/ (and say so in README.md), or state another choice."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-010"
+title = "Three uploaded third-party DEMs of unknown origin, a job database and a Work Queue password file remain in the public git history"
+location = ["web-interface/uploads/", "web-interface/jobs.db", "sol/.eemt-makeflow-password"]
+severity = "medium"
+status = "confirmed"
+evidence = """Commit ee0e99f stopped tracking them, which does not remove them from history. \
+`git log --diff-filter=A --name-only -- web-interface/uploads` -> commit 27d73ea (2026-01-01) added \
+215ec74d-..._topo.tif (36 MB), dc45ad53-..._VCaldera_0939_DEM_025m.tif (25 MB) and \
+dd41c773-..._VCaldera_1270_DEM_025m_raw.tif (28 MB). Their source and terms of use are recorded nowhere. \
+Removing them means rewriting published history, which only the owner can decide; the password should be \
+treated as disclosed either way."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-011"
+title = "notebooks/install_grass.sh says it is based on a GRASS wiki page whose licence is not recorded"
+location = ["notebooks/install_grass.sh:8"]
+severity = "low"
+status = "fixed"
+evidence = """Line 8: "# Based on https://grasswiki.osgeo.org/wiki/Compile_and_Install". How much of the script \
+is copied from that page, and under what terms the wiki text is published, was not checked. The file carries the \
+repository header (BSD-3-Clause) like every other script. The approved plan deletes this script in favour of the \
+locked conda environments, which would close the question. \
+Fixed by removal: 4f27742 deletes notebooks/install_grass.sh (and install_qgis.sh); GRASS 8.5.0 now comes from \
+the locked conda-forge environments. The wiki page's terms were not checked; the script stays in history."""
+test = "git ls-files notebooks/install_grass.sh (no output)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "4f27742"
+reason = ""
+
+[[finding]]
+id = "F-A-012"
+title = "Image builds had no context filter, so the existing local images contain the Work Queue password file, the job database, uploaded DEMs and logs"
+location = ["docker/ubuntu/24.04/Dockerfile:138", "docker/web-interface/Dockerfile:25", "docker/minimal/Dockerfile:23"]
+severity = "medium"
+status = "confirmed"
+evidence = """There was no .dockerignore, and `COPY sol/` and `COPY web-interface/` copy whole directories. \
+File names listed inside the images that exist on the build host (names only, contents not read): \
+`find /opt/eemt` in eemt:legacy-e7637f45c202 -> /opt/eemt/sol/.eemt-makeflow-password, \
+/opt/eemt/sol/examples/mcn_10m.tif, two __pycache__ directories; `find /app` in eemt-web:legacy-9aa38795e41c -> \
+/app/jobs.db, three /app/uploads/*.tif, eight cleanup_summary_*.json, app.log, cleanup_jobs.log, two __pycache__ \
+directories. Commit 24a5d5d adds a root .dockerignore that excludes all of these; a context probe showed that none \
+of them reaches the build context any more (commit message of 24a5d5d). Status stays "confirmed", not "fixed", \
+because no regression test in the repository guards the build context yet. Owner: any copy of those two images \
+that was pushed or shared carries the password file and the uploaded DEMs (see F-A-010)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-013"
+title = "The old workflow image set GISBASE to /usr/lib/grass84, a directory that did not exist, so `grass` crashed in the image's default environment"
+location = ["docker/ubuntu/24.04/Dockerfile:61", "docker/ubuntu/24.04/Dockerfile:78"]
+severity = "high"
+status = "fixed"
+evidence = """The image installed Ubuntu 24.04's apt GRASS 8.3.2 (`dpkg -l`: grass-core 8.3.2-1ubuntu2), whose GISBASE \
+is /usr/lib/grass83, while the Dockerfile exported /usr/lib/grass84 (file present at bd19386). In \
+eemt:legacy-e7637f45c202 with the image's environment: `ls /usr/lib/grass84` -> No such file or directory; \
+`grass --version` -> FileNotFoundError: '/usr/lib/grass84/etc/license'; `which r.sun` -> nothing (only \
+/usr/lib/grass83/bin/r.sun exists). S1 had to override GISBASE, LD_LIBRARY_PATH and PATH to run any module. \
+GRASS 8.3.2 also echoes $GISBASE for `grass --config path`, so the value was never checked. New image: GISBASE \
+/opt/eemt/env/lib/grass85 is static ENV, and the build fails unless it equals `grass --config path` (which in GRASS \
+8.5.0 ignores the environment: with GISBASE=/wrong it still prints /opt/eemt/env/lib/grass85). \
+docker/workflow/eemt-selftest run inside the legacy image: 7 of 8 checks fail (versions, environment, \
+python-imports, rsun-module, epsg-lookup, rsun-day, makeflow-local); inside eemt:3.0.0: 0 fail, also as UID \
+12345 with a read-only root filesystem and with the entrypoint bypassed."""
+test = "docker/workflow/eemt-selftest (checks: versions, environment, rsun-module, rsun-day); build-time RUN assertions in docker/workflow/Dockerfile"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-014"
+title = "The old workflow image mixed two ABIs: apt GRASS 8.3.2 built against apt GDAL 3.8.4 and Python 3.12, next to a conda GDAL 3.11.5 and Python 3.11 that came first on PATH"
+location = ["docker/ubuntu/24.04/Dockerfile:50", "docker/ubuntu/24.04/install_grass.sh:19"]
+severity = "medium"
+status = "fixed"
+evidence = """eemt:legacy-e7637f45c202: `which -a gdalinfo` -> /opt/conda/envs/eemt-gis/bin/gdalinfo (GDAL 3.11.5) and \
+/usr/bin/gdalinfo (GDAL 3.8.4); `which -a python` -> conda Python 3.11.14 first, /usr/bin/python3 3.12.3; \
+`dpkg -l`: grass-core 8.3.2, libgdal34t64 3.8.4, gdal-bin 3.8.4. The GRASS modules used apt GDAL/PROJ while \
+the Python scripts and command-line GDAL found first on PATH were conda's (/usr/bin/grass itself runs \
+under /usr/bin/python3, 3.12). New image: one conda-forge environment (225 packages, sha256-locked): GRASS \
+8.5.0, GDAL 3.12.3, PROJ 9.7.1, Python 3.14.10; no apt packages added to ubuntu:26.04; `eemt-selftest` \
+imports grass.script, osgeo.gdal, numpy, netCDF4 and sqlite3 in that one interpreter."""
+test = "docker/workflow/eemt-selftest (checks: versions, python-imports)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-015"
+title = "The old workflow image downloaded Miniforge from a moving 'releases/latest' URL and the CCTools 7.15.14 source tarball without any checksum"
+location = ["docker/ubuntu/24.04/Dockerfile:36", "docker/ubuntu/24.04/Dockerfile:103", "docker/ubuntu/24.04/Dockerfile:70"]
+severity = "medium"
+status = "fixed"
+evidence = """`scripts/locks/check.sh downloads` at 4d6c9f4 reports docker/ubuntu/24.04/Dockerfile:36 (Miniforge \
+releases/latest), :70 (QGIS archive key) and :103 (cctools-release-7.15.14 tarball): "network fetch without a \
+checksum check". The base was the moving tag ubuntu:24.04 (`check.sh images`). The resulting CCTools build \
+reports "Built by root@buildkitsandbox on 2026-02-01", i.e. whatever the URL served that day. New image: \
+docker/workflow/Dockerfile fetches nothing itself; micromamba installs conda-lock.yml, in which every package \
+has a sha256, and aborts on a mismatch (a copy of the lock with one altered sha256 -> "tarball has incorrect \
+SHA256 ... Aborting", 0 packages installed). Both FROM lines are digest-pinned. check.sh images and downloads \
+report nothing for docker/workflow/Dockerfile and flag it once a FROM loses its digest or an unchecked curl is \
+added (throwaway-repository test)."""
+test = "scripts/locks/check.sh images; scripts/locks/check.sh downloads"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-016"
+title = "The old workflow image's g.extension installs of r.sun.mp, r.sun.hourly and r.sun.daily all failed, and the build ignored the failures"
+location = ["docker/ubuntu/24.04/Dockerfile:85", "eemt/eemt/rsun.sh:175"]
+severity = "medium"
+status = "fixed"
+evidence = """Each install ended in `|| echo '... extension install attempted'`, so the build succeeded regardless. In \
+eemt:legacy-e7637f45c202, `find / -xdev -name 'r.sun.mp*' -o -name 'r.sun.hourly*' -o -name 'r.sun.daily*'` finds \
+nothing and neither /root/.grass8/addons nor /home/eemt/.grass8/addons exists. eemt/eemt/rsun.sh:175 and :184 still \
+call r.sun.mp, so that script could never run in the image (the port to `r.sun nprocs=` is Area C's). The new \
+image installs no add-ons and nothing in the build can fail silently (every RUN uses `set -eu`); core r.sun has \
+nprocs and links libgomp (`eemt-selftest` check rsun-module)."""
+test = "docker/workflow/eemt-selftest (check: rsun-module)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-017"
+title = "The old workflow image contained the Work Queue password file /opt/eemt/sol/.eemt-makeflow-password"
+location = ["docker/ubuntu/24.04/Dockerfile:138"]
+severity = "medium"
+status = "fixed"
+evidence = """Workflow-image part of F-A-012: `COPY sol/` copied the tracked sol/.eemt-makeflow-password into \
+eemt:legacy-e7637f45c202 (`find /opt/eemt` lists /opt/eemt/sol/.eemt-makeflow-password; contents not read). The \
+root .dockerignore (24a5d5d) keeps it out of the context, and the new Dockerfile's last RUN fails the build when \
+any file named .eemt-makeflow-password or *.password exists in the image. eemt:3.0.0: build passes; the image \
+has no such file; Work Queue runs use a password file generated per run (loopback test: manager and worker \
+with `--password` on a fresh 64-hex-digit file in scratch). F-A-012 stays open for the web and minimal images and \
+for the copies already in public history (F-A-010)."""
+test = "docker/workflow/Dockerfile (final RUN: password-file assertion)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-018"
+title = "The old workflow image was 6.9 GB, most of it unused (a 3.9 GB conda environment with Jupyter, dask and plotting stacks, plus QGIS)"
+location = ["docker/ubuntu/24.04/Dockerfile:50", "docker/ubuntu/24.04/Dockerfile:73"]
+severity = "low"
+status = "fixed"
+evidence = """`docker image inspect eemt:legacy-e7637f45c202` -> 6,876,862,733 bytes; in the image `du -sh /opt/conda` -> \
+3.9G; QGIS: 7 qgis packages installed, /usr/share/qgis 202M and /usr/lib/qgis 20M. No pipeline code imports or \
+calls QGIS, pandas, xarray, rasterio, geopandas, jupyter or dask (`git grep` of imports and commands in sol/, \
+eemt/, container scripts, scripts/ and pinaleno/scripts). eemt:3.0.0 (sha256:04159cfc...) is 1,572,411,569 bytes; \
+the conda environment layer is 1.47 GB."""
+test = "docker/workflow/Dockerfile runs scripts/locks/assert-conda-env.sh, which fails the build unless the installed conda packages equal docker/workflow/conda-lock.yml; git grep -n -i -E 'qgis|jupyter|dask' -- docker/workflow/conda-lock.yml (no output)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "c5843c4"
+reason = ""
+
+[[finding]]
+id = "F-A-019"
+title = "The compose 'distributed' worker cannot start in the workflow image: scripts/start-worker.py needs the docker and psutil packages"
+location = ["scripts/start-worker.py:22", "web-interface/containers/workflow_manager.py:16", "docker-compose.yml:129"]
+severity = "medium"
+status = "confirmed"
+evidence = """scripts/start-worker.py imports containers.workflow_manager, which imports docker at module level. In \
+eemt:3.0.0 with scripts/ and web-interface/ mounted as compose does: `python /scripts/start-worker.py --help` -> \
+ModuleNotFoundError: No module named 'docker'. The legacy image had no docker package in its conda env either \
+(not checked whether the profile ever started). Adding docker and psutil to the workflow environment is possible \
+but only serves this path; the worker topology belongs to Area C."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-020"
+title = "SAGA GIS is in neither the old nor the new workflow image, so eemt/eemt/twi.sh (saga_cmd) cannot run"
+location = ["eemt/eemt/twi.sh:14"]
+severity = "medium"
+status = "deferred"
+evidence = """`command -v saga_cmd` -> not found in eemt:3.0.0; the old Dockerfile never installed SAGA either. SAGA is \
+not packaged on conda-forge (saga, saga-gis, libsaga, saga-cmd all 404 on anaconda.org); Ubuntu 26.04 has an apt \
+saga 9.9.3, which the no-apt, hash-locked runtime does not take."""
+test = ""
+changes_scientific_output = true
+sdr = "SDR-016"
+fix_commit = ""
+reason = "Replacing the SAGA wetness index with GRASS (r.watershed / r.topidx) changes TWI values; that is the science decision SDR-016, not a container change."
+
+[[finding]]
+id = "F-A-021"
+title = "makeflow --batch-type=dryrun (CCTools 7.17.6) never exits: it treats every rule as failed because no outputs appear, then spins at full CPU"
+location = ["docker/workflow/README.md:118"]
+severity = "low"
+status = "confirmed"
+evidence = """Reproduced in eemt:3.0.0 in clean directories: a two-rule cp workflow and the prep + day-172/173 slice \
+of sol/sol/run-workflow both log "submitted job ... completed", then "rule 0 failed, moving any outputs to \
+makeflow.failed.0" and "failed too many times", and keep running at ~96% CPU until killed (timeout 90 s; also \
+with --retry-count=0 and =1, timeout 300 s). The commands are written to <file>.sh. `makeflow_analyze -k \
+workflow.mf` checks syntax and exits (0 = "Syntax OK"; a bad keyword exits non-zero). Tests must not use \
+dryrun (Area C's Makeflow test tier)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-022"
+title = "scripts/eemt_zscore_animation.py cannot run in the workflow image: it needs opencv, matplotlib, Pillow and an ffmpeg binary"
+location = ["scripts/eemt_zscore_animation.py:23", "scripts/eemt_zscore_animation.py:301"]
+severity = "low"
+status = "deferred"
+evidence = """Imports cv2, matplotlib and PIL and runs ffmpeg. Locks solved for Python 3.14: core + matplotlib-base + \
+pillow + py-opencv (headless) + ffmpeg -> 302 packages (77 added: openvino, a GPL ffmpeg build, ...) and the \
+snappy (1.3.1 -> 1.2.2) and blosc builds under GDAL/netCDF change; with non-headless opencv also qt6-main; \
+matplotlib-base + pillow alone -> 13 added, nothing else changed."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = "Report-only script; its extras would change the pipeline's own libraries. Either drop cv2 (it only draws text, resizes and converts colours) and add matplotlib-base, or give reports their own environment."
+
+[[finding]]
+id = "F-A-023"
+title = "The conda-forge GCC runtime packages in the image ship only the GCC runtime-library exception, not the GPL-3.0 text it modifies"
+location = ["docker/workflow/Dockerfile:36"]
+severity = "low"
+status = "confirmed"
+evidence = """In eemt:3.0.0, 213 of 225 packages have info/licenses, copied to /opt/eemt/share/licenses. Without: \
+libgcc, libgcc-ng, libgomp, libstdcxx, libstdcxx-ng, libgfortran, libgfortran5 (GPL-3.0-only WITH \
+GCC-exception-3.1; they install only share/licenses/*/RUNTIME.LIBRARY.EXCEPTION), libfreetype and libfreetype6 \
+(covered by the freetype package's licence directory), libsqlite and sqlite (public domain), libglu (SGI-B-2.0, \
+no text). A GPL-3.0 text is in the image under the ld_impl_linux-64, readline and wget licence directories. GRASS \
+(GPL-2.0-or-later) and ndcctools (GPL-2.0-only) ship COPYING."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-024"
+title = "The web image was built FROM eemt-test:minimal, a tag that nothing in the repository builds, so eemt-web only built on a host that still had that local image"
+location = ["docker/web-interface/Dockerfile:6", "docker/minimal/Dockerfile:5"]
+severity = "high"
+status = "fixed"
+evidence = """`git grep eemt-test:minimal` before 181fa08: only docker/web-interface/Dockerfile (FROM) and docker/README.md; \
+docker/minimal/Dockerfile was never tagged by any script or compose file. The web image is now FROM \
+python:3.14.10-slim-trixie@sha256:9aaa4740..., Docker CLI from docker:29.9.3-cli@sha256:5a7af0dc..., \
+pip --require-hashes; `docker/build.sh web` builds it (rc=0, 212,521,090 bytes). docker/minimal/ was removed in \
+2d2f68a."""
+test = "docker/build.sh web (image build); scripts/locks/check.sh images"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "181fa08"
+reason = ""
+
+[[finding]]
+id = "F-A-025"
+title = "GET / and GET /monitor return 500 with Starlette 1.x: both TemplateResponse calls use the removed (name, context) signature"
+location = ["web-interface/app.py:401", "web-interface/app.py:834"]
+severity = "high"
+status = "confirmed"
+evidence = """eemt-web image with the locked stack (fastapi 0.163.1, starlette 1.10.0), container with --network none, \
+python urllib from inside: GET / -> 500, GET /monitor -> 500, GET /health -> 200; log: "TypeError: cannot use \
+'tuple' as a dict key (unhashable type: 'dict')". Commit 3c3c5ca changes both calls to \
+TemplateResponse(request, "<template>"): GET / -> 200 (18,009 bytes), GET /monitor -> 200 (7,513 bytes). \
+Status stays "confirmed" until a committed regression test exists: Area C's web tests (Starlette TestClient, httpx \
+from requirements-dev.txt) should request both routes; then set status "fixed", fix_commit "3c3c5ca"."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-026"
+title = "The docs image and compose service ran MkDocs against a mkdocs.yml that does not exist, and the root requirements.txt demanded the non-existent zensical>=1.0.0"
+location = ["docker/docs/Dockerfile:5", "docker-compose.yml:247", "requirements.txt:3"]
+severity = "medium"
+status = "fixed"
+evidence = """The site is built by Zensical from zensical.toml; there is no mkdocs.yml in the repository. Zensical's \
+newest release is 0.1.1 (uv pip compile, 2026-11-15), so `pip install -r requirements.txt` could not resolve. \
+a0a09d2: docker/docs is a Zensical image from requirements-docs.txt (hashed); compose mounts zensical.toml and \
+docs/ read-only; the root requirements.txt is removed. `zensical build` in the image on the tree: rc=0, \
+"6 issues found" (the known broken links), 54 HTML pages; `zensical serve` healthy, GET / 200."""
+test = "docker/build.sh docs (pip --require-hashes, zensical --version at build time)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "a0a09d2"
+reason = ""
+
+[[finding]]
+id = "F-A-027"
+title = "The legacy web image carried the job database, uploaded DEMs, cleanup summaries and logs (web part of F-A-012)"
+location = ["docker/web-interface/Dockerfile:25"]
+severity = "medium"
+status = "fixed"
+evidence = """Web-image part of F-A-012 (`find /app` in eemt-web:legacy-9aa38795e41c lists /app/jobs.db, three \
+/app/uploads/*.tif, eight cleanup_summary_*.json, logs). The new Dockerfile copies named files only and its final \
+RUN fails when /app or /scripts holds *.db, *.sqlite, *.tif(f), *.password, .eemt-makeflow-password, .env, \
+cleanup_summary_*.json, *.log or __pycache__. Negative build (RUN touch /app/jobs.db /app/cleanup_summary_1.json \
+inserted): rc=1, both paths listed. F-A-012 stays open for the build-context regression test and the copies in \
+public history (F-A-010)."""
+test = "docker/web-interface/Dockerfile (final RUN: local-state assertion)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "7cd48d8"
+reason = ""
+
+[[finding]]
+id = "F-A-028"
+title = "Kubernetes manifests, the Helm chart and Area C scripts still name the old image tags eemt-web:2.0, eemt-web:latest and eemt:ubuntu24.04 instead of eemt-web:<docker/VERSION> and eemt:<docker/VERSION>"
+location = [
+    "docker/kubernetes/eemt-manifests.yaml:250",
+    "docker/kubernetes/eemt-manifests.yaml:417",
+    "docker/kubernetes/eemt-manifests.yaml:554",
+    "docker/kubernetes/eemt-manifests.yaml:748",
+    "docker/kubernetes/helm/eemt/Chart.yaml:52",
+    "docker/kubernetes/helm/eemt/Chart.yaml:54",
+    "docker/kubernetes/helm/eemt/values.yaml:40",
+    "docker/kubernetes/helm/eemt/values.yaml:46",
+    "docker/kubernetes/manifests/cleanup-cronjob.yaml:41",
+    "docker/kubernetes/validate-deployment.sh:163",
+    "web-interface/containers/workflow_manager.py:41",
+    "rsun/validation/compare.sh:53",
+]
+severity = "medium"
+status = "confirmed"
+evidence = """`git grep -nE 'eemt-web:(2\\.0|latest)|eemt:ubuntu24\\.04|tag: "(2\\.0|ubuntu24\\.04)"'` at 7cd48d8. \
+docker/build.sh, docker-compose.yml, rebuild-container.sh and test-deployment.sh use eemt:<VERSION> and \
+eemt-web:<VERSION> (VERSION = docker/VERSION, 3.0.0). These files belong to Area C and were not edited. \
+/api/system/status in the new web image reports image_name "eemt:ubuntu24.04" (workflow_manager.py:41 default; \
+EEMT_WORKFLOW_IMAGE is set by compose but not read yet). Prose copies (README.md, CLAUDE.md, \
+web-interface/README.md, .claude/agents/container-orchestrator.md, docs/) are listed in \
+scripts/docs/stale_terms.txt."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-029"
+title = "Compose eemt-master runs 'python scripts/start-master.py' from /app, where no scripts/ directory exists, and eemt-cleanup reads a different jobs.db than the web app writes"
+location = ["docker-compose.yml:112", "docker-compose.yml:273", "web-interface/app.py:47", "web-interface/cleanup_jobs.py:55"]
+severity = "low"
+status = "suspected"
+evidence = """Image check (confirmed): in eemt-work/eemt-web:3.0.0 `cd /app && python scripts/start-master.py --help` -> \
+"can't open file '/app/scripts/start-master.py'"; the launcher is /scripts/start-master.py (on PATH, \
+`start-master.py --help` works). The legacy eemt-web image had the same layout (no /app/scripts, \
+/scripts/start-master.py present), so the distributed profile could not start before either. Reading only (not \
+run): app.py keeps its database at /tmp/jobs.db inside the eemt-web container, while the eemt-cleanup service \
+mounts ./web-interface/jobs.db at /app/jobs.db, the path cleanup_jobs.py opens; the two never meet. Compose \
+service topology is Area C's."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-030"
+title = "Neither notebook environment file could be solved: they named packages that are not on conda-forge or defaults, a daymetpy release that does not exist, and lacked four packages the notebooks import"
+location = ["notebooks/environment.yml:20", "notebooks/environment.yml:46", "notebooks/environment.yml:49", "notebooks/environment.yml:50", "notebooks/environment.yml:82", "notebooks/environment-minimal.yml:17"]
+severity = "medium"
+status = "fixed"
+evidence = """anaconda.org API (2026-11-15), HTTP status per conda-forge package: spatialindex 404 (the library is \
+libspatialindex), dask-distributed 404 (distributed 200), nextflow 404 (bioconda only), snakemake 404, \
+snakemake-minimal 404, grass-core 404 (the minimal file asked for grass-core>=8.4). daymetpy>=1.1 does not exist \
+on PyPI (latest 1.0.0, F-A-008). conda-lock on the first rewrite stopped at "spatialindex >=1.9 * does not exist". \
+The notebooks import sympy, seaborn (01_background), pyvista (02_solar_topography) and laspy \
+(gordon_gulch_eemt_report), none of which either file listed. Fix 4f27742: conda-forge only, the correct names, \
+nextflow/snakemake/daymetpy dropped (used by no notebook), the four imports added, GRASS 8.5.0 from conda-forge, \
+and the versions shared with the workflow image pinned to its releases. Both now solve on Python 3.14.10 \
+(notebooks/conda-lock.yml 567 packages, minimal-conda-lock.yml 429, all sha256), and micromamba installs the \
+minimal lock (428/428 conda + grass-session; python 3.14.10, GDAL 3.12.3, GRASS 8.5.0). The full lock was solved \
+but not installed."""
+test = "scripts/locks/refresh.sh conda (solves both); scripts/locks/check.sh locks (inputs refreshed, sha256 per package, pins aligned with the workflow lock)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "4f27742"
+reason = ""
+
+[[finding]]
+id = "F-A-031"
+title = "lean4-verification/lake-manifest.json is git-ignored, so the Lean dependency revisions (Mathlib and its dependencies) are not locked"
+location = ["lean4-verification/.gitignore:5", "lean4-verification/lakefile.lean:18"]
+severity = "medium"
+status = "confirmed"
+evidence = """`git check-ignore -v lean4-verification/lake-manifest.json` -> "lean4-verification/.gitignore:5:lake-manifest.json". \
+The lakefile requires Mathlib by the tag "v4.16.0"; the exact revisions of Mathlib and of its own dependencies \
+(batteries, aesop, ...) are recorded only in lake-manifest.json, which is never committed, so two `lake update` \
+runs can resolve different commits. scripts/locks/check.sh locks requires the manifest next to the lakefile; this \
+finding is its recorded exemption (scripts/locks/lib.sh NATIVE_LOCKS, until 2027-01-31). lean4-verification/** \
+belongs to Area B: commit the manifest and drop line 5 of its .gitignore."""
+test = "scripts/locks/check.sh locks (fails once the manifest is missing after the exemption date)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-032"
+title = "rsun/rsun-py/pyproject.toml leaves its build backend and runtime dependency unpinned (maturin>=1.0,<2.0; numpy)"
+location = ["rsun/rsun-py/pyproject.toml:6", "rsun/rsun-py/pyproject.toml:15"]
+severity = "low"
+status = "confirmed"
+evidence = """[build-system] `requires = ["maturin>=1.0,<2.0"]` and [project] `dependencies = ["numpy"]` (no bound), \
+`requires-python = ">=3.9"`. A wheel build resolves whatever maturin 1.x and NumPy are current at build time, \
+with no hash, so two builds of the same commit can differ; nothing in scripts/locks covers this file. The Rust side \
+is locked: in rust@sha256:cc9edbca... (rustc 1.100.0, toolchain installed from rsun/rust-toolchain.toml), \
+`cargo build --locked -p rsun-core` succeeded and `cargo test --locked -p rsun-core` passed 40/40 with \
+rsun/Cargo.lock unchanged (sha256sum -c OK). rsun/** belongs to Area C: pin maturin exactly and build wheels from \
+a hashed requirements file (or add rsun-py's build inputs to scripts/locks/lib.sh). The branch deps/pyo3-0.29 \
+records the maturin half of this as its own F-A-025 (1.16.0 tested); when that branch is cherry-picked onto \
+area-a, keep one of the two entries."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-033"
+title = "syft attaches a Python requirement to one of several same-named dists at random, so two scans of one image gave different dependency edges"
+location = ["scripts/sbom/normalize.py:331", "scripts/sbom/normalize.py:350"]
+severity = "medium"
+status = "fixed"
+evidence = """Two runs of `scripts/sbom/generate.sh all --no-build` on the unchanged image eemt-work/eemt:3.0.0 \
+(0dad6e1a46c3) differed only in sbom/image-eemt.{cdx,spdx}.json (and the aggregate/manifest hashes): run 2 had \
+tomli 2.5.0 as a dependency of setuptools, pytest and sip, run 1 did not. The image has two python dists named \
+tomli (site-packages/tomli-2.5.0 from the conda package tomli, and setuptools/_vendor/tomli-2.4.0); syft resolves \
+the requirement "tomli" to either. The normaliser merged both into their conda packages and carried the edge \
+along, so the committed SBOM would have drifted between runs. Fix: edges of merged duplicates are dropped and \
+conda packages take their edges from their own conda-meta "depends". After the fix three consecutive runs gave \
+identical trees (`diff -r` empty)."""
+test = "tests/sbom/test_normalize.py::test_dependencies_of_merged_component_are_dropped; tests/sbom/test_normalize.py::test_conda_meta_depends_become_edges"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "ca8a653"
+reason = ""
+
+[[finding]]
+id = "F-A-034"
+title = "The eemt-web image ships the Docker CLI binary (Apache-2.0) without its licence text, and its SBOM entry has version UNKNOWN and no licence"
+location = ["docker/web-interface/Dockerfile:16", "docker/web-interface/Dockerfile:33", "sbom/image-eemt-web.cdx.json"]
+severity = "low"
+status = "confirmed"
+evidence = """`COPY --from=docker-cli /usr/local/bin/docker /usr/local/bin/docker` copies only the binary. syft 1.57.1 \
+reads its Go build info as main module github.com/docker/cli/cmd/docker version "UNKNOWN" with no licence \
+(sbom/image-eemt-web.cdx.json; the Go stdlib go1.26.10 is BSD-3-Clause). The image carries no LICENSE/NOTICE for \
+the Docker CLI. Fix (Area A, web Dockerfile): copy the CLI's licence text from the docker:29.9.3-cli image or the \
+docker/cli source tag into /usr/share/doc/docker-cli/, and record the CLI version (29.9.3) as an OCI label or in a \
+declared component."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-035"
+title = "Lock-derived SBOMs have licences only where a package record carries them: none for the pip locks, partial for the notebook conda locks"
+location = ["sbom/env-pip-web.cdx.json", "sbom/env-pip-docs.cdx.json", "sbom/env-pip-dev.cdx.json", "sbom/env-conda-notebooks.cdx.json", "sbom/env-conda-notebooks-minimal.cdx.json"]
+severity = "low"
+status = "deferred"
+evidence = """Components with a licence (counted from the documents committed in 7f0c998): \
+env-pip-web 0/29, env-pip-docs 0/11, env-pip-dev 0/55, env-conda-notebooks 209/567, env-conda-notebooks-minimal \
+197/429; env-conda-workflow 225/225, image-eemt-web 117/127, cargo-rsun 195/196 (rsun-cli, F-A-001). conda-lock \
+files and hashed requirements files carry no licence field; `cyclonedx-py requirements` does not resolve one; \
+notebook conda packages get a licence only when the workflow image has the identical build (conda-meta). The \
+web image SBOM has the licences of the same pip packages, read from their installed metadata."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = "Filling them needs every package file (or the conda-forge repodata and PyPI JSON) at generation time, i.e. multi-GB downloads in every CI run; NTIA minimum elements do not require licences. Revisit if licence compliance reporting for the notebooks or the docs toolchain is needed."
+
+[[finding]]
+id = "F-A-036"
+title = "The new workflow image changes GDAL-side numbers (bilinear gdalwarp of Float64 rasters in the last digits; gdal_translate -projwin extent by one row or column versus GDAL 3.8.4); all GRASS outputs are bit-identical"
+location = ["docker/workflow/conda-lock.yml", "sol/sol/Tiff.py:157", "sol/sol/parser.py:180", "eemt/eemt/metget.sh:24", "sol/sol/read_meta.py:334"]
+severity = "low"
+status = "confirmed"
+evidence = """Recorded run of scripts/validation/toolchain_delta/run.sh (report: validation/toolchain-delta.md) with \
+legacy eemt:legacy-e7637f45c202 (GRASS 8.3.2, apt GDAL 3.8.4 / PROJ 9.4.0, plus a conda GDAL 3.11.5 / PROJ 9.7.1 \
+first on PATH) and new eemt-work/a7-eemt:3.0.0 (rev 08dd73e; GRASS 8.5.0, GDAL 3.12.3, PROJ 9.7.1), identical \
+explicit commands, on mcn_10m, the Gordon Gulch 3DEP DEM and the eight S1 convention fixtures. GRASS: 1290/1290 \
+rasters bit-identical (r.slope.aspect; r.sun mode 2 glob/insol/beam/diff/refl on days 1, 80, 172, 266, 355 with \
+step=0.25 linke_value=3.0 albedo_value=0.2 nprocs=4; r.sun mode 1 at 09/12/15 h on days 80 and 355; r.horizon \
+8 directions; 31 daily sums and the r.series monthly sum); NULL masks, geotransforms and CRS equal; same-image \
+repeat runs also identical. GDAL: gdalwarp -r bilinear to the Daymet LCC of the Float64 mcn_10m differs in \
+6615/48019 pixels, max |d| 7.6e-10 m (rel 3.1e-13); the EPSG:3857 warp in 6144/48060, max 1.6e-10 m; NULL masks \
+equal; Float32 DEMs identical. GDAL 3.8.4/PROJ 9.4.0 and GDAL 3.11.5/PROJ 9.7.1 give identical warps, so the \
+change lies in GDAL 3.11.5 -> 3.12.3 with PROJ unchanged (nearest-neighbour warp identical: same source pixels). \
+gdal_translate -projwin with window edges inside pixels returns one more row/column than GDAL 3.8.4 (mcn_10m \
+114x106 -> 114x107, Gordon Gulch 217x148 -> 218x148; same origin, overlapping pixels identical); GDAL 3.11.5, \
+which the legacy image's scripts called first on PATH, already behaves like the new image. Point transforms \
+differ by <= 2.8e-9 m at a few points. Severity is set only to fill the field: whether these changes are \
+acceptable is the owner's sign-off on SDR-025."""
+test = ""
+changes_scientific_output = true
+sdr = "SDR-025"
+fix_commit = ""
+reason = ""
+
+[[finding]]
+id = "F-A-037"
+title = "rsun-py pinned PyO3 0.23.5, which carries three security advisories (Dependabot alerts 19-24) and cannot build for Python 3.14"
+location = ["rsun/rsun-py/Cargo.toml:19", "rsun/Cargo.lock"]
+severity = "high"
+status = "fixed"
+evidence = """osv-scanner 2.7.1 (ghcr.io/google/osv-scanner@sha256:a70ffffc2bfd33482953e5d6b64c6fcdb30239717a07b0f0d3ab2859ce3e4cde) \
+on rsun/Cargo.lock before the fix: pyo3 0.23.5 with GHSA-pph8-gcv7-4qj5 / RUSTSEC-2025-0020 (fixed 0.24.1), \
+GHSA-36hh-v3qg-5jq4 / RUSTSEC-2026-0176 (CVSS 8.7, fixed 0.29.0) and GHSA-chgr-c6px-7xpp / RUSTSEC-2026-0177 \
+(fixed 0.29.0). In a rust 1.100.0 + python:3.14-slim container, `cargo build --locked -p rsun-py` failed in the \
+pyo3-ffi 0.23.5 build script: "the configured Python interpreter version (3.14) is newer than PyO3's maximum \
+supported version (3.13)". Fix 78ab8f9 (cherry-picked from 8a89033) moves to pyo3 0.30.1 and numpy 0.30.0; after it, osv-scanner 2.7.1 and \
+cargo audit 0.22.0 report no pyo3 advisory, rsun-py and the workspace (minus rsun-cuda) build on Python 3.14 and \
+3.13, rsun-core tests 40/40, and a behaviour probe of every exported function gives 13600 float32 outputs \
+bit-identical to the 0.23 wheel; an independent 173-case probe agrees on 172 cases (97299 float32 values \
+bit-identical). The module docstring is unchanged ('rsun Python module'). Exception message texts changed \
+(types unchanged), and DayResult.day.__doc__ is None instead of ''. Known behaviour change: a C-contiguous but \
+unaligned float32 dem/lat/lon array (e.g. np.frombuffer(buf, np.float32, offset=1, ...)) now raises \
+PanicException "called `Result::unwrap()` on an `Err` value: AsSliceError" from numpy_to_grid's \
+`.as_slice().unwrap()` (rsun/rsun-py/src/lib.rs:22), because rust-numpy 0.30.0's as_slice also checks \
+is_aligned() (numpy-0.30.0 src/array.rs:765). 0.23 checked contiguity only (numpy-0.23.0 src/array.rs:866) and \
+built an unaligned &[f32], which is undefined behaviour in Rust, so it returned results. Returning a Python \
+ValueError instead of panicking (which would also change today's strided-input panic) is left to the rsun-py \
+owner. Evidence: eemt-validation-inputs/deps/pyo3.md, deps/pyo3-evidence/ and deps/pyo3-review/ (outside the \
+repository)."""
+test = "scripts/locks/check.sh vulns (blocking in containers.yml; master's rsun/Cargo.lock reports RUSTSEC-2025-0020, RUSTSEC-2026-0176, RUSTSEC-2026-0177 for pyo3 0.23.5, this branch none)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "78ab8f9"
+reason = ""
+
+[[finding]]
+id = "F-A-038"
+title = "rsun/Cargo.lock pinned crossbeam-epoch 0.9.18, affected by RUSTSEC-2026-0204"
+location = ["rsun/Cargo.lock"]
+severity = "medium"
+status = "fixed"
+evidence = """osv-scanner 2.7.1 (ghcr.io/google/osv-scanner@sha256:a70ffffc2bfd33482953e5d6b64c6fcdb30239717a07b0f0d3ab2859ce3e4cde) on master's rsun/Cargo.lock: crossbeam-epoch 0.9.18, RUSTSEC-2026-0204 (invalid pointer dereference in the fmt::Pointer impl of Atomic/Shared), fixed 0.9.20; cargo audit 0.22.0 exits 1 on it (deps/pyo3 report). It is pulled in by rayon-core through crossbeam-deque. Not one of the Dependabot alerts. Fix 52b997c: `cargo update -p crossbeam-epoch --precise 0.9.20` (only that entry moved). After it, in Rust 1.100.0 / Python 3.14.10: cargo build -p rsun-py and --workspace --exclude rsun-cuda exit 0, cargo test -p rsun-core 40 passed."""
+test = "scripts/locks/check.sh vulns (blocking in containers.yml; reports RUSTSEC-2026-0204 on master's rsun/Cargo.lock, nothing on this branch)"
+changes_scientific_output = false
+sdr = ""
+fix_commit = "52b997c"
+reason = ""
+
+[[finding]]
+id = "F-A-039"
+title = "The web app ignores EEMT_WORKFLOW_IMAGE and launches eemt:ubuntu24.04, which no script builds any more, so a job submitted after rebuild-container.sh and docker-compose up fails"
+location = [
+    "web-interface/containers/workflow_manager.py:41",
+    "web-interface/static/app.js:95",
+    "docker-compose.yml:53",
+    "rebuild-container.sh:47",
+]
+severity = "high"
+status = "confirmed"
+evidence = """ContainerConfig.image defaults to "eemt:ubuntu24.04" (workflow_manager.py:41) and nothing in web-interface/ reads EEMT_WORKFLOW_IMAGE (`grep -n 'EEMT_WORKFLOW_IMAGE' web-interface -r`: empty); the page shows "ubuntu24.04" (app.js:95). On master rebuild-container.sh built eemt:ubuntu24.04, so the path worked. On this branch docker/build.sh, rebuild-container.sh and test-deployment.sh build only eemt:<docker/VERSION> (eemt:3.0.0), and docker-compose.yml passes EEMT_WORKFLOW_IMAGE=eemt:${EEMT_VERSION:-3.0.0}. Run in eemt-work/eemt-web:3.0.0 (--network none, --user 12345:12345) with EEMT_WORKFLOW_IMAGE=eemt-work/eemt:3.0.0: `WorkflowManager(Path('/tmp/w'), NodeType.LOCAL).container_config.image` -> 'eemt:ubuntu24.04'. On a clean host the documented path (rebuild-container.sh, docker-compose up, submit a job) therefore ends in "Docker image not found". F-A-028 lists the stale default among other old tags; this entry records the end-to-end break. web-interface/** belongs to Area C: ContainerConfig must take EEMT_WORKFLOW_IMAGE (default eemt:<docker/VERSION>). This is a merge blocker for the Area A pull request: it must not merge before that Area C change, and its description must say so. A legacy alias tag is not built (decision of the plan)."""
+test = ""
+changes_scientific_output = false
+sdr = ""
+fix_commit = ""
+reason = ""

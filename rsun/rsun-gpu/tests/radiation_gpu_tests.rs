@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 use rsun_core::types::{Grid, SolarParams};
 use rsun_gpu::buffers::GpuBuffers;
 use rsun_gpu::context::GpuContext;

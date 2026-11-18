@@ -1,0 +1,196 @@
+#!/bin/bash
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# eemt-selftest: check that the workflow image can do what the pipelines need.
+#
+#   eemt-selftest [--dem FILE.tif] [--keep]
+#
+# --dem   GeoTIFF DEM in a projected CRS for the r.sun check (for example the
+#         repository's sol/examples/mcn_10m.tif, bind-mounted). Without it a
+#         synthetic 10 m DEM (a Gaussian hill, EPSG:32612) is generated.
+# --keep  keep the scratch directory and print its path.
+#
+# All scratch files go to a new directory under ${TMPDIR:-/tmp}, so the check
+# also runs with a read-only root filesystem and a tmpfs /tmp. Prints one
+# "PASS <check>" or "FAIL <check>" line per check; exit status is the number of
+# failed checks (0 = all passed).
+set -euo pipefail
+
+dem=""
+keep=0
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --dem) dem="$2"; shift 2 ;;
+        --keep) keep=1; shift ;;
+        -h|--help) sed -n '5,17p' "$0"; exit 0 ;;
+        *) echo "eemt-selftest: unknown argument: $1" >&2; exit 64 ;;
+    esac
+done
+
+work="$(mktemp -d "${TMPDIR:-/tmp}/eemt-selftest.XXXXXX")"
+cleanup() {
+    if [[ "${keep}" -eq 1 ]]; then echo "scratch kept: ${work}"; else rm -rf "${work}"; fi
+}
+trap cleanup EXIT
+# makeflow aborts, even for --version, when its working directory is not
+# writable ("generating absolute path to `makeflow': Read-only file system").
+cd "${work}"
+
+failures=0
+check() {
+    # check <name> <command...>: run a check, report PASS/FAIL, never abort.
+    local name="$1"
+    shift
+    echo "=== ${name}"
+    # The subshell must not run inside "if", "||" or "&&": there bash ignores
+    # errexit for the whole subshell, and only the check's last command would
+    # decide the result.
+    local rc
+    set +e
+    ( set -euo pipefail; "$@" )
+    rc=$?
+    set -e
+    if [[ "${rc}" -eq 0 ]]; then
+        echo "PASS ${name}"
+    else
+        echo "FAIL ${name}"
+        failures=$((failures + 1))
+    fi
+}
+
+versions() {
+    echo "image version: $(tr -d '[:space:]' 2>/dev/null < /opt/eemt/share/eemt/VERSION || echo unknown)"
+    echo "user: $(id 2>/dev/null) USER=${USER:-} HOME=${HOME:-}"
+    python --version
+    grass --version | head -n 1
+    gdalinfo --version
+    python -c 'from osgeo import osr; print("PROJ %d.%d.%d" % (osr.GetPROJVersionMajor(), osr.GetPROJVersionMinor(), osr.GetPROJVersionMicro()))'
+    makeflow --version 2>&1 | head -n 1
+    work_queue_worker --version 2>&1 | head -n 1
+}
+
+environment() {
+    local p
+    p="$(grass --config path)"
+    echo "GISBASE=${GISBASE} grass --config path=${p}"
+    [[ "${p}" == "${GISBASE}" ]]
+    [[ "${PROJ_NETWORK}" == "OFF" ]]
+    test -d "${GDAL_DATA}"
+    test -f "${PROJ_DATA}/proj.db"
+    test -d "${GDAL_DRIVER_PATH}"
+    test -w "${HOME}"
+    echo "GDAL_DATA=${GDAL_DATA} PROJ_DATA=${PROJ_DATA} GDAL_DRIVER_PATH=${GDAL_DRIVER_PATH} HOME=${HOME} (writable)"
+}
+
+python_imports() {
+    python - <<'PY'
+import sqlite3
+
+import grass.script as gs
+import netCDF4
+import numpy
+from osgeo import gdal
+
+gdal.UseExceptions()
+print("grass.script", gs.__file__)
+print("osgeo.gdal", gdal.__version__, "numpy", numpy.__version__,
+      "netCDF4", netCDF4.__version__, "sqlite3", sqlite3.sqlite_version)
+for drv in ("GTiff", "netCDF", "HDF5"):
+    assert gdal.GetDriverByName(drv) is not None, f"GDAL driver {drv} missing"
+print("GDAL drivers GTiff, netCDF, HDF5: present")
+PY
+}
+
+rsun_module() {
+    local help
+    # A module prints its help only inside a GRASS session, and exits 1 after it.
+    help="$(grass --tmp-project XY --exec r.sun --help 2>&1)" || true
+    grep -E '^ +nprocs +Number of threads' <<<"${help}"
+    # nprocs only parallelises when r.sun is built with OpenMP.
+    ldd "${GISBASE}/bin/r.sun" | grep -E 'libgomp'
+}
+
+cctools() {
+    makeflow --version 2>&1 | head -n 1 | grep -E '^makeflow version [0-9]'
+    work_queue_worker --version 2>&1 | head -n 1 | grep -E '^work_queue_worker version [0-9]'
+}
+
+epsg_lookup() {
+    local out
+    out="$(gdalsrsinfo -o proj4 EPSG:32612)"
+    echo "${out}"
+    grep -q '+proj=utm +zone=12' <<<"${out}"
+}
+
+make_dem() {
+    python - "$1" <<'PY'
+import sys
+
+import numpy as np
+from osgeo import gdal, osr
+
+gdal.UseExceptions()
+n, cell = 120, 10.0
+y, x = np.mgrid[0:n, 0:n].astype("float64")
+z = 1500.0 + 300.0 * np.exp(-(((x - n / 2) ** 2 + (y - n / 2) ** 2) / (2 * (n / 6) ** 2)))
+ds = gdal.GetDriverByName("GTiff").Create(sys.argv[1], n, n, 1, gdal.GDT_Float32)
+ds.SetGeoTransform((500000.0, cell, 0.0, 3600000.0, 0.0, -cell))
+srs = osr.SpatialReference()
+srs.ImportFromEPSG(32612)
+ds.SetProjection(srs.ExportToWkt())
+ds.GetRasterBand(1).WriteArray(z.astype("float32"))
+ds = None
+PY
+}
+
+rsun_day() {
+    local input="${work}/dem.tif"
+    if [[ -n "${dem}" ]]; then
+        cp "${dem}" "${input}"
+        echo "DEM: ${dem}"
+    else
+        make_dem "${input}"
+        echo "DEM: synthetic 120 x 120 cells, 10 m, EPSG:32612"
+    fi
+    cat > "${work}/rsun_job.sh" <<'SH'
+set -euo pipefail
+export GRASS_VERBOSE=0
+r.in.gdal input="$1" output=dem --quiet
+g.region raster=dem
+r.slope.aspect elevation=dem slope=slope aspect=aspect --quiet
+r.sun elevation=dem slope=slope aspect=aspect day=172 step=0.25 \
+    linke_value=3.0 albedo_value=0.2 nprocs=2 glob_rad=glob_rad insol_time=insol_time
+r.univar -g map=glob_rad
+r.univar -g map=insol_time
+r.univar -g map=glob_rad | awk -F= '$1=="n"{n=$2} $1=="mean"{m=$2} END{exit !(n>0 && m>0)}'
+SH
+    grass --tmp-project "${input}" --exec bash "${work}/rsun_job.sh" "${input}"
+}
+
+makeflow_local() {
+    local d="${work}/makeflow"
+    mkdir -p "${d}"
+    make_dem "${d}/in.tif"
+    cat > "${d}/two.mf" <<'MF'
+copy.tif: in.tif
+	gdal_translate -q -of GTiff in.tif copy.tif
+
+stats.json: copy.tif
+	gdalinfo -json -stats copy.tif > stats.json
+MF
+    (cd "${d}" && makeflow --batch-type=local --local-cores=2 two.mf)
+    python -c 'import json, sys; b = json.load(open(sys.argv[1]))["bands"][0]; print("stats.json mean", b["mean"]); assert b["mean"] > 0' "${d}/stats.json"
+}
+
+check versions versions
+check environment environment
+check python-imports python_imports
+check rsun-module rsun_module
+check cctools cctools
+check epsg-lookup epsg_lookup
+check rsun-day rsun_day
+check makeflow-local makeflow_local
+
+echo "eemt-selftest: ${failures} check(s) failed"
+exit "${failures}"

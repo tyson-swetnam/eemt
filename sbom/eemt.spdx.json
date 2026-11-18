@@ -1,0 +1,326 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "creationInfo": {
+    "created": "2026-11-15T15:39:39Z",
+    "creators": [
+      "Organization: EEMT project",
+      "Tool: eemt-sbom-aggregate"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "https://github.com/tyson-swetnam/eemt/sbom/eemt-6a8c4f1f-bd57-5edc-a7dc-9aa64ef6fd51",
+  "externalDocumentRefs": [
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "28386695d8171a314c141a8864f4930b63fce0c6"
+      },
+      "externalDocumentId": "DocumentRef-env-conda-notebooks-minimal",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-notebooks-minimal-0fbf9c0d-3515-5f54-a8e1-b04f80b04af7"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "9464920c891382f578e3dd3a302400353de06a9c"
+      },
+      "externalDocumentId": "DocumentRef-env-pip-web",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-web-447e7ea4-1356-546e-bbd0-316e37af0751"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "a5a9ea66477dd147666cdf6e39276c1ba8394491"
+      },
+      "externalDocumentId": "DocumentRef-env-pip-dev",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-dev-660d753c-8a2f-5106-ba14-30e7b0603ccc"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "aba87d0aa53c7b00aedfc51cc38a6dc4706a4243"
+      },
+      "externalDocumentId": "DocumentRef-image-eemt",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/image-eemt-ee2c931b-9275-54a2-b7c0-2d888b1cd6b7"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "b0c624a3a3e794fff4e050fc4547cdf7deb4149a"
+      },
+      "externalDocumentId": "DocumentRef-image-eemt-web",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/image-eemt-web-48d451b1-98de-5b2f-90d4-ae023df87f6a"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "b90c5842a27f7b1b908fd034ed04331154441ce4"
+      },
+      "externalDocumentId": "DocumentRef-env-conda-workflow",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-workflow-855e678e-d6b7-511d-b5e1-40ec1cf4cd0f"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "bb98e4a7e47c979e74e6dfcee5f02a64fad97b13"
+      },
+      "externalDocumentId": "DocumentRef-cargo-rsun",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/cargo-rsun-589cd592-9698-595d-970c-f5fc45fef8df"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "d5007c2653a525329d0eeabe547fdf48071d0d7c"
+      },
+      "externalDocumentId": "DocumentRef-env-conda-notebooks",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-conda-notebooks-50084ec6-ef6a-5d40-9ab2-52a085d4655d"
+    },
+    {
+      "checksum": {
+        "algorithm": "SHA1",
+        "checksumValue": "ed0bc2aa7cceb5f42f4748384ca0d59d135362bb"
+      },
+      "externalDocumentId": "DocumentRef-env-pip-docs",
+      "spdxDocument": "https://github.com/tyson-swetnam/eemt/sbom/env-pip-docs-97bf0a55-bbac-591c-ac71-6b93e14b77b1"
+    }
+  ],
+  "name": "eemt",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-DocumentRoot",
+      "copyrightText": "NOASSERTION",
+      "description": "EEMT (Effective Energy and Mass Transfer) release: container images, locked environments and the rsun Rust workspace. Each member is described by its own SBOM in sbom/.",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "eemt",
+      "primaryPackagePurpose": "APPLICATION",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Member-cargo-rsun",
+      "comment": "Described by sbom/cargo-rsun.spdx.json (194 packages).",
+      "copyrightText": "NOASSERTION",
+      "description": "rsun Rust workspace: every crate in rsun/Cargo.lock, licences from cargo metadata.",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "GPL-2.0-or-later",
+      "name": "rsun",
+      "primaryPackagePurpose": "APPLICATION",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Member-env-conda-notebooks",
+      "comment": "Described by sbom/env-conda-notebooks.spdx.json (567 packages).",
+      "copyrightText": "NOASSERTION",
+      "description": "Conda environment for the notebooks, from notebooks/conda-lock.yml.",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "env-conda-notebooks",
+      "primaryPackagePurpose": "APPLICATION",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Member-env-conda-notebooks-minimal",
+      "comment": "Described by sbom/env-conda-notebooks-minimal.spdx.json (429 packages).",
+      "copyrightText": "NOASSERTION",
+      "description": "Minimal conda environment for the notebooks, from notebooks/minimal-conda-lock.yml.",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "env-conda-notebooks-minimal",
+      "primaryPackagePurpose": "APPLICATION",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Member-env-conda-workflow",
+      "comment": "Described by sbom/env-conda-workflow.spdx.json (225 packages).",
+      "copyrightText": "NOASSERTION",
+      "description": "Conda environment installed in the workflow image at /opt/eemt/env, from docker/workflow/conda-lock.yml.",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "env-conda-workflow",
+      "primaryPackagePurpose": "APPLICATION",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Member-env-pip-dev",
+      "comment": "Described by sbom/env-pip-dev.spdx.json (55 packages).",
+      "copyrightText": "NOASSERTION",
+      "description": "Test, lint and SBOM tools, from the hashed lock requirements-dev.txt.",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "env-pip-dev",
+      "primaryPackagePurpose": "APPLICATION",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Member-env-pip-docs",
+      "comment": "Described by sbom/env-pip-docs.spdx.json (11 packages).",
+      "copyrightText": "NOASSERTION",
+      "description": "Documentation toolchain (Zensical), from the hashed lock requirements-docs.txt.",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "env-pip-docs",
+      "primaryPackagePurpose": "APPLICATION",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Member-env-pip-web",
+      "comment": "Described by sbom/env-pip-web.spdx.json (29 packages).",
+      "copyrightText": "NOASSERTION",
+      "description": "Python packages of the web interface, from the hashed lock web-interface/requirements.txt.",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "env-pip-web",
+      "primaryPackagePurpose": "APPLICATION",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Member-image-eemt",
+      "comment": "Described by sbom/image-eemt.spdx.json (324 packages).",
+      "copyrightText": "NOASSERTION",
+      "description": "Workflow image eemt:<docker/VERSION>: Ubuntu 26.04 runtime with the conda-forge environment of docker/workflow/conda-lock.yml (GRASS GIS, GDAL, CCTools, Python).",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "eemt",
+      "primaryPackagePurpose": "CONTAINER",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Member-image-eemt-web",
+      "comment": "Described by sbom/image-eemt-web.spdx.json (127 packages).",
+      "copyrightText": "NOASSERTION",
+      "description": "Web interface image eemt-web:<docker/VERSION>: python:3.14.10-slim-trixie with the packages of web-interface/requirements.txt and the Docker CLI.",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "eemt-web",
+      "primaryPackagePurpose": "CONTAINER",
+      "supplier": "Organization: EEMT project",
+      "versionInfo": "3.0.0"
+    }
+  ],
+  "relationships": [
+    {
+      "relatedSpdxElement": "DocumentRef-cargo-rsun:SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBED_BY",
+      "spdxElementId": "SPDXRef-Member-cargo-rsun"
+    },
+    {
+      "relatedSpdxElement": "DocumentRef-env-conda-notebooks-minimal:SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBED_BY",
+      "spdxElementId": "SPDXRef-Member-env-conda-notebooks-minimal"
+    },
+    {
+      "relatedSpdxElement": "DocumentRef-env-conda-notebooks:SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBED_BY",
+      "spdxElementId": "SPDXRef-Member-env-conda-notebooks"
+    },
+    {
+      "relatedSpdxElement": "DocumentRef-env-conda-workflow:SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBED_BY",
+      "spdxElementId": "SPDXRef-Member-env-conda-workflow"
+    },
+    {
+      "relatedSpdxElement": "DocumentRef-env-pip-dev:SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBED_BY",
+      "spdxElementId": "SPDXRef-Member-env-pip-dev"
+    },
+    {
+      "relatedSpdxElement": "DocumentRef-env-pip-docs:SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBED_BY",
+      "spdxElementId": "SPDXRef-Member-env-pip-docs"
+    },
+    {
+      "relatedSpdxElement": "DocumentRef-env-pip-web:SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBED_BY",
+      "spdxElementId": "SPDXRef-Member-env-pip-web"
+    },
+    {
+      "relatedSpdxElement": "DocumentRef-image-eemt-web:SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBED_BY",
+      "spdxElementId": "SPDXRef-Member-image-eemt-web"
+    },
+    {
+      "relatedSpdxElement": "DocumentRef-image-eemt:SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBED_BY",
+      "spdxElementId": "SPDXRef-Member-image-eemt"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-DocumentRoot",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Member-cargo-rsun",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Member-env-conda-notebooks",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Member-env-conda-notebooks-minimal",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Member-env-conda-workflow",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-Member-image-eemt"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Member-env-pip-dev",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Member-env-pip-docs",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Member-env-pip-web",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-Member-image-eemt-web"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Member-image-eemt",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Member-image-eemt-web",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-DocumentRoot"
+    }
+  ],
+  "spdxVersion": "SPDX-2.3"
+}

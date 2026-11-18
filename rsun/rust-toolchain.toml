@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# Rust toolchain for the rsun workspace. rustup reads this file for every
+# cargo command run under rsun/, so local builds, CI and the SBOM step all use
+# the same compiler. Cargo.lock needs Rust 1.85 or newer (clap 4.6 is edition
+# 2024); 1.100.0 was the current stable release when this was pinned.
+#
+# Beyond the minimal profile (rustc, cargo, rust-std):
+# - rustfmt and clippy for the formatting and lint gate;
+# - the wasm32-unknown-unknown target for the rsun-wasm member.
+# rustup downloads whatever is missing on first use, so a bare rust:1.100.0
+# container needs network access once (or an image with these preinstalled).
+#
+# To move to a newer Rust: change `channel`, run the rsun tests, and commit.
+
+[toolchain]
+channel = "1.100.0"
+profile = "minimal"
+components = ["rustfmt", "clippy"]
+targets = ["wasm32-unknown-unknown"]

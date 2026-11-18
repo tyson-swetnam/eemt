@@ -1,33 +1,49 @@
-name: eemt-gis
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Minimal notebook environment (conda-forge only).
+# Locked in notebooks/minimal-conda-lock.yml (sha256 per package); install from the lock:
+#   micromamba create -n eemt-gis-minimal -f notebooks/minimal-conda-lock.yml
+# After editing this file run `scripts/locks/refresh.sh conda`.
+#
+# Versions shared with the workflow image (docker/workflow/conda-lock.yml) are pinned to
+# the same releases; `scripts/locks/check.sh locks` compares them.
+# HDF5 cannot follow: the PDAL library here needs hdf5 1.14 (the image, without PDAL, has
+# 2.2), so packages built on it (libgdal-hdf5) are other builds of the same
+# versions. Other transitive libraries may differ; check.sh compares the exact pins only.
+name: eemt-gis-minimal
 channels:
   - conda-forge
+platforms:
+  - linux-64
 dependencies:
-  # Core Python
-  - python=3.12
+  # Core Python (same as the workflow image)
+  - python=3.14.10
   - pip
-  
-  # Essential Geospatial Stack
-  - gdal=3.11.*
-  - proj>=9.0
+
+  # Essential geospatial stack (same as the workflow image)
+  - grass=8.5.0
+  - gdal=3.12.3
+  - libgdal-core=3.12.3
+  - proj=9.7.1
+  - geos=3.14.1
   - pdal>=2.8
-  - grass-core>=8.4
-  - geos>=3.13  # Updated to match GDAL 3.11 requirements
-  
-  # Core Python Scientific
-  - numpy>=1.26
+
+  # Core Python scientific
+  - numpy=2.5.4
   - pandas>=2.1
   - xarray>=2024.1
-  - rasterio>=1.4  # Updated for GDAL 3.11 compatibility
+  - rasterio>=1.4
   - geopandas>=0.14
   - fiona>=1.9
   - shapely>=2.0
   - pyproj>=3.6
-  
+
   # Jupyter
   - jupyter
   - jupyterlab
-  
-  # Pip dependencies
+
+  # PyPI-only packages (locked with sha256 by conda-lock as well)
   - pip:
     - grass-session
-    - daymetpy

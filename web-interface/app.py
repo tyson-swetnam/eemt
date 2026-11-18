@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 """
 EEMT Web Interface - Local Mode
 FastAPI-based web service for local EEMT and solar radiation workflow execution
@@ -393,7 +398,7 @@ job_manager = JobManager()
 @app.head("/")
 async def home(request: Request):
     """Main page with job submission form"""
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 @app.get("/app.js")
 @app.head("/app.js")
@@ -826,7 +831,7 @@ async def cleanup_old_jobs(
 @app.get("/monitor", response_class=HTMLResponse)
 async def monitor(request: Request):
     """Job monitoring page"""
-    return templates.TemplateResponse("monitor.html", {"request": request})
+    return templates.TemplateResponse(request, "monitor.html")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=5000)

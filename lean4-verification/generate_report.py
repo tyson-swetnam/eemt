@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 """Generate a high-quality PDF report of the EEMT Lean 4 Formal Verification project.
 
 Uses matplotlib mathtext to render LaTeX-style equations as embedded images.

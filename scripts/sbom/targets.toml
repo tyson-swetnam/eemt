@@ -1,0 +1,147 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# SBOM targets written by scripts/sbom/generate.sh to sbom/<name>.cdx.json and
+# sbom/<name>.spdx.json. Read by normalize.py, lock2cdx.py, aggregate.py and
+# crosscheck.py. See sbom/README.md.
+#
+# kind     image  syft scan of the built image (docker save tarball)
+#          conda  scripts/sbom/lock2cdx.py conda <lock>
+#          pip    cyclonedx-py requirements on a hashed requirements file
+#          cargo  scripts/sbom/lock2cdx.py cargo (Cargo.lock + `cargo metadata`)
+#          lean   scripts/sbom/lock2cdx.py lean (lake-manifest.json); generated only
+#                 when the manifest is tracked
+# inputs   the lock (first entry) and other files the document is derived from; their
+#          sha256 values are recorded in sbom/manifest.json
+# root_name name of the described component (default: the target name)
+# root_license
+#          licence of the described component itself, only where the root is the
+#          project's own code (cargo: the rsun crates, GPL-2.0-or-later; lean: the
+#          EEMTVerify project). Left out for images, environments and the release
+#          aggregate: they bundle third-party software under many licences (GPL,
+#          LGPL, ...), so the root gets no licence in CycloneDX and licenseDeclared
+#          NOASSERTION in SPDX. Each component carries its own licence.
+# parent   the aggregate (eemt) nests the target under this one
+# path_supplier
+#          supplier for components identified only by file location (binaries and
+#          Go modules that no package manager owns); first matching prefix wins
+
+project = "eemt"
+namespace = "https://github.com/tyson-swetnam/eemt/sbom"
+supplier = { name = "EEMT project", url = "https://github.com/tyson-swetnam/eemt" }
+
+[[target]]
+name = "eemt"
+kind = "aggregate"
+root_type = "application"
+description = "EEMT (Effective Energy and Mass Transfer) release: container images, locked environments and the rsun Rust workspace. Each member is described by its own SBOM in sbom/."
+
+[[target]]
+name = "image-eemt"
+kind = "image"
+root_name = "eemt"
+image = "eemt"
+build = "workflow"
+dockerfile = "docker/workflow/Dockerfile"
+inputs = ["docker/workflow/conda-lock.yml", "docker/workflow/Dockerfile"]
+root_type = "container"
+description = "Workflow image eemt:<docker/VERSION>: Ubuntu 26.04 runtime with the conda-forge environment of docker/workflow/conda-lock.yml (GRASS GIS, GDAL, CCTools, Python)."
+
+# /usr/bin/pebble ships in the ubuntu:26.04 base image and belongs to no deb package.
+[[target.path_supplier]]
+prefix = "/usr/bin/pebble"
+name = "Canonical Ltd. (ubuntu:26.04 base image)"
+url = "https://hub.docker.com/_/ubuntu"
+
+[[target]]
+name = "env-conda-workflow"
+kind = "conda"
+parent = "image-eemt"
+inputs = ["docker/workflow/conda-lock.yml"]
+root_type = "application"
+description = "Conda environment installed in the workflow image at /opt/eemt/env, from docker/workflow/conda-lock.yml."
+
+[[target]]
+name = "image-eemt-web"
+kind = "image"
+root_name = "eemt-web"
+image = "eemt-web"
+build = "web"
+dockerfile = "docker/web-interface/Dockerfile"
+inputs = ["web-interface/requirements.txt", "docker/web-interface/Dockerfile"]
+root_type = "container"
+description = "Web interface image eemt-web:<docker/VERSION>: python:3.14.10-slim-trixie with the packages of web-interface/requirements.txt and the Docker CLI."
+
+[[target.path_supplier]]
+prefix = "/usr/local/bin/docker"
+name = "Docker Inc. (docker:29.9.3-cli image)"
+url = "https://hub.docker.com/_/docker"
+
+[[target.path_supplier]]
+prefix = "/usr/local/lib/python3.14/site-packages/"
+name = "Python Package Index (PyPI)"
+url = "https://pypi.org"
+
+[[target.path_supplier]]
+prefix = "/usr/local/"
+name = "Docker Official Images (python:3.14.10-slim-trixie base image)"
+url = "https://hub.docker.com/_/python"
+
+[[target]]
+name = "env-pip-web"
+kind = "pip"
+parent = "image-eemt-web"
+inputs = ["web-interface/requirements.txt", "web-interface/requirements.in"]
+root_type = "application"
+description = "Python packages of the web interface, from the hashed lock web-interface/requirements.txt."
+
+[[target]]
+name = "env-conda-notebooks"
+kind = "conda"
+inputs = ["notebooks/conda-lock.yml"]
+root_type = "application"
+description = "Conda environment for the notebooks, from notebooks/conda-lock.yml."
+
+[[target]]
+name = "env-conda-notebooks-minimal"
+kind = "conda"
+inputs = ["notebooks/minimal-conda-lock.yml"]
+root_type = "application"
+description = "Minimal conda environment for the notebooks, from notebooks/minimal-conda-lock.yml."
+
+[[target]]
+name = "env-pip-docs"
+kind = "pip"
+inputs = ["requirements-docs.txt", "requirements-docs.in"]
+root_type = "application"
+description = "Documentation toolchain (Zensical), from the hashed lock requirements-docs.txt."
+
+[[target]]
+name = "env-pip-dev"
+kind = "pip"
+inputs = ["requirements-dev.txt", "requirements-dev.in"]
+root_type = "application"
+description = "Test, lint and SBOM tools, from the hashed lock requirements-dev.txt."
+
+[[target]]
+name = "cargo-rsun"
+kind = "cargo"
+root_name = "rsun"
+inputs = ["rsun/Cargo.lock", "rsun/Cargo.toml"]
+root_type = "application"
+root_license = "GPL-2.0-or-later"
+description = "rsun Rust workspace: every crate in rsun/Cargo.lock, licences from cargo metadata."
+
+[[target]]
+name = "lean-eemtverify"
+kind = "lean"
+inputs = ["lean4-verification/lake-manifest.json", "lean4-verification/lean-toolchain"]
+root_type = "application"
+root_license = "BSD-3-Clause"
+description = "Lean 4 verification project: toolchain and Lake packages from lean4-verification/lake-manifest.json."
+
+# Lock files that are tracked but describe nothing that is built or shipped. Every
+# tracked lock file must be the first input of a target or be listed here.
+[[lock_without_sbom]]
+path = "scripts/locks/tools/locktool-lock.yml"
+reason = "conda-lock tool environment used only by scripts/locks/refresh.sh; nothing built from it is shipped"

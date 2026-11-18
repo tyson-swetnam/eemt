@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 //! Solar radiation components: beam (direct), diffuse, and reflected.
 //!
 //! Ported from GRASS GIS r.sun rsunlib.c brad() and drad() functions.

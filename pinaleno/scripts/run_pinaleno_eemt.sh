@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Run full EEMT analysis on the Pinaleño 10m DEM, 1980-2024.
 # Wraps eemt_smoke_test.py with paths overridden for the Pinaleño dataset.
 #

@@ -1,0 +1,472 @@
+{
+  "aggregate": {
+    "cyclonedx": "sbom/eemt.cdx.json",
+    "spdx": "sbom/eemt.spdx.json"
+  },
+  "locks": [
+    {
+      "path": "docker/workflow/conda-lock.yml",
+      "sbom": [
+        "env-conda-workflow",
+        "image-eemt"
+      ],
+      "sha256": "1a9a50a6b9dd3d832930fb0af3e006ce99ff8d0da10e118011040340d5be8b9d"
+    },
+    {
+      "path": "notebooks/conda-lock.yml",
+      "sbom": [
+        "env-conda-notebooks"
+      ],
+      "sha256": "b6213153e2b8bf1eaf8b290efae04cfedd1037c3e06edd8362ace9b6d9f90cb5"
+    },
+    {
+      "path": "notebooks/minimal-conda-lock.yml",
+      "sbom": [
+        "env-conda-notebooks-minimal"
+      ],
+      "sha256": "340db6b649d685d07fe307876838bafb09cdb4699005fb815ba96e13213ce8f3"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "sbom": [
+        "env-pip-dev"
+      ],
+      "sha256": "bee7945b9ee727d0e6f771786f6cc6786c993c8b5e98616f73ae76d25eb1dd4e"
+    },
+    {
+      "path": "requirements-docs.txt",
+      "sbom": [
+        "env-pip-docs"
+      ],
+      "sha256": "5106e78e1da4e251e5977dcf0e78b54446f4a4ba43ce44ba568347d75e25e140"
+    },
+    {
+      "path": "rsun/Cargo.lock",
+      "sbom": [
+        "cargo-rsun"
+      ],
+      "sha256": "6e6af0690728fece5c22cbff5a01aae2b93b3a61cf13556fff8c99a2cffcc00b"
+    },
+    {
+      "path": "scripts/locks/tools/locktool-lock.yml",
+      "reason": "conda-lock tool environment used only by scripts/locks/refresh.sh; nothing built from it is shipped",
+      "sbom": [],
+      "sha256": "645e3cc94393a8ab2f6bae76cf53cb649ef46cd31dc2bddb609e3162f534f574"
+    },
+    {
+      "path": "web-interface/requirements.txt",
+      "sbom": [
+        "env-pip-web",
+        "image-eemt-web"
+      ],
+      "sha256": "7c10475608754d1b0dc820e3e5ff25a768f579d23b4d67e98821c76e1744d6af"
+    }
+  ],
+  "source_date_epoch": 1794757179,
+  "spec": {
+    "cyclonedx": "1.7",
+    "spdx": "SPDX-2.3"
+  },
+  "targets": [
+    {
+      "components": 11,
+      "cyclonedx": {
+        "path": "sbom/env-pip-docs.cdx.json",
+        "sha256": "a552baa395fcf1eabafde2607013971a1b900315c95287ed09b56acbdd0ed77d",
+        "spec": "1.7"
+      },
+      "inputs": [
+        {
+          "path": "requirements-docs.in",
+          "sha256": "757ea9ff0d8b2573a9bc562131117c97fdf2bbd409cad371a96ae71faf1f18c6"
+        },
+        {
+          "path": "requirements-docs.txt",
+          "sha256": "5106e78e1da4e251e5977dcf0e78b54446f4a4ba43ce44ba568347d75e25e140"
+        }
+      ],
+      "kind": "pip",
+      "name": "env-pip-docs",
+      "parent": "eemt",
+      "producers": {
+        "cdx2spdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/cdx2spdx.py",
+          "sha256": "2a8fcf15e3a42cf754e77c70169c0304dc307c302758682357d5db88f94c36e0"
+        },
+        "cyclonedx-py": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "lock": "requirements-dev.txt",
+          "lock_sha256": "bee7945b9ee727d0e6f771786f6cc6786c993c8b5e98616f73ae76d25eb1dd4e",
+          "version": "8.0.1"
+        },
+        "normalize": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/normalize.py",
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+        }
+      },
+      "spdx": {
+        "path": "sbom/env-pip-docs.spdx.json",
+        "sha256": "6ba5bf3a8f67d6e9e437e9343b09979efcdaa51f6f8d92f110e4ffea2652f08f",
+        "spec": "SPDX-2.3"
+      }
+    },
+    {
+      "components": 127,
+      "cyclonedx": {
+        "path": "sbom/image-eemt-web.cdx.json",
+        "sha256": "931707d5366d35d4c6e99efb3fc3c74b5421b8ffa2dd6d44a36e416b0b4b6c94",
+        "spec": "1.7"
+      },
+      "inputs": [
+        {
+          "path": "docker/web-interface/Dockerfile",
+          "sha256": "8a098dcdef6f7146dec24d02cb9917ad0ccbc9f3ac675e06672e44ecb58a3c19"
+        },
+        {
+          "path": "web-interface/requirements.txt",
+          "sha256": "7c10475608754d1b0dc820e3e5ff25a768f579d23b4d67e98821c76e1744d6af"
+        }
+      ],
+      "kind": "image",
+      "name": "image-eemt-web",
+      "parent": "eemt",
+      "producers": {
+        "normalize": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/normalize.py",
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+        },
+        "syft": {
+          "image": "anchore/syft:v1.57.1@sha256:03215d0e98b661d0ecbc8575dbc14d65be1743b5de5df6410aecb7e80f95b060",
+          "version": "1.57.1"
+        }
+      },
+      "spdx": {
+        "path": "sbom/image-eemt-web.spdx.json",
+        "sha256": "82adb245d6fe4e4880f40b68c60e461bbac56f999d99eeb42081d349601a3275",
+        "spec": "SPDX-2.3"
+      }
+    },
+    {
+      "components": 194,
+      "cyclonedx": {
+        "path": "sbom/cargo-rsun.cdx.json",
+        "sha256": "e6493a9dbdfa3e5463b16d17b7dd740e45de285c6adf96c7ab9c82749538df31",
+        "spec": "1.7"
+      },
+      "inputs": [
+        {
+          "path": "rsun/Cargo.lock",
+          "sha256": "6e6af0690728fece5c22cbff5a01aae2b93b3a61cf13556fff8c99a2cffcc00b"
+        },
+        {
+          "path": "rsun/Cargo.toml",
+          "sha256": "edf01b306250a06febe20cff175df61801a11b50d6bc95b2056b6987f61825e8"
+        }
+      ],
+      "kind": "cargo",
+      "name": "cargo-rsun",
+      "parent": "eemt",
+      "producers": {
+        "cargo-metadata": {
+          "image": "rust:1.100.0-slim@sha256:e9d95b74296f7126a83ae3d041aeaba1ff4c478f13abc5cc034fcf7c131c3d4a",
+          "version": "cargo 1.100.0 (3acc79c0c 2026-11-05)"
+        },
+        "cdx2spdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/cdx2spdx.py",
+          "sha256": "2a8fcf15e3a42cf754e77c70169c0304dc307c302758682357d5db88f94c36e0"
+        },
+        "lock2cdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/lock2cdx.py",
+          "sha256": "fe72a5d58f925e859561e9bace81d604a9086b0bc36ac8074b32385ac1d90009"
+        },
+        "normalize": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/normalize.py",
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+        }
+      },
+      "spdx": {
+        "path": "sbom/cargo-rsun.spdx.json",
+        "sha256": "d079f3659c3efa09f9e3e0dac4c1d9471d04c2b6d1fb793c79087adddf6f089d",
+        "spec": "SPDX-2.3"
+      }
+    },
+    {
+      "components": 225,
+      "cyclonedx": {
+        "path": "sbom/env-conda-workflow.cdx.json",
+        "sha256": "2cd51dbd16b89abcf38d9c042098075c86accf5ac66efe67d3ff24f82696d7ba",
+        "spec": "1.7"
+      },
+      "inputs": [
+        {
+          "path": "docker/workflow/conda-lock.yml",
+          "sha256": "1a9a50a6b9dd3d832930fb0af3e006ce99ff8d0da10e118011040340d5be8b9d"
+        }
+      ],
+      "kind": "conda",
+      "name": "env-conda-workflow",
+      "parent": "image-eemt",
+      "producers": {
+        "cdx2spdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/cdx2spdx.py",
+          "sha256": "2a8fcf15e3a42cf754e77c70169c0304dc307c302758682357d5db88f94c36e0"
+        },
+        "lock2cdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/lock2cdx.py",
+          "sha256": "fe72a5d58f925e859561e9bace81d604a9086b0bc36ac8074b32385ac1d90009"
+        },
+        "normalize": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/normalize.py",
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+        }
+      },
+      "spdx": {
+        "path": "sbom/env-conda-workflow.spdx.json",
+        "sha256": "a240335d85020075a4af3d3b42a4337304f31a8a39b0fb58ac6fe1380578974c",
+        "spec": "SPDX-2.3"
+      }
+    },
+    {
+      "components": 29,
+      "cyclonedx": {
+        "path": "sbom/env-pip-web.cdx.json",
+        "sha256": "b0ea6344590090bec8e1e18cf1d3871d452eb7cf07a25a13fc251a6e2d984b72",
+        "spec": "1.7"
+      },
+      "inputs": [
+        {
+          "path": "web-interface/requirements.in",
+          "sha256": "fa95235a63f8912dbc8e53290e9a7ccde82b6ac9c024177b82ed6212b83c6724"
+        },
+        {
+          "path": "web-interface/requirements.txt",
+          "sha256": "7c10475608754d1b0dc820e3e5ff25a768f579d23b4d67e98821c76e1744d6af"
+        }
+      ],
+      "kind": "pip",
+      "name": "env-pip-web",
+      "parent": "image-eemt-web",
+      "producers": {
+        "cdx2spdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/cdx2spdx.py",
+          "sha256": "2a8fcf15e3a42cf754e77c70169c0304dc307c302758682357d5db88f94c36e0"
+        },
+        "cyclonedx-py": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "lock": "requirements-dev.txt",
+          "lock_sha256": "bee7945b9ee727d0e6f771786f6cc6786c993c8b5e98616f73ae76d25eb1dd4e",
+          "version": "8.0.1"
+        },
+        "normalize": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/normalize.py",
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+        }
+      },
+      "spdx": {
+        "path": "sbom/env-pip-web.spdx.json",
+        "sha256": "700ec690746d11e18bb680c86b83668a5b5392f9cb71471b277ad389c680f754",
+        "spec": "SPDX-2.3"
+      }
+    },
+    {
+      "components": 324,
+      "cyclonedx": {
+        "path": "sbom/image-eemt.cdx.json",
+        "sha256": "c8ebce5c69857300ee9348bf45eee671f5a9761a5bbdb52511817e4552c7b84d",
+        "spec": "1.7"
+      },
+      "inputs": [
+        {
+          "path": "docker/workflow/Dockerfile",
+          "sha256": "9c680004498ec317fc03d6c5734470a4a15f6870330efa09f42ff59de599ecd6"
+        },
+        {
+          "path": "docker/workflow/conda-lock.yml",
+          "sha256": "1a9a50a6b9dd3d832930fb0af3e006ce99ff8d0da10e118011040340d5be8b9d"
+        }
+      ],
+      "kind": "image",
+      "name": "image-eemt",
+      "parent": "eemt",
+      "producers": {
+        "normalize": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/normalize.py",
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+        },
+        "syft": {
+          "image": "anchore/syft:v1.57.1@sha256:03215d0e98b661d0ecbc8575dbc14d65be1743b5de5df6410aecb7e80f95b060",
+          "version": "1.57.1"
+        }
+      },
+      "spdx": {
+        "path": "sbom/image-eemt.spdx.json",
+        "sha256": "6e592b403e6a72e410cf065df56666e1c74af8ba358c139214c67c82c1d8f64a",
+        "spec": "SPDX-2.3"
+      }
+    },
+    {
+      "components": 429,
+      "cyclonedx": {
+        "path": "sbom/env-conda-notebooks-minimal.cdx.json",
+        "sha256": "bf9a024f5618d411c263c55c8ba7a0bb058e964cdb5126f295e9b3099a67a5cd",
+        "spec": "1.7"
+      },
+      "inputs": [
+        {
+          "path": "notebooks/minimal-conda-lock.yml",
+          "sha256": "340db6b649d685d07fe307876838bafb09cdb4699005fb815ba96e13213ce8f3"
+        }
+      ],
+      "kind": "conda",
+      "name": "env-conda-notebooks-minimal",
+      "parent": "eemt",
+      "producers": {
+        "cdx2spdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/cdx2spdx.py",
+          "sha256": "2a8fcf15e3a42cf754e77c70169c0304dc307c302758682357d5db88f94c36e0"
+        },
+        "lock2cdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/lock2cdx.py",
+          "sha256": "fe72a5d58f925e859561e9bace81d604a9086b0bc36ac8074b32385ac1d90009"
+        },
+        "normalize": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/normalize.py",
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+        }
+      },
+      "spdx": {
+        "path": "sbom/env-conda-notebooks-minimal.spdx.json",
+        "sha256": "92eaa2e9b6c33c351de1f8db9caffb07fa87220e703b0f025a0ea29c1ca93e64",
+        "spec": "SPDX-2.3"
+      }
+    },
+    {
+      "components": 55,
+      "cyclonedx": {
+        "path": "sbom/env-pip-dev.cdx.json",
+        "sha256": "90518964b1f9c6742e79e56b59fa7f36e83efefc835a55cd8d4dae3ceaa6d975",
+        "spec": "1.7"
+      },
+      "inputs": [
+        {
+          "path": "requirements-dev.in",
+          "sha256": "b2947a5bf58d2d3352f39d9d02b10be2470290b0560a692614ac6a03ab5c1fa5"
+        },
+        {
+          "path": "requirements-dev.txt",
+          "sha256": "bee7945b9ee727d0e6f771786f6cc6786c993c8b5e98616f73ae76d25eb1dd4e"
+        }
+      ],
+      "kind": "pip",
+      "name": "env-pip-dev",
+      "parent": "eemt",
+      "producers": {
+        "cdx2spdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/cdx2spdx.py",
+          "sha256": "2a8fcf15e3a42cf754e77c70169c0304dc307c302758682357d5db88f94c36e0"
+        },
+        "cyclonedx-py": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "lock": "requirements-dev.txt",
+          "lock_sha256": "bee7945b9ee727d0e6f771786f6cc6786c993c8b5e98616f73ae76d25eb1dd4e",
+          "version": "8.0.1"
+        },
+        "normalize": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/normalize.py",
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+        }
+      },
+      "spdx": {
+        "path": "sbom/env-pip-dev.spdx.json",
+        "sha256": "eaf752bdf840ab5593378ffcea31b3118a36b6c1234c1870d988b86f9c353224",
+        "spec": "SPDX-2.3"
+      }
+    },
+    {
+      "components": 567,
+      "cyclonedx": {
+        "path": "sbom/env-conda-notebooks.cdx.json",
+        "sha256": "45555f642a81dfe3ff0a58b57911c75ed360007ec342058a50b9c3154b99cf9b",
+        "spec": "1.7"
+      },
+      "inputs": [
+        {
+          "path": "notebooks/conda-lock.yml",
+          "sha256": "b6213153e2b8bf1eaf8b290efae04cfedd1037c3e06edd8362ace9b6d9f90cb5"
+        }
+      ],
+      "kind": "conda",
+      "name": "env-conda-notebooks",
+      "parent": "eemt",
+      "producers": {
+        "cdx2spdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/cdx2spdx.py",
+          "sha256": "2a8fcf15e3a42cf754e77c70169c0304dc307c302758682357d5db88f94c36e0"
+        },
+        "lock2cdx": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/lock2cdx.py",
+          "sha256": "fe72a5d58f925e859561e9bace81d604a9086b0bc36ac8074b32385ac1d90009"
+        },
+        "normalize": {
+          "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+          "path": "scripts/sbom/normalize.py",
+          "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+        }
+      },
+      "spdx": {
+        "path": "sbom/env-conda-notebooks.spdx.json",
+        "sha256": "efad336a1bb7abba7ebc3a0803aba4538cb209341850f14f17d539f45a563c4e",
+        "spec": "SPDX-2.3"
+      }
+    }
+  ],
+  "tools": {
+    "cargo-metadata": {
+      "image": "rust:1.100.0-slim@sha256:e9d95b74296f7126a83ae3d041aeaba1ff4c478f13abc5cc034fcf7c131c3d4a",
+      "version": "cargo 1.100.0 (3acc79c0c 2026-11-05)"
+    },
+    "cdx2spdx": {
+      "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+      "path": "scripts/sbom/cdx2spdx.py",
+      "sha256": "2a8fcf15e3a42cf754e77c70169c0304dc307c302758682357d5db88f94c36e0"
+    },
+    "cyclonedx-py": {
+      "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+      "lock": "requirements-dev.txt",
+      "lock_sha256": "bee7945b9ee727d0e6f771786f6cc6786c993c8b5e98616f73ae76d25eb1dd4e"
+    },
+    "lock2cdx": {
+      "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+      "path": "scripts/sbom/lock2cdx.py",
+      "sha256": "fe72a5d58f925e859561e9bace81d604a9086b0bc36ac8074b32385ac1d90009"
+    },
+    "normalize": {
+      "image": "python:3.14.10-slim-trixie@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f",
+      "path": "scripts/sbom/normalize.py",
+      "sha256": "1bcb32bdc5804eb91a711003abcdca344f8756a15f1e66cb56e3881e4c0475ef"
+    },
+    "syft": {
+      "image": "anchore/syft:v1.57.1@sha256:03215d0e98b661d0ecbc8575dbc14d65be1743b5de5df6410aecb7e80f95b060"
+    }
+  },
+  "version": "3.0.0"
+}

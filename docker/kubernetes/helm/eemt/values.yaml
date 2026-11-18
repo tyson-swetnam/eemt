@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # Default values for EEMT Helm chart
 # This is a YAML-formatted file that declares variables to be passed into templates
 

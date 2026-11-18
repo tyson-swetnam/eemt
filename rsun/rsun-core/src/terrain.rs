@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 //! Terrain derivatives: slope and aspect from DEM.
 //! Uses 3x3 finite difference method (Horn's method),
 //! matching GRASS GIS r.slope.aspect.

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Tyson Lee Swetnam
+//
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 //! Gordon Gulch DEM tests — WASM code path simulation.
 //!
 //! The rsun-wasm crate takes scalar lat/lon (broadcast to all pixels) and
